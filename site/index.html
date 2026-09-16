@@ -376,6 +376,7 @@ body.cm-open #cm-drawer{display:flex}
 .cm-notebox{padding:var(--sp-3) var(--sp-4);border-bottom:var(--bw) solid var(--color-border-soft);background:var(--cm-pin-bg)}
 .cm-sync{font-size:var(--fs-xs);font-weight:600;color:var(--cm-res);margin-right:6px}
 .cm-sync.off{color:var(--color-error)}
+.cm-code{margin-top:var(--sp-3);padding:var(--sp-3);background:#fff;border:var(--bw) solid var(--cm-pin);border-radius:var(--r-sm)}
 </style>
 </head>
 <body>
@@ -2357,12 +2358,27 @@ var CM = {
   /* ---------- sync with the Netlify function (only when served over http/https) ---------- */
   api: /^https?:$/.test(location.protocol) ? '/api/comments' : null,
   designer: /[?&]designer\b/.test(location.search),
-  rev: 0, online: null, pollT: null, queue: [], busy: false,
+  rev: 0, online: null, pollT: null, queue: [], busy: false, needCode: false,
+  CODE_KEY: 'wrench-etender-review-code',
+  code() { try { return localStorage.getItem(CM.CODE_KEY) || ''; } catch (e) { return ''; } },
+  setCode(v) { try { localStorage.setItem(CM.CODE_KEY, v); } catch (e) { /* storage blocked */ } },
+  headers(extra) { const h = Object.assign({}, extra || {}); const c = CM.code(); if (c) h['x-review-code'] = c; return h; },
+  async check(r) {
+    if (r.status === 401) { if (!CM.needCode) { CM.needCode = true; CM.st.open = true; CM.save(); CM.render(); CM.syncBar(); setTimeout(() => { const i = $('#cm-code'); if (i) i.focus(); }, 0); } throw new Error('passcode'); }
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    if (CM.needCode) { CM.needCode = false; CM.render(); }
+    return r.json();
+  },
+  saveCode() {
+    const v = ($('#cm-code') ? $('#cm-code').value : '').trim();
+    if (!v) return;
+    CM.setCode(v); CM.online = null; CM.needCode = false; CM.render();
+    CM.pull().then(() => { if (CM.needCode) toast('That passcode was not accepted', 'err'); else toast('Passcode accepted'); });
+  },
   uid() { return window.crypto && crypto.randomUUID ? crypto.randomUUID() : 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); },
   async call(op, body) {
-    const r = await fetch(CM.api, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(Object.assign({ op }, body)) });
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return r.json();
+    const r = await fetch(CM.api, { method: 'POST', headers: CM.headers({ 'content-type': 'application/json' }), body: JSON.stringify(Object.assign({ op }, body)) });
+    return CM.check(r);
   },
   applyRemote(d) {
     if (!d || typeof d.rev !== 'number' || !Array.isArray(d.items)) return;
@@ -2392,19 +2408,18 @@ var CM = {
         CM.setOnline(true);
         CM.applyRemote(d);
       }
-    } catch (e) { CM.setOnline(false); }
+    } catch (e) { if (e.message !== 'passcode') CM.setOnline(false); }
     CM.busy = false;
   },
   async pull() {
     if (!CM.api || CM.busy) return;
     try {
-      const r = await fetch(`${CM.api}?since=${CM.rev}`, { cache: 'no-store' });
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      const d = await r.json();
+      const r = await fetch(`${CM.api}?since=${CM.rev}`, { cache: 'no-store', headers: CM.headers() });
+      const d = await CM.check(r);
       CM.setOnline(true);
       if (!d.unchanged) CM.applyRemote(d);
       if (CM.queue.length) CM.flush();
-    } catch (e) { CM.setOnline(false); }
+    } catch (e) { if (e.message !== 'passcode') CM.setOnline(false); }
   },
   startPoll() {
     if (!CM.api || CM.pollT) return;
@@ -2891,7 +2906,8 @@ var CM = {
     d.innerHTML = `<div class="cm-h">
         <div class="cm-t"><span aria-hidden="true">💬</span><span>Review comments</span><small>${k.open} open · ${k.resolved} resolved</small><button type="button" class="cm-x" data-cm="close" aria-label="Close review comments">✕</button></div>
         <div class="cm-tools">${CM.armed ? `<button type="button" class="btn btn-sm cm-armed-btn" data-cm="armCancel">📍 Placing… (Esc)</button>` : `<button type="button" class="btn btn-sm cm-primary" data-cm="add" title="Add comment (N)">📍 Add comment</button>`}<button type="button" class="btn btn-sm" data-cm="note"${note ? ' aria-pressed="true"' : ''}>✎ Note (no pin)</button></div>
-        <div class="cm-who">${CM.api ? `<span class="cm-sync${CM.online === false ? ' off' : ''}" title="${CM.online === false ? 'Comment server unreachable' : 'Comments are shared with everyone who has the link'}">${CM.online === false ? '● offline' : '● shared'}</span>` : ''}${CM.ui.who ? `<label for="cm-who" class="sm">Name</label><input id="cm-who" maxlength="40" value="${esc(CM.ui.whoText)}"><button type="button" class="cm-link" data-cm="whoSave">Save</button>` : CM.st.author ? `Commenting as <b>${esc(CM.st.author)}</b> · <button type="button" class="cm-link" data-cm="who">change</button>` : 'You will be asked for your name on the first comment'}</div>
+        ${CM.needCode ? `<div class="cm-code"><label for="cm-code" class="sm b">Review passcode</label><div class="row" style="flex-wrap:nowrap;margin-top:4px"><input id="cm-code" class="cm-in" type="password" autocomplete="off" placeholder="Ask the designer for the code" aria-label="Review passcode"><button type="button" class="btn btn-sm cm-primary" data-cm="codeSave">Unlock</button></div><div class="cm-hint">Needed once on this browser. Comments cannot be shared until it is entered.</div></div>` : ''}
+        <div class="cm-who">${CM.api ? `<span class="cm-sync${CM.online === false || CM.needCode ? ' off' : ''}" title="${CM.needCode ? 'Enter the review passcode' : CM.online === false ? 'Comment server unreachable' : 'Comments are shared with everyone who has the link'}">${CM.needCode ? '● locked' : CM.online === false ? '● offline' : '● shared'}</span>` : ''}${CM.ui.who ? `<label for="cm-who" class="sm">Name</label><input id="cm-who" maxlength="40" value="${esc(CM.ui.whoText)}"><button type="button" class="cm-link" data-cm="whoSave">Save</button>` : CM.st.author ? `Commenting as <b>${esc(CM.st.author)}</b> · <button type="button" class="cm-link" data-cm="who">change</button>` : 'You will be asked for your name on the first comment'}</div>
       </div>
       <div class="cm-filters" role="group" aria-label="Filter comments">${fb('all', 'All', k.all)}${fb('screen', 'This screen', k.screen)}${fb('open', 'Open', k.open)}${fb('resolved', 'Resolved', k.resolved)}
         <button type="button" class="cm-link cm-eye" data-cm="hidePins" aria-pressed="${CM.st.hidePins}">${CM.st.hidePins ? '👁 Show pins' : '👁 Hide pins'}</button></div>
@@ -2981,6 +2997,7 @@ var CM = {
       case 'note': closeMenus(); if (CM.comp && CM.comp.mode === 'note') { CM.comp = null; CM.render(); } else CM.openNote(); break;
       case 'who': CM.ui.who = true; CM.ui.whoText = CM.st.author; CM.render(); { const i = $('#cm-who'); if (i) { i.focus(); i.select(); } } break;
       case 'whoSave': CM.saveWho(); break;
+      case 'codeSave': CM.saveCode(); break;
       case 'filter': CM.st.filter = el.dataset.k; CM.save(); closeMenus(); CM.render(); CM.reposition(); break;
       case 'hidePins': CM.st.hidePins = !CM.st.hidePins; CM.save(); CM.render(); CM.reposition(); break;
       case 'select':
@@ -3087,6 +3104,7 @@ var CM = {
       if (t.id === 'cm-name' && e.key === 'Enter') { e.preventDefault(); e.stopImmediatePropagation(); const ta = $('#cm-text'); if (ta) ta.focus(); return; }
       if (t.id === 'cm-edit' && e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); e.stopImmediatePropagation(); CM.saveEdit(CM.ui.edit); return; }
       if (t.id === 'cm-who' && e.key === 'Enter') { e.preventDefault(); e.stopImmediatePropagation(); CM.saveWho(); return; }
+      if (t.id === 'cm-code' && e.key === 'Enter') { e.preventDefault(); e.stopImmediatePropagation(); CM.saveCode(); return; }
       if (t.id.startsWith('cm-reply-') && e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); e.stopImmediatePropagation(); CM.sendReply(+t.id.slice(9)); return; }
     }
     if (t && t.classList && t.classList.contains('cm-it')) {

@@ -7,7 +7,7 @@ import { getStore } from '@netlify/blobs';
 
 const KEY = 'db';
 const blank = () => ({ v: 1, rev: 0, seq: 0, items: [] });
-const CORS = { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'GET,POST,OPTIONS', 'access-control-allow-headers': 'content-type' };
+const CORS = { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'GET,POST,OPTIONS', 'access-control-allow-headers': 'content-type, x-review-code' };
 const json = (o, status = 200) => new Response(JSON.stringify(o), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', ...CORS } });
 const text = (s, status = 200) => new Response(s, { status, headers: { 'content-type': 'text/markdown; charset=utf-8', 'cache-control': 'no-store', ...CORS } });
 const str = (v, max) => (typeof v === 'string' ? v.slice(0, max) : '');
@@ -80,6 +80,11 @@ function markdown(db, status) {
 
 export default async (req) => {
   if (req.method === 'OPTIONS') return new Response('', { status: 204, headers: CORS });
+  // Passcode: set REVIEW_CODE in Netlify → Environment variables. Sent as the x-review-code header (or ?code= for curl).
+  const need = (process.env.REVIEW_CODE || '').trim();
+  const url0 = new URL(req.url);
+  const got = (req.headers.get('x-review-code') || url0.searchParams.get('code') || '').trim();
+  if (need && got !== need) return json({ error: 'passcode' }, 401);
   const store = getStore('review-comments');
   const url = new URL(req.url);
   let db = (await store.get(KEY, { type: 'json' })) || blank();
