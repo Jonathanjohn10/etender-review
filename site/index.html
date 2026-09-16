@@ -2423,9 +2423,10 @@ var CM = {
   },
   startPoll() {
     if (!CM.api || CM.pollT) return;
+    // Poll only while the panel is open and the tab is visible (keeps Netlify function calls low).
     CM.pull();
-    CM.pollT = setInterval(() => { if (!document.hidden) CM.pull(); }, 10000);
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) CM.pull(); });
+    CM.pollT = setInterval(() => { if (!document.hidden && CM.st.open) CM.pull(); }, 30000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && CM.st.open) CM.pull(); });
   },
 
   /* ---------- context ---------- */
@@ -2987,7 +2988,7 @@ var CM = {
         if (CM.armed) CM.disarm();
         if (CM.st.open && CM.comp) { CM.comp = null; CM.ghost = null; }
         CM.st.open = !CM.st.open; CM.save(); closeMenus();
-        CM.render(); CM.syncBar(); CM.afterLayout(); break;
+        CM.render(); CM.syncBar(); CM.afterLayout(); if (CM.st.open) CM.pull(); break;
       case 'close':
         if (CM.armed) CM.disarm();
         CM.comp = null; CM.ghost = null;
