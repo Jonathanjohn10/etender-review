@@ -1,0 +1,8 @@
+{
+  "name": "etender-review",
+  "private": true,
+  "description": "E-Tendering prototype with shared review comments (Netlify Functions + Blobs)",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}

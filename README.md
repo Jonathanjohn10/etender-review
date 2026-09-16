@@ -1,0 +1,20 @@
+# E-Tendering prototype — shared review
+
+Static prototype (`site/index.html`) plus one Netlify Function (`netlify/functions/comments.mjs`) that stores review comments in Netlify Blobs, so everyone with the link sees the same numbered comments and replies.
+
+## Reviewers (managers)
+Open the site link. Click **💬 Comments** in the purple bar, **Add comment**, click anywhere on the screen, type. First comment asks for a name once. Nothing else to do.
+
+## Designer
+- Designer view: open the site with `?designer` at the end of the URL to see Import and Clear all.
+- `tools/pull-comments.sh` → `review/comments.json` + `review/comments.md`
+- `tools/reply.sh 7 "Answer text" [--resolve]` → posts a reply to #7 (and resolves it) so reviewers see it in the panel
+- `tools/sync-site.sh` → copies the latest prototype from `../Procurement Control/wireframes/` into `site/`; commit + push deploys
+- Site URL goes in `tools/site.txt` (one line, e.g. `https://e-tendering.netlify.app`).
+
+## API
+- `GET /api/comments` — whole store `{ v, rev, seq, items }`
+- `GET /api/comments?format=md` — Markdown digest (`&status=open` to filter)
+- `POST /api/comments` — `{ op: add|update|reply|delete|clear, ... }`
+
+No authentication: the link is the only gate. Do not put anything confidential in the prototype data.
