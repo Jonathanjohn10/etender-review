@@ -377,6 +377,89 @@ body.cm-open #cm-drawer{display:flex}
 .cm-sync{font-size:var(--fs-xs);font-weight:600;color:var(--cm-res);margin-right:6px}
 .cm-sync.off{color:var(--color-error)}
 .cm-code{margin-top:var(--sp-3);padding:var(--sp-3);background:#fff;border:var(--bw) solid var(--cm-pin);border-radius:var(--r-sm)}
+/* ---------------- guided demo (TOUR) ---------------- */
+:root{--tour:#1D4ED8;--tour-hover:#1E40AF;--tour-ring:rgba(29,78,216,.28);--tour-ok:#1E6B34;--tour-ok-ring:rgba(30,107,52,.3)}
+body.tour-on{padding-top:48px}
+body.tour-watch .proto{display:none}
+body.tour-try .proto{top:48px}
+body.tour-on .edge,body.tour-on .opanel,body.tour-on #cm-drawer{top:48px}
+body.tour-on .toasts{z-index:230;bottom:210px}
+#tour-strip{position:fixed;left:0;right:0;top:0;height:48px;z-index:270;display:flex;align-items:center;gap:var(--sp-3);padding:0 var(--sp-4);color:#fff;font-size:var(--fs-cap);background:var(--tour);white-space:nowrap}
+body.tour-try #tour-strip{background:var(--tour-ok)}
+#tour-strip .sp{flex:1}
+.tour-lbl{font-size:10px;letter-spacing:.32px;text-transform:uppercase;background:#fff;color:var(--tour);padding:2px 8px;border-radius:var(--r-full);font-weight:700}
+body.tour-try .tour-lbl{color:var(--tour-ok)}
+.tour-ttl{font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.tour-note{opacity:.85}
+.tour-x{height:30px;padding:0 12px;border:1px solid rgba(255,255,255,.55);border-radius:var(--r-full);background:transparent;color:#fff;font:600 var(--fs-cap) var(--font);cursor:pointer}
+.tour-x:hover{background:rgba(255,255,255,.14)}
+.tour-x:focus-visible,#tour-strip :focus-visible{outline:2px solid #fff;outline-offset:2px}
+.tour-dim{position:fixed;z-index:210;background:rgba(10,20,30,.55);pointer-events:none;transition:all .2s ease}
+#tour-ring{position:fixed;z-index:220;border:3px solid var(--tour);border-radius:10px;box-shadow:0 0 0 6px var(--tour-ring);pointer-events:none;transition:left .25s ease,top .25s ease,width .25s ease,height .25s ease}
+body.tour-try #tour-ring{border-color:var(--tour-ok);box-shadow:0 0 0 6px var(--tour-ok-ring)}
+#tour-cursor{position:fixed;z-index:250;width:24px;height:24px;margin:-2px 0 0 -4px;pointer-events:none;transition:left .55s cubic-bezier(.45,0,.2,1),top .55s cubic-bezier(.45,0,.2,1);filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+#tour-ripple{position:fixed;z-index:249;width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;border:3px solid var(--tour);pointer-events:none;animation:tour-rip .5s ease-out forwards}
+@keyframes tour-rip{from{transform:scale(.3);opacity:.9}to{transform:scale(1.3);opacity:0}}
+#tour-cap{position:fixed;left:50%;transform:translateX(-50%);bottom:20px;width:min(640px,calc(100vw - 32px));z-index:240;background:var(--color-bg-surface);border-radius:var(--r-md);box-shadow:var(--shadow),0 12px 32px rgba(0,0,0,.22);padding:14px 16px;color:var(--color-text)}
+.tour-who{display:flex;gap:var(--sp-2);align-items:center;font-size:var(--fs-sm);color:var(--color-text-muted);margin-bottom:4px}
+.tour-who b{color:var(--color-text)} .tour-who .sp{flex:1}
+.tour-av{width:22px;height:22px;border-radius:50%;background:var(--wr-topbar);color:#fff;font-size:10px;font-weight:700;display:inline-grid;place-items:center;flex:none}
+.tour-av.big{width:40px;height:40px;font-size:var(--fs-base)} .tour-av.o{opacity:.4}
+.tour-say{font-size:15px;font-weight:600;line-height:1.35;margin-bottom:2px}
+.tour-why{font-size:var(--fs-cap);color:var(--color-text-body)}
+.tour-bar{height:4px;background:#E5E7EB;border-radius:2px;margin:10px 0 8px;overflow:hidden}
+.tour-bar i{display:block;height:100%;background:var(--tour);transition:width .3s ease}
+.tour-ctl{display:flex;gap:var(--sp-2);align-items:center;font-size:var(--fs-sm);color:var(--color-text-muted)}
+.tour-ctl .sp{flex:1}
+.tour-c{height:30px;min-width:30px;padding:0 10px;border-radius:var(--r-sm);border:var(--bw) solid var(--color-border);background:#fff;font:600 var(--fs-cap) var(--font);color:var(--color-text);cursor:pointer}
+.tour-c:hover{border-color:var(--color-border-strong)} .tour-c[disabled]{opacity:.4;cursor:default}
+.tour-c-p{background:var(--tour);border-color:var(--tour);color:#fff} .tour-c-p:hover{background:var(--tour-hover)}
+.tour-c-ok{background:var(--tour-ok);border-color:var(--tour-ok);color:#fff}
+#tour-coach{position:fixed;z-index:240;width:300px;background:var(--color-bg-surface);border-radius:12px;box-shadow:var(--shadow),0 12px 32px rgba(0,0,0,.22);padding:12px 14px;font-size:var(--fs-cap);color:var(--color-text);--ax:40px}
+#tour-coach:before{content:"";position:absolute;width:14px;height:14px;background:var(--color-bg-surface);transform:rotate(45deg);display:none}
+#tour-coach[data-side="t"]:before{display:block;top:-6px;left:var(--ax)}
+#tour-coach[data-side="b"]:before{display:block;bottom:-6px;left:var(--ax)}
+#tour-coach[data-side="l"]:before{display:block;left:-6px;top:22px}
+#tour-coach[data-side="r"]:before{display:block;right:-6px;top:22px}
+.tour-n{font-size:var(--fs-xs);color:var(--tour-ok);font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+#tour-coach .tour-say{font-size:var(--fs-base);margin:2px 0 4px}
+#tour-coach .tour-ctl{margin-top:10px}
+.tour-lnk{border:0;background:transparent;padding:0;color:var(--tour);font:600 var(--fs-sm) var(--font);cursor:pointer}
+.tour-lnk:hover{text-decoration:underline} .tour-lnk[disabled]{opacity:.4;cursor:default}
+.tour-wait{font-size:var(--fs-sm);color:var(--color-text-muted)}
+.tour-hint{background:var(--status-amber-bg);border:1px solid #E9B872;color:var(--status-amber-fg);border-radius:var(--r-sm);padding:6px 10px;font-size:var(--fs-sm);margin-top:8px}
+#tour-list{position:fixed;right:16px;top:104px;width:270px;z-index:240;background:var(--color-bg-surface);border-radius:12px;box-shadow:var(--shadow),0 8px 24px rgba(0,0,0,.18);padding:10px 12px;font-size:var(--fs-sm);color:var(--color-text)}
+#tour-list.min{width:170px}
+#tour-list h4{margin:0;font-size:var(--fs-cap);display:flex;align-items:center;gap:6px;cursor:move;user-select:none}
+#tour-list h4 .sp{flex:1} #tour-list h4 small{color:var(--color-text-muted);font-weight:400}
+.tour-min{width:24px;height:24px;border:0;border-radius:6px;background:transparent;cursor:pointer;color:var(--color-text-muted)}
+.tour-min:hover{background:var(--color-bg-muted)}
+#tour-list ol{margin:8px 0 0;padding:0;list-style:none;max-height:min(46vh,380px);overflow:auto;position:relative}
+#tour-list li{display:flex;gap:8px;padding:4px 0;color:var(--color-text-muted);align-items:flex-start}
+#tour-list li i{flex:none;width:16px;height:16px;margin-top:1px;border-radius:50%;border:1.5px solid var(--color-border-strong);font-style:normal;font-size:9px;display:grid;place-items:center}
+#tour-list li.d{color:var(--color-text-body)} #tour-list li.d i{background:var(--tour-ok);border-color:var(--tour-ok);color:#fff}
+#tour-list li.c{color:var(--color-text);font-weight:600} #tour-list li.c i{border-color:var(--tour-ok);box-shadow:0 0 0 3px var(--tour-ok-ring)}
+#tour-list li.f{background:var(--status-green-bg);border-radius:6px}
+#tour-card.tour-scene{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:260;background:#111;color:#fff;border-radius:var(--r-md);padding:18px 26px;box-shadow:0 0 0 100vmax rgba(10,20,30,.35),0 12px 40px rgba(0,0,0,.45);max-width:calc(100vw - 32px)}
+.tour-sc-a{display:flex;gap:14px;align-items:center;font-size:15px} .tour-sc-a small{color:#BBB;font-size:var(--fs-cap)}
+#tour-card.tour-end{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:260;width:min(460px,calc(100vw - 32px));background:var(--color-bg-surface);border-radius:16px;box-shadow:0 0 0 100vmax rgba(10,20,30,.55),0 16px 48px rgba(0,0,0,.35);padding:24px;text-align:center;color:var(--color-text)}
+#tour-card.tour-done{position:fixed;right:24px;bottom:24px;z-index:260;width:min(400px,calc(100vw - 32px));background:var(--color-bg-surface);border-radius:16px;box-shadow:var(--shadow),0 16px 48px rgba(0,0,0,.3);padding:20px;color:var(--color-text);border-top:4px solid var(--tour-ok)}
+.tour-dh{display:flex;gap:10px;align-items:center} .tour-dh h3{margin:0}
+.tour-big{font-size:32px;line-height:1} .tour-done .tour-big{font-size:24px}
+#tour-card h3{margin:6px 0 4px;font-size:18px} #tour-card p{margin:0 0 16px;color:var(--color-text-muted);font-size:var(--fs-cap)}
+.tour-row2{display:flex;gap:var(--sp-2);justify-content:center;flex-wrap:wrap}
+.btn.tour-b{border-color:var(--tour);color:var(--tour);background:#fff}
+.btn.tour-b:hover{background:#EFF4FF}
+.btn.tour-b-p{background:var(--tour);color:#fff} .btn.tour-b-p:hover{background:var(--tour-hover)}
+.btn.tour-b-ok{background:var(--tour-ok);border-color:var(--tour-ok);color:#fff} .btn.tour-b-ok:hover{background:#17552A}
+.btn.tour-b-pin{background:var(--cm-pin);border-color:var(--cm-pin);color:#fff}
+.tour-row{margin-top:var(--sp-2);gap:var(--sp-2)} .tour-row .help{margin:0}
+.tour-mark{color:var(--tour-ok);font-weight:600;font-size:var(--fs-sm)}
+.scn details{margin-top:var(--sp-2)} .scn details summary{cursor:pointer;color:var(--color-text-muted);font-size:var(--fs-sm)}
+#tour-welcome{position:fixed;right:20px;bottom:20px;z-index:140;width:min(340px,calc(100vw - 32px));background:var(--color-bg-surface);border-radius:var(--r-md);box-shadow:var(--shadow),0 12px 32px rgba(0,0,0,.2);padding:16px;border-top:4px solid var(--tour);color:var(--color-text)}
+#tour-welcome h4{margin:0 0 4px;font-size:15px} #tour-welcome p{margin:0 0 12px;color:var(--color-text-muted);font-size:var(--fs-cap)}
+@media (max-width:899px){#tour-cap{left:16px;right:16px;transform:none;width:auto} .tour-note{display:none}}
+@media (prefers-reduced-motion:reduce){#tour-cursor,#tour-ring,.tour-dim{transition:none!important} #tour-ripple{animation:none;display:none}}
 </style>
 </head>
 <body>
@@ -1658,8 +1741,8 @@ const MODALS = {
 
   scenarios: () => ({
     title: 'Scenarios & test cases', drawer: true,
-    body: `<p class="sm">Each scenario resets the data, signs in the right person and opens the right screen. Follow the steps, switching people with “Acting as” and moving the clock when a step says so.</p>
-      ${SCENARIOS.map(s => `<div class="scn"><div class="row"><b>${esc(s.title)}</b><span class="sp"></span><span class="chip">${esc(USERS[s.user].name)}</span></div><p class="help">${esc(s.why)}</p><ol>${s.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol><div><button class="btn btn-p btn-sm" data-a="loadScenario" data-id="${s.id}">Load scenario</button></div></div>`).join('')}`,
+    body: `<p class="sm">Watch a scenario play by itself, then try the same steps yourself. Each one resets the data first. Your comments are never touched.</p>
+      ${SCENARIOS.map(s => `<div class="scn"><div class="row"><b>${esc(s.title)}</b><span class="sp"></span><span class="chip">${esc(USERS[s.user].name)}</span></div><p class="help">${esc(s.why)}</p>${window.TOUR && TOUR.ready ? TOUR.scnRow(s) : `<div><button class="btn btn-p btn-sm" data-a="loadScenario" data-id="${s.id}">Load scenario</button></div>`}<details><summary>Written steps</summary><ol>${s.steps.map(x => `<li>${esc(x)}</li>`).join('')}</ol></details></div>`).join('')}`,
     foot: `${cancelBtn('Close')}<button class="btn" data-a="reset">Reset all data</button>`
   }),
 
@@ -2243,6 +2326,7 @@ function render() {
     if (el) { el.focus({ preventScroll: true }); if (selr && el.setSelectionRange) { try { el.setSelectionRange(selr[0], selr[1]); } catch (e) { /* not a text input */ } } }
   }
   if (window.CM && CM.ready) CM.afterAppRender();
+  if (window.TOUR && TOUR.ready) TOUR.afterRender();
 }
 function shell() { return protoBar() + topBar() + '<div class="edge" aria-hidden="true"></div>' + (db.ui.navOpen ? opsPanel() : '') + `<main class="main" id="main" tabindex="-1">${view()}</main>`; }
 
@@ -2318,9 +2402,6 @@ db = store.load() || seed();
 render();
 let seen = false;
 try { seen = !!localStorage.getItem(KEY + '-seen'); localStorage.setItem(KEY + '-seen', '1'); } catch (e) { seen = true; }
-if (!seen) {
-  setTimeout(() => toast('Tip: open “Scenarios” in the purple bar for guided flows.', 'info', 8000), 400);
-}
 window.__proto = { A, G, get db() { return db; }, render, seed, SCENARIOS, vChecklist, vGate };
 
 /* ---------------- review comments (CM) ----------------
@@ -2441,7 +2522,8 @@ var CM = {
       view: db.ui.view, id: db.ui.id || null, tab: db.ui.tab || null, vtab: db.ui.vtab || null, step: db.ui.step || null,
       tenderTitle: t ? t.desc : null, tenderStatus: t ? t.status : null, rev: t ? t.rev : null,
       modal: m ? { key: m.key, ctx, title: mTitle } : null,
-      now: db.now, scenario: db.ui.scenario || null, menu: db.ui.menu || null
+      now: db.now, scenario: db.ui.scenario || null, menu: db.ui.menu || null,
+      tour: window.TOUR && TOUR.run ? { mode: TOUR.run.mode, id: TOUR.run.id, step: TOUR.run.i + 1, title: (SCENARIOS.find(x => x.id === TOUR.run.id) || {}).title || TOUR.run.id } : null
     };
   },
   // Which parts of the screen matter depends on the view. Proto bar pins are global; top bar / nav pins follow the user.
@@ -2476,6 +2558,7 @@ var CM = {
     if (c.anchor) parts.push(`on ${c.anchor.label}`);
     if (opts.clock !== false && s.now) parts.push(`clock ${fdt(s.now)}`);
     if (s.scenario) { const sc = SCENARIOS.find(x => x.id === s.scenario); parts.push(`scenario "${sc ? sc.title : s.scenario}"`); }
+    if (s.tour) parts.push(`${s.tour.mode === "try" ? "Try it" : "Watch"} · scenario "${s.tour.title}" · step ${s.tour.step}`);
     return parts.join(' · ');
   },
 
@@ -3093,6 +3176,7 @@ var CM = {
   },
   onKeyCapture(e) {
     const t = e.target;
+    if (window.TOUR && TOUR.run && TOUR.run.mode === "watch") return;
     if (e.key === 'Escape') {
       if (CM.comp) { e.preventDefault(); e.stopImmediatePropagation(); CM.closeComposer(); return; }
       if (CM.armed) { e.preventDefault(); e.stopImmediatePropagation(); CM.disarm(); return; }
@@ -3162,6 +3246,876 @@ var CM = {
   }
 };
 CM.boot();
+
+/* ---------------- guided demo (TOUR) ----------------
+   Watch: the prototype plays a scenario with a cursor and captions (real clicks on the real UI).
+   Try it: same script, the reviewer acts; a step is ticked when its data check (expect) is true. */
+var TOUR = {
+  KEY: 'wrench-etender-tour-v1',
+  st: null, ready: false, run: null, toasts: [], rafPending: false, SCRIPTS: null,
+
+  /* ---------- store ---------- */
+  load() {
+    let s = null;
+    try { const raw = localStorage.getItem(TOUR.KEY); if (raw) { const o = JSON.parse(raw); if (o && o.v === 1) s = o; } } catch (e) { /* storage blocked */ }
+    TOUR.st = Object.assign({ v: 1, welcomed: false, watched: {}, done: {}, speed: 1, listMin: false }, s || {});
+  },
+  save() { try { localStorage.setItem(TOUR.KEY, JSON.stringify(TOUR.st)); } catch (e) { /* storage blocked */ } },
+
+  /* ---------- helpers ---------- */
+  scn(id) { return SCENARIOS.find(x => x.id === id); },
+  words(s) { return String(s || '').trim().split(/\s+/).filter(Boolean).length; },
+  reading(step) { return step.quick ? 900 : Math.max(2200, 260 * TOUR.words((step.say || '') + ' ' + (step.why || ''))); },
+  meta(id) {
+    const steps = TOUR.SCRIPTS[id] || [];
+    const ms = steps.reduce((a, s) => a + TOUR.reading(s) + 1200, 0);
+    return { steps: steps.length, mins: Math.max(1, Math.round(ms / 60000)), secs: Math.round(ms / 1000) };
+  },
+  sawToast(text) { const r = TOUR.run; const from = r ? r.toastMark : 0; return TOUR.toasts.slice(from).some(m => m.indexOf(text) >= 0); },
+  visible(el) { if (!el || !el.isConnected) return false; const r = el.getBoundingClientRect(); return r.width > 0 || r.height > 0; },
+  find(sel) { return $$(sel).find(TOUR.visible) || null; },
+  resolve(step) {
+    if (!step || !step.target) return null;
+    let el = null;
+    try {
+      if (typeof step.target === 'function') el = step.target(db, TOUR.run);
+      else {
+        const md = $$('#modals .md'); const top = md[md.length - 1];
+        if (top) { el = $$(step.target, top).find(TOUR.visible) || null; if (!el) { const p = TOUR.find(step.target); if (p && p.closest('.proto')) el = p; } }
+        else el = TOUR.find(step.target);
+      }
+    } catch (e) { el = null; }
+    if (el && !TOUR.visible(el)) { if (!(el.id === 'pc-user')) el = null; }
+    return el || null;
+  },
+  labelOf(el) {
+    if (!el) return '';
+    let s = '';
+    if (['INPUT', 'SELECT', 'TEXTAREA'].includes(el.tagName)) { const lb = el.id && document.querySelector(`label[for="${CSS.escape(el.id)}"]`); s = (lb && lb.textContent) || el.getAttribute('aria-label') || el.placeholder || ''; }
+    else { const c = el.cloneNode(true); c.querySelectorAll('small, .cnt, .cm-cnt').forEach(x => x.remove()); s = c.textContent || el.getAttribute('aria-label') || ''; }
+    s = s.replace(/[▾▸◂*]/g, '').replace(/\s+/g, ' ').trim();
+    return s.length > 40 ? s.slice(0, 39).trimEnd() + '…' : s;
+  },
+  text(step, which, el) {
+    let s = step[which];
+    if (s == null && which === 'tryText') {
+      s = { click: 'Click “{label}”', check: 'Tick “{label}”', type: 'Fill in “{label}”', select: 'Choose in “{label}”', note: step.say, user: `Switch “Acting as” to ${USERS[step.value] ? USERS[step.value].name : ''}`, clock: step.value === 'open' ? 'Click “→ Opening date”' : step.value === 'sub' ? 'Click “→ Submission date”' : 'Move the clock forward' }[step.do] || step.say;
+    }
+    s = String(s || '');
+    if (s.indexOf('{label}') >= 0) { const l = TOUR.labelOf(el) || step.labelFallback || ''; s = l ? s.replace('{label}', l) : which === 'tryText' && step.say ? step.say : s.replace(/\s*“\{label\}”/, '').replace('{label}', ''); }
+    if (typeof step.value !== 'function') s = s.replace('{value}', step.value == null ? '' : String(step.value));
+    return s;
+  },
+  expectOf(step) {
+    const r = TOUR.run;
+    if (step.do === 'user') return d => d.user === step.value;
+    if (step.do === 'clock') return d => d.now > r.nowAtStep;
+    if (step.do === 'note') return () => !!r.ack;
+    if (step.expect) return step.expect;
+    return () => !!r.clicked; // expectBlocked or plain click without a data change
+  },
+  met(step) { try { return !!TOUR.expectOf(step)(db, TOUR.run); } catch (e) { return false; } },
+
+  /* ---------- lifecycle ---------- */
+  reseed(id) {
+    const s = TOUR.scn(id);
+    db = seed(); modals = [];
+    if (s.prep) s.prep(db);
+    db.user = s.user; Object.assign(db.ui, s.ui); db.ui.scenario = s.id;
+    render(); window.scrollTo(0, 0);
+  },
+  start(id, mode, opts = {}) {
+    if (!TOUR.SCRIPTS[id]) return;
+    if (TOUR.run) TOUR.stop('exit', true);
+    if (CM.comp) CM.closeComposer();
+    if (CM.armed) CM.disarm();
+    const cmWasOpen = !!CM.st.open;
+    if (mode === 'watch' && CM.st.open) { CM.st.open = false; CM.render(); CM.syncBar(); }
+    TOUR.hideWelcome();
+    if (window.innerWidth < 900) TOUR.st.listMin = true;
+    TOUR.run = { id, mode, i: 0, steps: TOUR.SCRIPTS[id], paused: false, token: {}, shown: 0, skipped: 0, misses: 0, since: Date.now(), cmWasOpen, vars: {}, instant: !!opts.instant, fast: false, ack: false, clicked: false, toastMark: TOUR.toasts.length, nowAtStep: null, card: null, offSince: 0, hint: false };
+    document.body.classList.add('tour-on', mode === 'watch' ? 'tour-watch' : 'tour-try');
+    TOUR.reseed(id);
+    TOUR.beginStep();
+    TOUR.renderUI();
+    if (mode === 'watch' && !opts.manual) TOUR.play();
+    if (!opts.instant) TOUR.tick = TOUR.tick || setInterval(() => { if (TOUR.run) { if (TOUR.run.mode === 'try') TOUR.evaluate(); TOUR.position(); } }, 300);
+  },
+  stop(reason, silent) {
+    const r = TOUR.run; if (!r) return;
+    r.token.cancelled = true;
+    if (reason === 'finished') { (r.mode === 'watch' ? TOUR.st.watched : TOUR.st.done)[r.id] = true; TOUR.save(); }
+    TOUR.run = null;
+    document.body.classList.remove('tour-on', 'tour-watch', 'tour-try');
+    ['tour-strip', 'tour-cap', 'tour-coach', 'tour-list', 'tour-card'].forEach(id => { const el = document.getElementById(id); if (el) { el.innerHTML = ''; el.hidden = true; } });
+    TOUR.hideMarks();
+    if (r.mode === 'watch' && r.cmWasOpen && !CM.st.open) { CM.st.open = true; CM.render(); CM.syncBar(); }
+    if (!silent) { render(); const b = $('#app [data-a="m-scenarios"]'); if (b) b.focus(); }
+  },
+  hideMarks() { ['tour-ring', 'tour-cursor', 'tour-ripple'].forEach(id => { const el = document.getElementById(id); if (el) el.hidden = true; }); $$('.tour-dim').forEach(x => (x.hidden = true)); },
+  beginStep() {
+    const r = TOUR.run; if (!r) return;
+    r.since = Date.now(); r.misses = 0; r.ack = false; r.clicked = false; r.hint = false; r.offSince = 0;
+    r.toastMark = TOUR.toasts.length; r.nowAtStep = db.now;
+    TOUR.captureRoute();
+  },
+  cur() { const r = TOUR.run; return r ? r.steps[r.i] : null; },
+  captureRoute() {
+    const r = TOUR.run, step = TOUR.cur(); if (!r || !step || modals.length || ['user', 'clock'].includes(step.do)) return;
+    if (step.as && db.user !== step.as) return;
+    if (TOUR.resolve(step)) r.lastRoute = { view: db.ui.view, id: db.ui.id, tab: db.ui.tab, vtab: db.ui.vtab, step: db.ui.step };
+  },
+  routeOf(step) { const r = TOUR.run; const rt = step && step.route ? (typeof step.route === 'function' ? step.route(db, r) : step.route) : null; return rt || (r && r.lastRoute) || null; },
+
+  /* ---------- performing a step ---------- */
+  fire(el, type) { el.dispatchEvent(new Event(type, { bubbles: true })); },
+  async perform(step, animate) {
+    const r = TOUR.run, tk = r.token;
+    if (step.do === 'note') { r.ack = true; return; }
+    if (step.do === 'user') { const s = $('#pc-user'); if (!s) throw new Error('user switch not found'); s.value = step.value; TOUR.fire(s, 'change'); return; }
+    if (step.do === 'clock') { if (step.value === 'open' || step.value === 'sub') A.jump({ to: step.value }); else A.clock({ h: Number(step.value) || 1 }); return; }
+    const el = TOUR.resolve(step);
+    if (!el) throw new Error('target not found');
+    if (step.do === 'click' || step.do === 'check') {
+      if (el.getAttribute('aria-disabled') === 'true' && !step.expectBlocked) throw new Error('target is disabled: ' + (el.dataset.reason || ''));
+      if (el.disabled) throw new Error('target is disabled');
+      r.clicked = true; el.click(); return;
+    }
+    if (step.do === 'select') { el.value = typeof step.value === 'function' ? step.value(db, r) : step.value; TOUR.fire(el, 'change'); return; }
+    if (step.do === 'type') {
+      const val = String(typeof step.value === 'function' ? step.value(db, r) : step.value);
+      const direct = !animate || el.type === "datetime-local";
+      try { el.focus({ preventScroll: true }); } catch (e) { /* ignore */ }
+      if (direct || el.type === 'datetime-local') { el.value = val; TOUR.fire(el, 'input'); }
+      else {
+        el.value = ''; TOUR.fire(el, 'input');
+        for (let k = 1; k <= val.length; k++) {
+          if (tk.cancelled) return;
+          const live = TOUR.resolve(step) || el;
+          live.value = val.slice(0, k); TOUR.fire(live, 'input');
+          await TOUR.sleep(val.length > 24 ? 14 : 30);
+        }
+      }
+      const live = TOUR.resolve(step) || el;
+      TOUR.fire(live, 'change');
+      return;
+    }
+    throw new Error('unknown action ' + step.do);
+  },
+  sleep(ms) {
+    const r = TOUR.run;
+    if (!r || r.instant || r.fast) return Promise.resolve();
+    return new Promise(res => setTimeout(res, ms / (TOUR.st.speed || 1)));
+  },
+  async gate() { const r = TOUR.run; while (r && r.paused && !r.token.cancelled) await new Promise(res => setTimeout(res, 120)); },
+  async until(fn, ms) {
+    const r = TOUR.run, t0 = Date.now();
+    let v = fn();
+    let spins = 0;
+    while (!v && !r.token.cancelled && (r.instant ? spins < 6 : Date.now() - t0 < ms)) { await new Promise(res => setTimeout(res, r.instant ? 0 : 60)); spins++; v = fn(); }
+    return v;
+  },
+  shouldSkip(step) {
+    if (step.skipIf) { try { if (step.skipIf(db, TOUR.run)) return true; } catch (e) { /* ignore */ } }
+    return false;
+  },
+
+  /* ---------- Watch ---------- */
+  async play() {
+    const r = TOUR.run, tk = r.token;
+    try {
+      while (r.i < r.steps.length) {
+        if (tk.cancelled) return;
+        await TOUR.gate(); if (tk.cancelled) return;
+        const step = r.steps[r.i];
+        TOUR.beginStep();
+        const res = await TOUR.doStep(step, true);
+        if (tk.cancelled) return;
+        if (res !== true) return TOUR.fail(res);
+        if (r.fast) { r.fast = false; r.paused = true; }
+        r.i++;
+        TOUR.renderUI();
+      }
+      TOUR.finishWatch();
+    } catch (e) { if (!tk.cancelled) TOUR.fail(e.message || String(e)); }
+  },
+  // returns true or a failure reason
+  async doStep(step, animate) {
+    const r = TOUR.run, tk = r.token;
+    if (TOUR.shouldSkip(step)) return true;
+    if (step.as && db.user !== step.as) return `acting user is ${db.user}, script expects ${step.as}`;
+    const needsEl = !['user', 'clock'].includes(step.do);
+    let el = null;
+    if (needsEl && step.target) {
+      el = await TOUR.until(() => TOUR.resolve(step), 2000);
+      if (!el) { if (step.optional || step.do === 'note') el = null; else return 'target not found'; if (step.optional) return true; }
+    }
+    const pre = step.do !== 'note' && step.expect && TOUR.met(step);
+    if (pre) { if (step.mayPre) return true; return 'expected result was already true before the step'; }
+    if (animate && !r.instant) {
+      TOUR.renderUI();
+      if (el) TOUR.scrollTo(el);
+      TOUR.position();
+      if (step.do === 'user' || step.do === 'clock') { await TOUR.scene(step); if (tk.cancelled) return true; }
+      else if (el && step.do !== 'note') { await TOUR.moveCursor(el); if (tk.cancelled) return true; await TOUR.sleep(250); TOUR.ripple(); }
+    }
+    try { await TOUR.perform(step, animate && !r.instant); } catch (e) { return e.message; }
+    if (tk.cancelled) return true;
+    const ok = step.do === 'note' || step.expectBlocked ? true : await TOUR.until(() => TOUR.met(step), 2500);
+    if (!ok) return 'expected result did not happen';
+    if (step.after) { try { step.after(r, db); } catch (e) { /* ignore */ } }
+    if (animate && !r.instant) { TOUR.position(); await TOUR.sleep(TOUR.reading(step)); }
+    return true;
+  },
+  fail(reason) {
+    const r = TOUR.run; if (!r) return;
+    r.paused = true; r.failed = { at: r.i, reason };
+    try { console.error('[tour] step ' + (r.i + 1) + ' failed: ' + reason, r.steps[r.i]); } catch (e) { /* ignore */ }
+    if (r.onFail) return r.onFail(r.failed);
+    r.card = 'error'; TOUR.renderUI();
+  },
+  finishWatch() {
+    const r = TOUR.run; if (!r) return;
+    TOUR.st.watched[r.id] = true; TOUR.save();
+    if (r.onDone) return r.onDone();
+    r.card = 'handover'; r.paused = true; TOUR.hideMarks(); TOUR.renderUI();
+  },
+  pause() { const r = TOUR.run; if (r && r.mode === 'watch' && !r.paused) { r.paused = true; TOUR.renderUI(); } },
+  resume() { const r = TOUR.run; if (r && r.mode === 'watch' && r.paused && !r.card) { r.paused = false; TOUR.renderUI(); } },
+  next() { const r = TOUR.run; if (r && r.mode === 'watch' && !r.card) { r.fast = true; r.paused = false; TOUR.renderUI(); } },
+  async back() {
+    const r = TOUR.run; if (!r || r.mode !== 'watch') return;
+    const target = Math.max(0, r.i - 1), id = r.id;
+    await TOUR.jumpTo(id, 'watch', target);
+  },
+  // restart the scenario and instantly replay up to (not including) step n, then pause there
+  async jumpTo(id, mode, n) {
+    TOUR.stop('exit', true);
+    TOUR.start(id, mode, { manual: true });
+    const r = TOUR.run; r.instant = true; r.paused = true;
+    for (let k = 0; k < n; k++) { TOUR.beginStep(); const res = await TOUR.doStep(r.steps[k], false); if (res !== true) { r.instant = false; return TOUR.fail(res); } r.i = k + 1; }
+    r.instant = false; TOUR.beginStep(); TOUR.renderUI(); TOUR.position();
+    if (mode === 'watch') TOUR.play();
+  },
+  setSpeed() { const o = [1, 1.5, 2]; TOUR.st.speed = o[(o.indexOf(TOUR.st.speed) + 1) % o.length]; TOUR.save(); TOUR.renderUI(); },
+  async scene(step) {
+    const r = TOUR.run;
+    r.card = 'scene'; r.scene = { step, from: db.user, now: db.now };
+    TOUR.renderUI();
+    await TOUR.sleep(1800);
+    r.card = null; TOUR.renderUI();
+  },
+  async moveCursor(el) {
+    const c = $('#tour-cursor'); const b = el.getBoundingClientRect();
+    const x = b.left + Math.min(b.width / 2, 160), y = b.top + b.height / 2;
+    if (c.hidden) { c.hidden = false; c.style.left = Math.max(40, x - 260) + 'px'; c.style.top = Math.min(window.innerHeight - 60, y + 180) + 'px'; void c.offsetWidth; }
+    c.style.transitionDuration = TOUR.reduced() ? '0s' : (0.55 / (TOUR.st.speed || 1)) + 's';
+    c.style.left = x + 'px'; c.style.top = y + 'px';
+    TOUR.run.cursorAt = { x, y };
+    await TOUR.sleep(TOUR.reduced() ? 60 : 580);
+  },
+  ripple() {
+    const p = TOUR.run && TOUR.run.cursorAt, rp = $('#tour-ripple'); if (!p || TOUR.reduced()) return;
+    rp.hidden = true; void rp.offsetWidth; rp.style.left = p.x + 'px'; rp.style.top = p.y + 'px'; rp.hidden = false;
+    setTimeout(() => { rp.hidden = true; }, 520);
+  },
+  reduced() { return !!(TOUR.forceReduced || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)); },
+  scrollTo(el) {
+    const b = el.getBoundingClientRect(), top = 120, bottom = window.innerHeight - 230;
+    if (b.top < top || b.bottom > bottom) { try { el.scrollIntoView({ block: 'center', behavior: 'auto' }); } catch (e) { /* ignore */ } }
+  },
+
+  /* ---------- Try it ---------- */
+  evaluate() {
+    const r = TOUR.run; if (!r || r.mode !== 'try' || r.card === 'done' || r.busy) return;
+    let moved = false, guard = 0;
+    while (r.i < r.steps.length && guard++ < 50) {
+      const step = r.steps[r.i];
+      if (TOUR.shouldSkip(step)) { r.i++; TOUR.beginStep(); moved = true; continue; }
+      if (step.optional && !TOUR.resolve(step) && !TOUR.met(step) && r.steps[r.i + 1] && (TOUR.resolve(r.steps[r.i + 1]) || TOUR.met(r.steps[r.i + 1]))) { r.i++; TOUR.beginStep(); moved = true; continue; }
+      if (!TOUR.met(step)) break;
+      if (step.after) { try { step.after(r, db); } catch (e) { /* ignore */ } }
+      r.flash = r.i; r.i++; TOUR.beginStep(); moved = true;
+    }
+    if (r.i >= r.steps.length && r.card !== 'done') { r.card = 'done'; TOUR.st.done[r.id] = true; TOUR.save(); TOUR.hideMarks(); moved = true; }
+    if (moved) { TOUR.renderUI(); setTimeout(() => { if (TOUR.run === r) { r.flash = null; TOUR.renderUI(); } }, 650); }
+  },
+  afterRender() {
+    if (!TOUR.ready) return;
+    if (TOUR.run) { if (TOUR.run.mode === 'try') TOUR.evaluate(); TOUR.position(); }
+  },
+  async showMe(silent) {
+    const r = TOUR.run; if (!r || r.mode !== 'try' || r.busy) return;
+    const step = TOUR.cur(); if (!step) return;
+    r.busy = true;
+    try {
+      if (step.as && db.user !== step.as) { await TOUR.perform({ do: 'user', value: step.as }, false); }
+      let el = TOUR.resolve(step);
+      if (!el && TOUR.routeOf(step) && !TOUR.reopenStep()) { TOUR.takeMeThere(true); el = TOUR.resolve(step); }
+      if (!el && !['user', 'clock', 'note'].includes(step.do)) { const back = TOUR.reopenStep(); if (back) { await TOUR.perform(back, false); el = await TOUR.until(() => TOUR.resolve(step), 800); } }
+      if (!silent && el && !['user', 'clock', 'note'].includes(step.do)) { TOUR.scrollTo(el); await TOUR.moveCursor(el); await TOUR.sleep(200); TOUR.ripple(); }
+      await TOUR.perform(step, !silent);
+      if (silent) r.skipped++; else r.shown++;
+    } catch (e) { toast('Could not do this step automatically: ' + e.message, 'warn'); }
+    r.busy = false;
+    const c = $('#tour-cursor'); if (c) c.hidden = true;
+    TOUR.evaluate(); TOUR.renderUI();
+  },
+  skip() { return TOUR.showMe(true); },
+  reopenStep() { const r = TOUR.run; for (let k = r.i - 1; k >= Math.max(0, r.i - 4); k--) { const s = r.steps[k]; if (s.reopen && TOUR.resolve(s)) return s; } return null; },
+  takeMeThere(quiet) {
+    const step = TOUR.cur(); const rt = TOUR.routeOf(step); if (!rt) return;
+    modals = []; db.ui.menu = null;
+    Object.assign(db.ui, rt); render();
+    if (!quiet) TOUR.renderUI();
+  },
+  restart() { const r = TOUR.run; if (!r) return; const { id, mode } = r; TOUR.stop('exit', true); TOUR.start(id, mode); },
+
+  /* ---------- test API ---------- */
+  replay(id) {
+    return new Promise(resolve => {
+      (async () => {
+        try {
+          TOUR.start(id, 'watch', { instant: true, manual: true });
+          const r = TOUR.run; let pre = 0;
+          for (let k = 0; k < r.steps.length; k++) {
+            r.i = k; TOUR.beginStep();
+            const res = await TOUR.doStep(r.steps[k], false);
+            if (res !== true) { const say = r.steps[k].say; TOUR.stop('exit', true); return resolve({ ok: false, failedAt: k + 1, reason: res, say }); }
+          }
+          const n = r.steps.length; TOUR.stop('exit', true); resolve({ ok: true, steps: n, pre });
+        } catch (e) { if (TOUR.run) TOUR.stop('exit', true); resolve({ ok: false, failedAt: -1, reason: e.message }); }
+      })();
+    });
+  }
+};
+
+/* ---------- TOUR: the nine scenario scripts ---------- */
+TOUR.buildScripts = function () {
+  const tnd = (d, id) => d.tenders.find(t => t.id === id);
+  const row = (d, id, code) => { const t = tnd(d, id); return t && t.vendors.find(r => r.code === code); };
+  const bid = (d, id, code) => { const t = tnd(d, id); return t && t.bids[code] && t.bids[code].cur; };
+  const mkey = () => (topModal() ? topModal().key : null);
+  const mctx = () => (topModal() ? topModal().ctx : {});
+  const val = sel => { const e = $(sel); return e ? e.value : ''; };
+  const byId = id => () => document.getElementById(id);
+  // step builders
+  const click = (as, target, say, why, expect, x) => Object.assign({ as, do: 'click', target, say, why: why || '', expect }, x || {});
+  const check = (as, target, say, why, expect, x) => Object.assign({ as, do: 'check', target, say, why: why || '', expect, tryText: 'Tick “{label}”', quick: true }, x || {});
+  const type = (as, target, value, say, why, expect, x) => Object.assign({ as, do: 'type', target, value, say, why: why || '', expect }, x || {});
+  const note = (as, target, say, why, x) => Object.assign({ as, do: 'note', target, say, why: why || '', tryText: say }, x || {});
+  const user = (value, say, why) => ({ do: 'user', value, say, why: why || '' });
+  const clock = (value, say, why) => ({ do: 'clock', value, say, why: why || '' });
+  const blocked = (as, target, say, why, x) => Object.assign({ as, do: 'click', target, say, why: why || '', expectBlocked: true }, x || {});
+  const tab = (as, k, say, why, id) => click(as, `[data-a="tab"][data-tab="${k}"]`, say, why, d => d.ui.tab === k && d.ui.view === 'tender', { mayPre: true, quick: true, tryText: 'Open the “{label}” tab', route: id ? { view: 'tender', id, tab: k } : null });
+  const vtab = (as, k, say, why) => click(as, `[data-a="vtab"][data-k="${k}"]`, say, why, d => d.ui.vtab === k, { mayPre: true, quick: true, tryText: 'Open the “{label}” tab' });
+  const closeDlg = (as, say) => click(as, '[data-a="mClose"]', say || 'The dialog is closed', '', () => !topModal(), { quick: true, tryText: 'Close the dialog' });
+  // “More” menu: open it, then use an item. Skipped when the action is already visible as a button.
+  const moreOpen = (as, id, say, skipSel) => click(as, () => TOUR.find(`[data-a="menu"][data-id="more-${typeof id === 'function' ? id() : id}"]`), say || 'More actions live in the “More” menu', 'Everything that is not the next step sits here, grouped, with the reason written under anything that is not available.', d => String(d.ui.menu || '').indexOf('more-') === 0, { reopen: true, quick: true, tryText: 'Open “More”', skipIf: skipSel ? () => !!TOUR.find(skipSel) && !db.ui.menu : null });
+  const otpOpen = (as, s, id, names) => [
+    click(as, `[data-a="otpGen"][data-s="${s}"]`, `${names} asks for a verification code`, 'The code proves that the designated opening officer is the one opening the bid. It appears in a message at the bottom right.', d => !!tnd(d, id()).otp[`${s}:${as}`], { route: () => ({ view: 'tender', id: id(), tab: 'evaluation' }) }),
+    type(as, `#otp-${s}`, () => tnd(db, id()).otp[`${s}:${as}`].code, 'The code is typed in', 'Use the 6-digit code from the message at the bottom right.', d => { const o = tnd(d, id()).otp[`${s}:${as}`]; return !!o && val(`#otp-${s}`) === o.code; }, { tryText: 'Type the code from the message', quick: true }),
+    click(as, `[data-a="otpVerify"][data-s="${s}"]`, `The ${s === 'T' ? 'technical' : 'commercial'} bid opens`, s === 'T' ? 'From this moment the technical documents can be read and evaluation can start.' : 'Prices are now visible to the evaluation team.', d => !!tnd(d, id()).opening[s].done)
+  ];
+  const accept = (as, s, code, id, say, why) => click(as, `[data-a="accept"][data-s="${s}"][data-code="${code}"]`, say, why, d => (tnd(d, id()).evals[s][code] || {}).status === 'Approved', { tryText: `Click ✓ Accept on ${V(code).name}` });
+  const rateStep = (as, id, code, idx, value, say, why) => type(as, () => { const t = tnd(db, id()); const c = code || (t && t.items[idx]); return c ? document.getElementById('rate-' + c) : null; }, value, say, why,
+    d => { const t = tnd(d, id()); const c = code || t.items[idx]; const b = t.bids[USERS[as].vendor]; return !!b && Number(b.cur.rates[c]) === Number(typeof value === 'function' ? value() : value); }, { tryText: 'Enter the rate {value}', quick: true });
+  const submitBid = (as, id, say, why) => [
+    click(as, () => TOUR.find('#vf [data-a="m-vsubmit"]') || TOUR.find('[data-a="m-vsubmit"]'), say || 'The bid is ready to submit', 'A checklist shows what is complete before anything is sent.', () => mkey() === 'vsubmit', { reopen: true }),
+    click(as, '[data-a="vDoSubmit"]', 'Bid submitted', why || 'The buyer still sees nothing: bids stay sealed until the opening date.', d => { const b = bid(d, id(), USERS[as].vendor); return !!b && !!b.submittedAt && row(d, id(), USERS[as].vendor).status === 'Submitted'; })
+  ];
+  const K = id => () => id;
+  const S = {};
+
+  /* 3 · Two-stage bid opening with OTP */
+  { const id = K('T-2026-015');
+    S.opening = [
+      note('rahul', '#main .card', 'Bids arrive sealed', 'Nobody — not even the tender manager — can read a bid before an opening officer opens it. The commercial bid stays locked until the technical bid is open.', { tryText: 'Look at the two opening cards' }),
+      click('rahul', '[data-a="otpGen"][data-s="T"]', 'Rahul asks for a verification code', 'The code proves that the designated opening officer is the one opening the bid. It appears in a message at the bottom right.', d => !!tnd(d, id()).otp['T:rahul'], { route: { view: 'tender', id: id(), tab: 'evaluation' } }),
+      type('rahul', '#otp-T', '000000', 'First, a wrong code', 'A wrong code must be refused.', () => val('#otp-T') === '000000', { tryText: 'Type a wrong code: 000000', quick: true }),
+      click('rahul', '[data-a="otpVerify"][data-s="T"]', 'The wrong code is refused', '“Invalid verification code” — the bid stays sealed.', d => !tnd(d, id()).opening.T.done && TOUR.sawToast('Invalid verification code')),
+      type('rahul', '#otp-T', () => tnd(db, id()).otp['T:rahul'].code, 'Now the right code', 'Use the 6-digit code shown in the message at the bottom right.', d => val('#otp-T') === tnd(d, id()).otp['T:rahul'].code, { tryText: 'Type the code from the message', quick: true }),
+      click('rahul', '[data-a="otpVerify"][data-s="T"]', 'The technical bid opens', 'From this moment the technical documents can be read and evaluation can start.', d => !!tnd(d, id()).opening.T.done),
+      accept('rahul', 'T', 'V-101', id, 'Rahul accepts Alpha Fabricators', 'Each vendor is accepted or rejected on its own row.'),
+      accept('rahul', 'T', 'V-107', id, '…and Beta Steel Works', ''),
+      click('rahul', '[data-a="m-reject"][data-s="T"][data-code="V-112"]', 'Gamma Metals is rejected', 'A rejection always needs remarks, so the vendor can be told why.', () => mkey() === 'reject', { reopen: true, tryText: 'Click ✕ Reject on Gamma Metals' }),
+      type('rahul', '#rj', 'Pile design calculation is incomplete.', 'Remarks are mandatory', '', () => String(mctx().remarks || '').trim().length > 5, { tryText: 'Type a reason for the rejection' }),
+      click('rahul', '[data-a="doRejectEval"]', 'Rejection saved', 'Gamma will be greyed out in the commercial stage: a technically rejected vendor is not evaluated commercially.', d => (tnd(d, id()).evals.T['V-112'] || {}).status === 'Rejected'),
+      user('anita', 'Anita is the commercial opening officer', 'Opening officers are set per stage in Bid Settings. Rahul cannot open the commercial bid.'),
+      ...otpOpen('anita', 'C', id, 'Anita')
+    ]; }
+
+  /* 1 · Create a tender and take it to a purchase order */
+  { const id = () => (TOUR.run && TOUR.run.vars.id) || db.ui.id;
+    const draft = d => (d.ui.id ? tnd(d, d.ui.id) : d.ui.draft) || {};
+    const next = (n, say, why, x) => click('priya', '[data-a="wNext"]', say, why, d => d.ui.view === 'wizard' && d.ui.step === n, Object.assign({ quick: true }, x || {}));
+    const boqBox = () => $$('#modals .md input[data-a="mSel"]:not([disabled])').find(x => !x.checked) || null;
+    const vendorBid = (as, code, r1, r2, name) => [
+      user(as, `${name} is a vendor user`, 'Vendors only ever see their own bid, never a competitor’s.'),
+      click(as, '[data-a="m-vaccept"]', `${name.split(' ')[0]} accepts the tender`, 'Accepting tells the buyer this vendor intends to bid.', () => mkey() === 'vaccept', { reopen: true, optional: true }),
+      click(as, '[data-a="vDoAccept"]', 'Accepted', '', d => !!row(d, id(), code).acceptedAt, { quick: true, optional: true }),
+      vtab(as, 'prices', 'The price schedule lists every tender item', ''),
+      rateStep(as, id, null, 0, r1, 'He enters his unit rate', 'Amounts and the bid total update as the rate is typed.'),
+      ...submitBid(as, id)
+    ];
+    S.happy = [
+      click('priya', '[data-a="create"]', 'Priya starts a new tender', 'A tender is built in six steps. Nothing is visible to vendors until it is published.', d => d.ui.view === 'wizard', { route: { view: 'list', id: null } }),
+      click('priya', '[data-a="wNext"]', 'Next is refused while required fields are empty', 'Description and both dates are mandatory; each error says exactly what is missing.', d => Object.keys(d.ui.wErr || {}).length > 0),
+      type('priya', '#w-desc', 'Fire-fighting pipework — Block D', 'She names the tender', '', d => draft(d).desc === 'Fire-fighting pipework — Block D', { tryText: 'Type a description: {value}' }),
+      type('priya', '#w-sub', '2026-10-20T17:00', 'Bid submission closes on 20 October', 'Vendors can submit and update their bid until this moment.', d => draft(d).sub === '2026-10-20T17:00', { tryText: 'Set the Bid Submission Date to 20 Oct 2026, 17:00', quick: true }),
+      type('priya', '#w-open', '2026-10-22T10:00', 'Bids are opened two days later', 'The opening date must be later than the submission date.', d => draft(d).open === '2026-10-22T10:00', { tryText: 'Set the Bid Opening Date to 22 Oct 2026, 10:00', quick: true }),
+      next(2, 'Step 1 is saved — a Draft reference is created', 'From here the tender can be left and resumed later.', { after: r => { r.vars.id = db.ui.id; }, expect: d => d.ui.step === 2 && !!d.ui.id }),
+      next(3, 'Attachments are optional', ''),
+      click('priya', '[data-a="m-boq"]', 'Items come from the project BOQ', 'Items already used in another live tender are disabled and show that tender’s number.', () => mkey() === 'boq', { reopen: true }),
+      check('priya', boqBox, 'She ticks an available item', '', () => (mctx().sel || []).length === 1, { tryText: 'Tick any available item' }),
+      click('priya', '[data-a="doAddBoq"]', 'The item is added', '', d => !topModal() && draft(d).items.length === 1, { quick: true }),
+      next(4, 'Terms & Conditions come from a master list', 'They are locked once the tender has been published, even in later revisions.'),
+      next(5, 'Next: vendors', ''),
+      click('priya', '[data-a="m-addVendor"]', 'Vendors are picked by specialisation', 'A missing email or a pending prequalification is flagged here, before anything is sent.', () => mkey() === 'addVendor', { reopen: true }),
+      check('priya', '[data-a="mSel"][data-code="V-101"]', 'Alpha Fabricators', '', () => (mctx().sel || []).includes('V-101'), { tryText: 'Tick Alpha Fabricators' }),
+      check('priya', '[data-a="mSel"][data-code="V-107"]', 'Beta Steel Works', '', () => (mctx().sel || []).includes('V-107'), { tryText: 'Tick Beta Steel Works' }),
+      click('priya', '[data-a="doAddVendors"]', 'Two vendors are on the tender', '', d => !topModal() && draft(d).vendors.length === 2, { quick: true }),
+      next(6, 'Last step: Bid Settings', ''),
+      note('priya', '#main .card', 'Who opens and who evaluates', 'Rahul opens and evaluates technical bids, Anita the commercial ones. Opening needs a verification code.', { tryText: 'Review the tender team' }),
+      click('priya', '[data-a="wFinish"]', 'The tender is created', 'Status: Created. The primary button now always names the next step.', d => (tnd(d, id()) || {}).status === 'Created'),
+      click('priya', () => TOUR.find('#main [data-a="m-publish"]'), 'Priya publishes the tender', 'Every vendor row says why it is or is not eligible.', () => mkey() === 'publish', { reopen: true, route: () => ({ view: 'tender', id: id(), tab: 'overview' }) }),
+      click('priya', '[data-a="doPublish"]', 'Published to both vendors', 'They are notified by email and can start their bids.', d => tnd(d, id()).status === 'Published'),
+      ...vendorBid('suresh', 'V-101', 69000, 98, 'Suresh Kumar of Alpha Fabricators'),
+      ...vendorBid('arun', 'V-107', 66500, 94, 'Arun Das of Beta Steel Works'),
+      clock('open', 'Two weeks later: the opening date arrives', 'The tender moved to Closed and then to Bid Evaluation by itself — nobody has to press anything.'),
+      user('rahul', 'Rahul is the technical opening officer', 'Only a designated officer can open sealed bids.'),
+      tab('rahul', 'evaluation', 'Bids are opened on the Evaluation tab', ''),
+      ...otpOpen('rahul', 'T', id, 'Rahul'),
+      accept('rahul', 'T', 'V-101', id, 'Both technical bids are accepted', ''),
+      Object.assign(accept('rahul', 'T', 'V-107', id, '…and the second one', ''), { quick: true }),
+      user('anita', 'Anita opens the commercial bids', ''),
+      ...otpOpen('anita', 'C', id, 'Anita'),
+      accept('anita', 'C', 'V-101', id, 'Both commercial bids are accepted', ''),
+      Object.assign(accept('anita', 'C', 'V-107', id, '…and the second one', ''), { quick: true }),
+      user('vikram', 'Vikram is the Procurement Lead', 'He compares, recommends, notifies and issues purchase orders.'),
+      tab('vikram', 'comparison', 'All bids side by side', 'L1 marks the lowest total, H1 the highest. They appear because every item has a quantity.'),
+      click('vikram', () => TOUR.find('#main [data-a="m-reco"]'), 'Vikram recommends a vendor', '', () => mkey() === 'reco', { reopen: true }),
+      check('vikram', '[data-a="mSel"][data-code="V-107"]', 'Beta Steel Works has the lowest bid', '', () => (mctx().sel || []).includes('V-107'), { tryText: 'Tick Beta Steel Works' }),
+      click('vikram', '[data-a="doReco"]', 'Recommendation saved', 'The tender status becomes Recommended.', d => tnd(d, id()).status === 'Recommended'),
+      moreOpen('vikram', id, 'Issue PO', '#main [data-a="m-po"]:not(.mi)'),
+      click('vikram', () => TOUR.find('#main [data-a="m-po"]:not(.mi)') || TOUR.find('.menu [data-k="po"]'), 'A purchase order is started', '', () => mkey() === 'po', { reopen: true, tryText: 'Click “Issue PO”' }),
+      check('vikram', '[data-a="poVendor"][data-code="V-107"]', 'The recommended vendor', 'All items are ticked with their full quantity.', () => Object.keys(mctx().lines || {}).length > 0, { tryText: 'Select Beta Steel Works' }),
+      click('vikram', '[data-a="poNext"]', 'PO details', '', () => mctx().step === 2, { quick: true }),
+      click('vikram', '[data-a="doPO"]', 'The purchase order is issued', 'Full quantity ordered, so the tender status becomes PO Issued. The lifecycle is complete.', d => tnd(d, id()).status === 'PO Issued')
+    ]; }
+
+  /* 2 · Vendor submission rules and deadlines */
+  { const id = K('T-2026-017');
+    S.vendor = [
+      note('suresh', '#vf', 'The footer is the vendor’s checklist', 'It shows 4 of 5 rates entered and one mandatory document missing.', { tryText: 'Look at the footer at the bottom' }),
+      click('suresh', () => TOUR.find('#vf [data-a="m-vsubmit"]'), 'Suresh tries to submit anyway', 'The checklist names exactly what blocks the submission.', () => mkey() === 'vsubmit', { reopen: true }),
+      note('suresh', '#modals .md .bn-err', 'Submit is blocked', '“Yes, submit” stays disabled until the mandatory document is uploaded.', { tryText: 'Read why submit is blocked' }),
+      closeDlg('suresh'),
+      vtab('suresh', 'docs', 'The Documents tab lists what the buyer asked for', ''),
+      click('suresh', '[data-a="m-vupload"][data-desc="Technical compliance"]', 'He uploads the mandatory document', '', () => mkey() === 'vupload', { reopen: true, tryText: 'Click Upload next to “Technical compliance”' }),
+      type('suresh', '#vu-n', 'technical-compliance.pdf', 'A file is chosen', 'Earlier versions of a document are kept, never overwritten.', () => mctx().name === 'technical-compliance.pdf', { tryText: 'Type a file name: {value}' }),
+      click('suresh', '[data-a="vDoUpload"]', 'Document uploaded', '', d => bid(d, id(), 'V-101').docs.some(x => x.desc === 'Technical compliance')),
+      vtab('suresh', 'prices', 'Back to the price schedule', ''),
+      rateStep('suresh', id, '3.3', 0, 3750, 'The missing rate', 'The amount and the bid total update as he types.'),
+      click('suresh', () => TOUR.find('#vf [data-a="vSave"]'), 'Save draft', 'A draft is never visible to the buyer.', d => !d.ui.dirty && bid(d, id(), 'V-101').savedAt === d.now),
+      ...submitBid('suresh', id, 'Now everything is complete', 'Status becomes Submitted. The bid can still be updated until the deadline.'),
+      rateStep('suresh', id, '3.1', 0, 6450, 'He sharpens one rate', ''),
+      click('suresh', () => TOUR.find('#vf [data-a="m-vsubmit"]'), 'An updated bid can be submitted again', '', () => mkey() === 'vsubmit', { reopen: true }),
+      click('suresh', '[data-a="vDoSubmit"]', 'The update replaces the earlier bid', 'The submission count goes up; the buyer still sees nothing until opening.', d => bid(d, id(), 'V-101').count === 2),
+      clock('sub', 'The submission date passes', 'The bid locks exactly as submitted.'),
+      note('suresh', '#main .bn', '“Tender is closed”', 'No more edits. Any question now goes to the tender management team.', { tryText: 'Read the lock message' })
+    ]; }
+
+  /* 4 · Compare, recommend, notify and issue POs */
+  { const id = K('T-2026-015');
+    const poBtn = () => TOUR.find('#main [data-a="m-po"]:not(.mi)') || TOUR.find('.menu [data-k="po"]');
+    S.award = [
+      note('vikram', '#main .card', 'L1 and H1 are hidden at first', 'One item (2.5 Dewatering) is rate-only, so totals are not comparable across vendors.', { tryText: 'Look at the comparison summary' }),
+      { as: 'vikram', do: 'select', target: '#c-it', value: 'rq', say: 'Only “Rate and Quantity” items', why: 'Now every line has a quantity, so L1 (lowest) and H1 (highest) appear.', expect: d => d.ui.itemType === 'rq', tryText: 'Set Item type to “Rate and Quantity”' },
+      check('vikram', '[data-a="cmpInc"][data-code="V-112"]', 'A vendor can be left out of the comparison', '', d => d.ui.exclude.includes('V-112'), { tryText: 'Untick Gamma Metals' }),
+      check('vikram', '[data-a="cmpInc"][data-code="V-112"]', '…and brought back', '', d => !d.ui.exclude.includes('V-112'), { tryText: 'Tick Gamma Metals again' }),
+      click('vikram', '[data-a="cmpMode"][data-k="rev"]', 'Revision-wise view', 'Shows what a vendor changed between Rev 0 and Rev 1.', d => d.ui.cmpMode === 'rev'),
+      click('vikram', '[data-a="cmpMode"][data-k="vendor"]', 'Back to the vendor comparison', '', d => d.ui.cmpMode === 'vendor', { quick: true }),
+      click('vikram', () => TOUR.find('#main [data-a="m-reco"]'), 'Vikram recommends a vendor', '', () => mkey() === 'reco', { reopen: true }),
+      check('vikram', '[data-a="mSel"][data-code="V-107"]', 'Beta Steel Works', '', () => (mctx().sel || []).includes('V-107'), { tryText: 'Tick Beta Steel Works' }),
+      click('vikram', '[data-a="doReco"]', 'Recommendation saved', 'The tender status becomes Recommended.', d => tnd(d, id()).status === 'Recommended'),
+      click('vikram', `[data-a="menu"][data-id="notify-${id()}"]`, 'Vendors are told the outcome', '', d => d.ui.menu === 'notify-' + id(), { reopen: true, tryText: 'Open “Notify vendors”' }),
+      click('vikram', '[data-a="m-notify"][data-kind="sel"]', 'A selection notice for the winner', '', () => mkey() === 'notify' && mctx().kind === 'sel', { reopen: true }),
+      click('vikram', '[data-a="doNotify"]', 'Letter of Intent sent to Beta', 'Vendor status becomes LOI Issued and can no longer be changed.', d => row(d, id(), 'V-107').status === 'LOI Issued'),
+      click('vikram', `[data-a="menu"][data-id="notify-${id()}"]`, 'And a rejection notice', '', d => d.ui.menu === 'notify-' + id(), { reopen: true, quick: true, tryText: 'Open “Notify vendors”' }),
+      click('vikram', '[data-a="m-notify"][data-kind="rej"]', 'Bid rejection notice', '', () => mkey() === 'notify' && mctx().kind === 'rej', { reopen: true, quick: true }),
+      check('vikram', '[data-a="mSel"][data-code="V-112"]', 'Gamma Metals is not selected', '', () => (mctx().sel || []).includes('V-112'), { tryText: 'Tick Gamma Metals' }),
+      click('vikram', '[data-a="doNotify"]', 'Rejection notice sent', '', d => row(d, id(), 'V-112').status === 'Bid Rejected'),
+      moreOpen('vikram', id, 'Issue PO', '#main [data-a="m-po"]:not(.mi)'),
+      click('vikram', poBtn, 'A purchase order is started', '', () => mkey() === 'po', { reopen: true, tryText: 'Click “Issue PO”' }),
+      check('vikram', '[data-a="poVendor"][data-code="V-107"]', 'For Beta Steel Works', '', () => Object.keys(mctx().lines || {}).length > 0, { tryText: 'Select Beta Steel Works' }),
+      type('vikram', '[data-mq="2.1"]', '600', 'Only half of item 2.1 for now', 'The PO quantity may be lower than the tender quantity.', () => Number((mctx().lines['2.1'] || {}).qty) === 600, { tryText: 'Change the PO qty of 2.1 to 600' }),
+      click('vikram', '[data-a="poNext"]', 'PO details', '', () => mctx().step === 2, { quick: true }),
+      click('vikram', '[data-a="doPO"]', 'A partial purchase order', 'Less than the full quantity was ordered, so the status is Part PO Issued.', d => tnd(d, id()).status === 'Part PO Issued'),
+      moreOpen('vikram', id, 'A second PO for the rest', '#main [data-a="m-po"]:not(.mi)'),
+      click('vikram', poBtn, 'Issue PO again', 'Because some items are already fully ordered, the prototype asks whether to show only what remains.', () => mkey() === 'confirm', { reopen: true, tryText: 'Click “Issue PO”' }),
+      click('vikram', '[data-a="confirmYes"]', 'Only the remaining items', '', () => mkey() === 'po' && !!mctx().remainingOnly, { quick: true }),
+      check('vikram', '[data-a="poVendor"][data-code="V-107"]', 'Same vendor', '', () => Object.keys(mctx().lines || {}).length > 0, { tryText: 'Select Beta Steel Works', quick: true }),
+      click('vikram', '[data-a="poNext"]', 'The remaining 600 m', '', () => mctx().step === 2, { quick: true }),
+      click('vikram', '[data-a="doPO"]', 'Everything is ordered', 'Two purchase orders; tender status PO Issued.', d => tnd(d, id()).status === 'PO Issued' && tnd(d, id()).pos.length === 2),
+      moreOpen('vikram', id, 'What about revising now?'),
+      blocked('vikram', '.menu [data-k="revise"]', 'Revision is no longer possible', 'Once a purchase order exists the tender cannot be revised. The reason is written under the menu item.', { tryText: 'Click “Revise tender” to read why' })
+    ]; }
+
+  /* 5 · Revise and republish */
+  { const id = K('T-2026-017');
+    S.revise = [
+      moreOpen('priya', id),
+      click('priya', '.menu [data-k="revise"]', 'Priya revises the tender', '', () => mkey() === 'confirm', { reopen: true }),
+      note('priya', '#modals .md', 'The consequence is spelled out first', 'A new revision clears openings, evaluations and recommendations. Vendors keep their earlier bid for comparison and must resubmit.', { tryText: 'Read what a revision does' }),
+      click('priya', '[data-a="confirmYes"]', 'Revision 1 is created', 'Status: Revised. Vendors are locked out until it is republished.', d => tnd(d, id()).status === 'Revised' && tnd(d, id()).rev === 1),
+      moreOpen('priya', id, 'Edit tender', '#main [data-a="wizard"]:not(.mi)'),
+      click('priya', () => TOUR.find('#main [data-a="wizard"]:not(.mi)') || TOUR.find('.menu [data-k="edit"]'), 'She edits the tender', '', d => d.ui.view === 'wizard', { tryText: 'Click “Edit tender”' }),
+      click('priya', '[data-a="wStep"][data-n="4"]', 'Terms & Conditions', '', d => d.ui.step === 4, { quick: true, tryText: 'Open step 4 · Terms & Conditions' }),
+      note('priya', '#main .bn', 'Terms are locked', 'The tender was published before, so its terms can no longer change — vendors already answered them.', { tryText: 'Read why the terms are locked' }),
+      click('priya', '[data-a="wStep"][data-n="3"]', 'Item Details can still change', '', d => d.ui.step === 3, { quick: true, tryText: 'Open step 3 · Item Details' }),
+      click('priya', '[data-a="rmItem"][data-code="3.4"]', 'Item 3.4 is taken out of the tender', '', () => mkey() === 'confirm', { reopen: true, tryText: 'Remove item 3.4' }),
+      click('priya', '[data-a="confirmYes"]', 'Removed', 'The item returns to the BOQ and can be used in another tender.', d => !tnd(d, id()).items.includes('3.4'), { quick: true }),
+      click('priya', '[data-a="wStep"][data-n="6"]', 'Last step', '', d => d.ui.step === 6, { quick: true, tryText: 'Open step 6 · Bid Settings' }),
+      click('priya', '[data-a="wFinish"]', 'Changes saved', '', d => d.ui.view === 'tender', { quick: true }),
+      click('priya', () => TOUR.find('#main [data-a="m-publish"]'), 'The primary button now reads “Publish revision”', '', () => mkey() === 'publish', { reopen: true }),
+      click('priya', '[data-a="doPublish"]', 'Republished', 'Every vendor can be selected again and is told to resubmit.', d => tnd(d, id()).status === 'Republished'),
+      user('arun', 'Arun Das of Beta Steel Works had already submitted', ''),
+      click('arun', '[data-a="vFetch"]', 'He fetches his rates from the previous revision', 'Rates for unchanged items are copied; new items stay blank.', d => Object.keys(bid(d, id(), 'V-107').rates).length > 0, { tryText: 'Click “{label}”' }),
+      vtab('arun', 'docs', 'Documents must be sent again for the new revision', ''),
+      click('arun', '[data-a="m-vupload"][data-desc="Technical compliance"]', 'The mandatory document', '', () => mkey() === 'vupload', { reopen: true, tryText: 'Click Upload next to “Technical compliance”' }),
+      type('arun', '#vu-n', 'technical-compliance-rev1.pdf', 'A file is chosen', '', () => mctx().name === 'technical-compliance-rev1.pdf', { tryText: 'Type a file name: {value}', quick: true }),
+      click('arun', '[data-a="vDoUpload"]', 'Uploaded', '', d => bid(d, id(), 'V-107').docs.some(x => x.desc === 'Technical compliance' && x.rev === 1), { quick: true }),
+      ...submitBid('arun', id, 'He resubmits for Rev 1'),
+      user('suresh', 'Suresh had only a draft', ''),
+      note('suresh', '#main .bn', 'His Rev 0 work is archived', 'He can fetch it into Rev 1 or start again.', { tryText: 'Read the revision banner' })
+    ]; }
+
+  /* 6 · Resubmission request */
+  { const id = K('T-2026-015');
+    const rs = '[data-a="m-resub"][data-code="V-101"][data-s="C"]';
+    S.resub = [
+      click('anita', rs, 'Anita asks Alpha to resubmit', 'The ↻ button on a vendor’s row requests a resubmission from that vendor only.', () => mkey() === 'resub', { reopen: true, tryText: 'Click ↻ on Alpha’s commercial row', route: { view: 'tender', id: id(), tab: 'evaluation' } }),
+      note('anita', '#modals .md .opt', 'She can only ask for the commercial part', 'A commercial evaluator cannot reopen the technical bid. The due date limits how long the vendor may edit.', { tryText: 'Look at the scope and the due date' }),
+      click('anita', '[data-a="doResub"]', 'Request sent', 'Alpha’s status becomes Resubmission.', d => row(d, id(), 'V-101').status === 'Resubmission'),
+      click('anita', rs, 'A second request for the same vendor?', '', () => mkey() === 'resub', { reopen: true, tryText: 'Click ↻ on Alpha’s commercial row again' }),
+      click('anita', '[data-a="doResub"]', 'Refused while one is active', '“Commercial Resubmission request is active for selected vendors”.', () => String(mctx().err || '').indexOf('active') >= 0),
+      closeDlg('anita'),
+      user('suresh', 'Suresh sees the request', 'Rates are editable again, but only until the due date.'),
+      vtab('suresh', 'prices', 'The price schedule is open again', ''),
+      rateStep('suresh', id, '2.1', 0, 2480, 'He lowers one rate', ''),
+      ...submitBid('suresh', id, 'He resubmits', 'Only the commercial evaluation is reset — the technical result stands.'),
+      user('anita', 'Back to Anita', ''),
+      note('anita', '#main .card', 'Alpha’s commercial result is “Not Verified” again', 'The new prices must be evaluated afresh.', { tryText: 'Look at Alpha’s commercial evaluation' })
+    ]; }
+
+  /* 7 · Invitation first and NDA gate */
+  { const id = K('T-2026-020');
+    S.nda = [
+      note('priya', '#main .hd, #main h1', 'This tender invites before it publishes', 'The primary button reads “Invite vendors”. Delta Infra is flagged: no email configured.', { tryText: 'Look at the primary button and the vendor list' }),
+      click('priya', () => TOUR.find('#main [data-a="m-invite"]'), 'Priya invites the vendors', '', () => mkey() === 'invite', { reopen: true }),
+      click('priya', '[data-a="doInvite"]', 'Invitations sent', 'Only eligible vendors are pre-selected. Status: Invites Sent.', d => tnd(d, id()).status === 'Invites Sent'),
+      click('priya', () => TOUR.find('#main [data-a="m-publish"]') || TOUR.find('.menu [data-k="publish"]'), 'Can she publish now?', '', () => mkey() === 'publish', { reopen: true, tryText: 'Click “Publish tender”' }),
+      note('priya', '#modals .md table', 'Nobody is eligible yet', 'Vendors must accept the invitation — and sign the NDA — before the tender can be published to them.', { tryText: 'Read why each vendor is not eligible' }),
+      closeDlg('priya'),
+      user('suresh', 'Suresh received the invitation', ''),
+      click('suresh', '[data-a="m-vaccept"]', 'He accepts', '', () => mkey() === 'vaccept', { reopen: true }),
+      click('suresh', '[data-a="vDoAccept"]', 'An NDA is requested automatically', 'Status: NDA Requested. The tender details stay hidden until the signed NDA is back.', d => row(d, id(), 'V-101').status === 'NDA Requested'),
+      click('suresh', '[data-a="m-vupload"][data-purpose="NDA Submission"]', 'He uploads the signed NDA', '', () => mkey() === 'vupload', { reopen: true }),
+      type('suresh', '#vu-n', 'signed-nda-alpha.pdf', 'The signed file', '', () => mctx().name === 'signed-nda-alpha.pdf', { tryText: 'Type a file name: {value}', quick: true }),
+      click('suresh', '[data-a="vDoUpload"]', 'NDA submitted', '', d => row(d, id(), 'V-101').ndaSub === true),
+      user('priya', 'Back to Priya', ''),
+      click('priya', () => TOUR.find('#main [data-a="m-publish"]') || TOUR.find('.menu [data-k="publish"]'), 'Now Alpha is eligible', '', () => mkey() === 'publish', { reopen: true, tryText: 'Click “Publish tender”' }),
+      click('priya', '[data-a="doPublish"]', 'Published to Alpha only', 'Gamma has not accepted yet and stays blocked.', d => row(d, id(), 'V-101').status === 'Published' && row(d, id(), 'V-112').status !== 'Published'),
+      user('nisha', 'Nisha Verma of Gamma Metals declines', ''),
+      click('nisha', '[data-a="m-vreject"]', 'She rejects the invitation', '', () => mkey() === 'vreject', { reopen: true }),
+      type('nisha', '#vr-r', 'Our mill is fully booked until December.', 'Remarks are mandatory', '', () => String(mctx().remarks || '').trim().length > 5, { tryText: 'Type a reason' }),
+      click('nisha', '[data-a="vDoReject"]', 'Rejected', '', d => row(d, id(), 'V-112').status === 'Rejected'),
+      user('priya', 'Priya sees the reason', ''),
+      tab('priya', 'vendors', 'On the Vendors tab', 'Gamma’s remarks are shown on its row.')
+    ]; }
+
+  /* 8 · Technical-only tender, no OTP */
+  { const id = K('T-2026-021');
+    S.tech = [
+      click('priya', () => TOUR.find('#main [data-a="m-publish"]'), 'A technical-only tender is published', 'No prices are asked for — vendors qualify on documents.', () => mkey() === 'publish', { reopen: true }),
+      click('priya', '[data-a="doPublish"]', 'Published', 'For a technical tender, attachments are always mandatory.', d => tnd(d, id()).status === 'Published'),
+      user('suresh', 'Suresh opens the tender', ''),
+      click('suresh', '[data-a="m-vaccept"]', 'He accepts the tender', '', () => mkey() === 'vaccept', { reopen: true, optional: true }),
+      click('suresh', '[data-a="vDoAccept"]', 'Accepted', '', d => !!row(d, id(), 'V-101').acceptedAt, { quick: true, optional: true }),
+      click('suresh', () => TOUR.find('[data-a="m-vsubmit"]'), 'He tries to submit with no documents', '', () => mkey() === 'vsubmit', { reopen: true }),
+      note('suresh', '#modals .md .bn-err', '“Attachments Required”', 'A technical bid without documents cannot be submitted.', { tryText: 'Read why submit is blocked' }),
+      closeDlg('suresh'),
+      vtab('suresh', 'docs', 'The Documents tab', ''),
+      click('suresh', '[data-a="m-vupload"][data-desc="Technical capability statement"]', 'He uploads the capability statement the buyer asked for', '', () => mkey() === 'vupload', { reopen: true, tryText: 'Click Upload next to “Technical capability statement”' }),
+      type('suresh', '#vu-n', 'capability-statement.pdf', 'The file', '', () => mctx().name === 'capability-statement.pdf', { tryText: 'Type a file name: {value}', quick: true }),
+      click('suresh', '[data-a="vDoUpload"]', 'Uploaded', '', d => bid(d, id(), 'V-101').docs.length > 0, { quick: true }),
+      ...submitBid('suresh', id, 'Now the bid can go'),
+      clock('open', 'The opening date arrives', ''),
+      user('rahul', 'Rahul opens the bids', ''),
+      tab('rahul', 'evaluation', 'On the Evaluation tab', ''),
+      click('rahul', '[data-a="clickOpen"][data-user="rahul"]', '“Click to Open” — no verification code', 'This tender has codes switched off in Bid Settings, so one click by the designated officer opens the bid.', d => !!tnd(d, id()).opening.T.done),
+      user('priya', 'Back to Priya', ''),
+      tab('priya', 'comparison', 'Comparison shows technical results only', 'There are no prices to compare.'),
+      moreOpen('priya', id, 'What about a purchase order?'),
+      blocked('priya', '.menu [data-k="po"]', 'A PO is not possible', 'A technical-only tender has no prices, so no purchase order can be issued from it. The reason is written under the item.', { tryText: 'Click “Issue PO” to read why' })
+    ]; }
+
+  /* 9 · Permissions and read-only states */
+  S.perms = [
+    moreOpen('rahul', 'T-2026-017', 'Rahul is an evaluator, not a manager'),
+    blocked('rahul', '.menu [data-k="publish"]', 'He cannot publish', '“You need Publish Tender permission”. Actions stay visible so people learn what exists, but say why they are unavailable.', { tryText: 'Click “Publish tender” to read why' }),
+    blocked('rahul', '.menu [data-k="revise"]', 'Nor revise', '', { quick: true, tryText: 'Click “Revise tender” to read why' }),
+    user('vikram', 'Vikram is not on this tender’s team', ''),
+    tab('vikram', 'activity', 'The Activity tab', ''),
+    note('vikram', '#main .empty, #main .card', 'Notifications are for team members', 'Only tender team members can view the notification log.', { tryText: 'Read the message' }),
+    click('vikram', () => TOUR.find('#main [data-a="list"]') || TOUR.find('.top [data-a="list"]'), 'Back to the tender list', '', d => d.ui.view === 'list', { quick: true, tryText: 'Go back to the tender list' }),
+    click('vikram', '[data-a="openTender"][data-id="T-2026-009"]', 'An obsolete tender', '', d => d.ui.id === 'T-2026-009' && d.ui.view === 'tender', { tryText: 'Open T-2026-009' }),
+    note('vikram', '#main .bn, #main .hd', 'Everything is read-only', 'An obsolete tender allows no further operations; its items returned to the BOQ.', { tryText: 'Read the banner' }),
+    user('kiran', 'Kiran Rao of Epsilon Engineering rejected an invitation earlier', ''),
+    click('kiran', '[data-a="vOpen"][data-id="T-2026-015"]', 'He opens that tender', '', d => d.ui.view === 'vtender' && d.ui.id === 'T-2026-015', { tryText: 'Open T-2026-015' }),
+    note('kiran', '#main .bn', 'Read-only for him', '“You rejected this tender invitation”.', { tryText: 'Read the banner' }),
+    user('priya', 'Priya has every permission', ''),
+    click('priya', () => TOUR.find('#main [data-a="list"]') || TOUR.find('.top [data-a="list"]'), 'The tender list', '', d => d.ui.view === 'list', { quick: true, tryText: 'Go back to the tender list' }),
+    click('priya', '[data-a="openTender"][data-id="T-2026-018"]', 'A Draft tender', '', d => d.ui.id === 'T-2026-018' && d.ui.view === 'tender', { tryText: 'Open T-2026-018' }),
+    moreOpen('priya', 'T-2026-018'),
+    blocked('priya', '.menu [data-k="obsolete"]', 'A draft cannot be made obsolete', 'Nobody outside has seen it, so it is simply removed instead.', { tryText: 'Click “Obsolete tender” to read why' }),
+    click('priya', '.menu [data-k="remove"]', 'Remove tender', '', () => mkey() === 'confirm', { reopen: true }),
+    click('priya', '[data-a="confirmYes"]', 'The draft is deleted', 'Its BOQ items become available for other tenders.', d => !tnd(d, 'T-2026-018'))
+  ];
+  return S;
+};
+
+/* ---------- TOUR: rendering, geometry, listeners, boot ---------- */
+Object.assign(TOUR, {
+  scnRow(s) {
+    const m = TOUR.meta(s.id), w = TOUR.st.watched[s.id], d = TOUR.st.done[s.id];
+    if (!TOUR.SCRIPTS[s.id]) return `<div><button class="btn btn-p btn-sm" data-a="loadScenario" data-id="${s.id}">Load scenario</button></div>`;
+    return `<div class="row tour-row"><button type="button" class="btn btn-sm tour-b tour-b-p" data-tour="watch" data-id="${s.id}">▶ Watch</button><button type="button" class="btn btn-sm tour-b" data-tour="try" data-id="${s.id}">✋ Try it</button>
+      <span class="help">~${m.mins} min · ${m.steps} steps</span>${d ? '<span class="tour-mark">✓ Completed</span>' : w ? '<span class="tour-mark">✓ Watched</span>' : ''}<span class="sp"></span><button type="button" class="link sm" data-a="loadScenario" data-id="${s.id}">Load only</button></div>`;
+  },
+  who() { const u = USERS[db.user]; return { ini: u.ini, name: u.name, role: u.side === 'vendor' ? `Vendor · ${u.title}` : u.title.split(' · ')[0] }; },
+  stepLabel(step, idx) {
+    if (step.list) return step.list;
+    if (step.do === 'user') return `Switch to ${USERS[step.value].name}`;
+    if (step.do === 'clock') return step.value === 'open' ? 'Jump to the opening date' : step.value === 'sub' ? 'Jump to the submission date' : 'Move the clock';
+    return step.say || `Step ${idx + 1}`;
+  },
+  renderUI() {
+    const r = TOUR.run; if (!r) return;
+    const s = TOUR.scn(r.id), step = TOUR.cur(), n = r.steps.length, el = step ? TOUR.resolve(step) : null;
+    const strip = $('#tour-strip'), cap = $('#tour-cap'), coach = $('#tour-coach'), list = $('#tour-list'), card = $('#tour-card');
+    strip.hidden = false;
+    if (r.mode === 'watch') {
+      strip.innerHTML = `<span class="tour-lbl">${r.card === 'handover' ? 'Demo finished' : r.paused && !r.card ? 'Paused' : 'Demo playing'}</span><span class="tour-ttl">${esc(s.title)}</span><span class="sp"></span><span class="tour-note">${r.paused && !r.card ? 'Press Space to continue' : r.card ? '' : 'Click anywhere to pause'}</span><button type="button" class="tour-x" data-tour="exit">Exit demo · Esc</button>`;
+      coach.hidden = true; list.hidden = true;
+      if (step && !['handover', 'error'].includes(r.card)) {
+        const w = TOUR.who();
+        cap.hidden = false;
+        cap.innerHTML = `<div class="tour-who"><span class="tour-av">${esc(w.ini)}</span><span><b>${esc(w.name)}</b> · ${esc(w.role)}</span><span class="sp"></span><span>Scenario ${esc(s.title.split(' · ')[0])} of 9</span></div>
+          <div class="tour-say" aria-live="polite">${esc(TOUR.text(step, 'say', el))}</div>${step.why ? `<div class="tour-why">${esc(step.why)}</div>` : ''}
+          <div class="tour-bar"><i style="width:${Math.round((r.i / n) * 100)}%"></i></div>
+          <div class="tour-ctl"><button type="button" class="tour-c" data-tour="back" aria-label="Previous step"${r.i === 0 ? ' disabled' : ''}>◀</button><button type="button" class="tour-c tour-c-p" data-tour="${r.paused ? 'resume' : 'pause'}">${r.paused ? '▶ Play' : '❚❚ Pause'}</button><button type="button" class="tour-c" data-tour="next" aria-label="Next step">▶</button>
+            <span>Step ${Math.min(r.i + 1, n)} of ${n}</span><span class="sp"></span><button type="button" class="tour-c" data-tour="speed" aria-label="Playback speed">${TOUR.st.speed}×</button><button type="button" class="tour-c" data-tour="exit">Exit</button></div>`;
+      } else { cap.hidden = true; cap.innerHTML = ''; }
+    } else {
+      cap.hidden = true;
+      strip.innerHTML = `<span class="tour-lbl">Try it</span><span class="tour-ttl">${esc(s.title)}</span><span class="sp"></span><span class="tour-note">The app is live — explore freely</span><button type="button" class="tour-x" data-tour="restart">↻ Restart</button><button type="button" class="tour-x" data-tour="exit">Exit · Esc</button>`;
+      if (step && r.card !== 'done') {
+        const wrongUser = step.as && db.user !== step.as && step.do !== 'user';
+        const back = !el && !wrongUser && !['user', 'clock'].includes(step.do) ? TOUR.reopenStep() : null;
+        const off = !el && !back && !wrongUser && !['user', 'clock'].includes(step.do) && !(step.do === 'note');
+        let head = TOUR.text(step, 'tryText', el), body = step.why || '';
+        if (wrongUser) { head = `Switch “Acting as” to ${USERS[step.as].name} first`; body = 'This step is done by ' + USERS[step.as].name + '. Use the “Acting as” box in the purple bar.'; }
+        else if (back) { head = 'Open it again: ' + TOUR.text(back, 'tryText', TOUR.resolve(back)); body = 'The next step happens inside that dialog or menu.'; }
+        else if (off) { body = TOUR.routeOf(step) ? 'This step is on another screen.' : (step.hint || 'The control for this step is not on this screen right now.'); }
+        const hint = r.hint && !wrongUser && !off ? `<div class="tour-hint">${esc(step.hint || step.why || 'Look for the highlighted control.')}</div>` : off && db.ui ? `<div class="tour-hint">No harm done — the app is live. ${TOUR.routeOf(step) ? 'Use “Take me there” to go back.' : 'Use “Show me” to see where it is.'}</div>` : '';
+        coach.hidden = false;
+        coach.innerHTML = `<div class="tour-n">Step ${r.i + 1} of ${n}${step.as ? ' · as ' + esc(USERS[step.as].name.split(' ')[0]) : ''}</div><div class="tour-say" aria-live="polite">${esc(head)}</div>${body ? `<div class="tour-why">${esc(body)}</div>` : ''}${hint}
+          <div class="tour-ctl">${step.do === 'note' && !wrongUser ? '<button type="button" class="tour-c tour-c-ok" data-tour="ack">Got it</button>' : `<button type="button" class="tour-lnk" data-tour="show"${r.busy ? ' disabled' : ''}>▶ Show me</button><button type="button" class="tour-lnk" data-tour="skip"${r.busy ? ' disabled' : ''}>Skip</button>`}<span class="sp"></span>${off && TOUR.routeOf(step) ? '<button type="button" class="tour-lnk" data-tour="there">Take me there</button>' : step.do === 'note' ? '' : '<span class="tour-wait">Waiting for you…</span>'}</div>`;
+      } else { coach.hidden = true; coach.innerHTML = ''; }
+      list.hidden = false;
+      list.classList.toggle('min', !!TOUR.st.listMin);
+      list.innerHTML = `<h4 data-tour-drag><span>${TOUR.st.listMin ? `Step ${Math.min(r.i + 1, n)} of ${n}` : 'Your steps'}</span><span class="sp"></span>${TOUR.st.listMin ? '' : `<small>${r.i} / ${n}</small>`}<button type="button" class="tour-min" data-tour="listMin" aria-label="${TOUR.st.listMin ? 'Expand' : 'Collapse'} step list">${TOUR.st.listMin ? '▾' : '▴'}</button></h4>
+        ${TOUR.st.listMin ? '' : `<ol>${r.steps.map((x, k) => `<li class="${k < r.i ? 'd' : k === r.i ? 'c' : ''}${r.flash === k ? ' f' : ''}"><i>${k < r.i ? '✓' : k + 1}</i><span>${esc(TOUR.stepLabel(x, k))}</span></li>`).join('')}</ol>`}`;
+      const curLi = list.querySelector('li.c'); if (curLi && curLi.scrollIntoView) { const ol = list.querySelector('ol'); if (ol) ol.scrollTop = Math.max(0, curLi.offsetTop - ol.clientHeight / 2); }
+    }
+    // cards
+    if (r.card === 'scene') {
+      const st = r.scene.step, from = USERS[r.scene.from];
+      card.className = 'tour-scene'; card.hidden = false;
+      card.innerHTML = st.do === 'user'
+        ? `<div class="tour-sc-a"><span class="tour-av big o">${esc(from.ini)}</span><span>→</span><span class="tour-av big">${esc(USERS[st.value].ini)}</span><span><b>Now acting as ${esc(USERS[st.value].name)}</b><br><small>${esc(USERS[st.value].side === 'vendor' ? 'Vendor · ' + USERS[st.value].title : USERS[st.value].title)}</small></span></div>`
+        : `<div class="tour-sc-a"><span style="font-size:26px">🕒</span><span><b>The clock moves forward</b><br><small>from ${esc(fdt(r.scene.now))}${st.value === 'open' ? ' to the bid opening date' : st.value === 'sub' ? ' to the bid submission date' : ''}</small></span></div>`;
+    } else if (r.card === 'handover') {
+      card.className = 'tour-end'; card.hidden = false;
+      card.innerHTML = `<div class="tour-big">✋</div><h3>Your turn</h3><p>The data resets and you take the same ${n} steps. Each step is highlighted, and you can ask to be shown any step again.</p><div class="tour-row2"><button type="button" class="btn tour-b tour-b-ok" data-tour="try" data-id="${r.id}">✋ Try it yourself</button><button type="button" class="btn tour-b" data-tour="watch" data-id="${r.id}">↻ Watch again</button><button type="button" class="btn" data-tour="scenarios">Back to scenarios</button></div>`;
+      setTimeout(() => { const b = card.querySelector('button'); if (b) b.focus(); }, 0);
+    } else if (r.card === 'error') {
+      card.className = 'tour-end'; card.hidden = false;
+      card.innerHTML = `<div class="tour-big">⚠</div><h3>This demo step could not be completed</h3><p>Step ${r.failed.at + 1}: ${esc(TOUR.text(r.steps[r.failed.at], 'say', null))}. You can exit, or try the scenario yourself.</p><div class="tour-row2"><button type="button" class="btn tour-b tour-b-ok" data-tour="try" data-id="${r.id}">✋ Try it yourself</button><button type="button" class="btn" data-tour="exit">Exit</button></div>`;
+    } else if (r.card === 'done') {
+      const idx = SCENARIOS.findIndex(x => x.id === r.id), nx = SCENARIOS[idx + 1];
+      card.className = 'tour-done'; card.hidden = false;
+      card.innerHTML = `<div class="tour-dh"><span class="tour-big">🎉</span><h3>Scenario ${esc(s.title.split(' · ')[0])} complete</h3></div><p>${n} of ${n} steps · ${r.shown} shown, ${r.skipped} skipped. Anything that felt wrong or different from how you work today?</p><div class="tour-row2" style="justify-content:flex-start"><button type="button" class="btn tour-b tour-b-pin" data-tour="comment">💬 Leave a comment</button>${nx && TOUR.SCRIPTS[nx.id] ? `<button type="button" class="btn tour-b" data-tour="watch" data-id="${nx.id}">Next scenario ▶</button>` : ''}<button type="button" class="btn" data-tour="exit">Done</button></div>`;
+    } else { card.hidden = true; card.innerHTML = ''; card.className = ''; }
+    TOUR.position();
+  },
+
+  position() {
+    if (TOUR.rafPending) return;
+    TOUR.rafPending = true;
+    requestAnimationFrame(() => { TOUR.rafPending = false; TOUR.place(); });
+  },
+  place() {
+    const r = TOUR.run; if (!r) return;
+    const ring = $('#tour-ring'), dims = $$('.tour-dim'), coach = $('#tour-coach');
+    const step = TOUR.cur();
+    const blockers = ['handover', 'error', 'done', 'scene'];
+    let el = step && !blockers.includes(r.card) ? TOUR.resolve(step) : null;
+    if (r.mode === 'try' && step && !blockers.includes(r.card)) {
+      const wrongUser = step.as && db.user !== step.as && step.do !== 'user';
+      if (wrongUser || step.do === 'user') el = $('#pc-user');
+      else if (step.do === 'clock') el = TOUR.find(step.value === 'open' ? '[data-a="jump"][data-to="open"]' : step.value === 'sub' ? '[data-a="jump"][data-to="sub"]' : '[data-a="clock"][data-h="24"]');
+      else if (!el) { const back = TOUR.reopenStep(); if (back) el = TOUR.resolve(back); }
+    }
+    const vis = el && TOUR.visible(el);
+    const b = vis ? el.getBoundingClientRect() : null;
+    const onScreen = b && b.bottom > 0 && b.top < window.innerHeight;
+    TOUR.captureRoute();
+    if (b && onScreen) {
+      const p = 6; ring.hidden = false;
+      Object.assign(ring.style, { left: b.left - p + 'px', top: b.top - p + 'px', width: b.width + p * 2 + 'px', height: b.height + p * 2 + 'px' });
+    } else ring.hidden = true;
+    // spotlight panels (Try only, never block clicks)
+    const spot = r.mode === 'try' && b && onScreen && !r.card;
+    dims.forEach(d => (d.hidden = !spot));
+    if (spot) {
+      const p = 8, W = window.innerWidth, H = window.innerHeight, L = Math.max(0, b.left - p), T0 = Math.max(0, b.top - p), R = Math.min(W, b.right + p), B = Math.min(H, b.bottom + p);
+      const set = (d, l, t, w, h) => Object.assign(d.style, { left: l + 'px', top: t + 'px', width: Math.max(0, w) + 'px', height: Math.max(0, h) + 'px' });
+      set(dims[0], 0, 0, W, T0); set(dims[1], 0, T0, L, B - T0); set(dims[2], R, T0, W - R, B - T0); set(dims[3], 0, B, W, H - B);
+    }
+    // coach bubble
+    if (r.mode === 'try' && coach && !coach.hidden) {
+      const cw = coach.offsetWidth || 300, ch = coach.offsetHeight || 170, W = window.innerWidth, H = window.innerHeight, gap = 16;
+      let x, y, side = 'dock';
+      if (b && onScreen) {
+        if (b.bottom + gap + ch < H - 8) { side = 't'; x = b.left; y = b.bottom + gap; }
+        else if (b.top - gap - ch > 56) { side = 'b'; x = b.left; y = b.top - gap - ch; }
+        else if (b.right + gap + cw < W - 8) { side = 'l'; x = b.right + gap; y = b.top; }
+        else { side = 'r'; x = b.left - gap - cw; y = b.top; }
+        x = Math.max(8, Math.min(x, W - cw - 8)); y = Math.max(56, Math.min(y, H - ch - 8));
+        const ax = Math.max(14, Math.min(cw - 28, b.left + Math.min(b.width / 2, 40) - x));
+        coach.style.setProperty('--ax', ax + 'px');
+      } else { x = (CM.st.open && !CM.overlay() ? 356 : 16); y = H - ch - 16; }
+      coach.dataset.side = side;
+      coach.style.left = x + 'px'; coach.style.top = y + 'px';
+      // hints: time on step / off-path
+      if (!r.hint && (r.misses >= 2 || Date.now() - r.since > 20000)) { r.hint = true; TOUR.renderUI(); }
+    }
+  },
+
+  /* ---------- welcome card ---------- */
+  showWelcome() {
+    if (TOUR.st.welcomed || TOUR.run || modals.length) return;
+    const w = $('#tour-welcome'); if (!w) return;
+    w.hidden = false;
+    w.innerHTML = `<h4>New here?</h4><p>Watch the 2-minute overview of the full tender lifecycle, then try it yourself.</p><div class="tour-row2" style="justify-content:flex-start"><button type="button" class="btn btn-sm tour-b tour-b-p" data-tour="welcomeWatch">▶ Watch overview</button><button type="button" class="btn btn-sm" data-tour="welcomeNo">Not now</button></div>`;
+  },
+  hideWelcome(mark) { const w = $('#tour-welcome'); if (w) { w.hidden = true; w.innerHTML = ''; } if (mark) { TOUR.st.welcomed = true; TOUR.save(); } },
+
+  /* ---------- listeners ---------- */
+  act(k, el) {
+    const r = TOUR.run, id = el.dataset.id;
+    switch (k) {
+      case 'watch': case 'try': modals = []; TOUR.start(id, k); break;
+      case 'exit': TOUR.stop(r && r.card === 'handover' ? 'finished' : 'exit'); break;
+      case 'scenarios': TOUR.stop('finished'); openModal('scenarios'); break;
+      case 'pause': TOUR.pause(); break;
+      case 'resume': TOUR.resume(); break;
+      case 'next': TOUR.next(); break;
+      case 'back': TOUR.back(); break;
+      case 'speed': TOUR.setSpeed(); break;
+      case 'restart': TOUR.restart(); break;
+      case 'show': TOUR.showMe(false); break;
+      case 'skip': TOUR.skip(); break;
+      case 'there': TOUR.takeMeThere(); break;
+      case 'ack': if (r) { r.ack = true; TOUR.evaluate(); } break;
+      case 'listMin': TOUR.st.listMin = !TOUR.st.listMin; TOUR.save(); TOUR.renderUI(); break;
+      case 'comment': TOUR.stop('finished', true); render(); if (!CM.st.open) CM.act('toggle', { dataset: {} }); CM.arm(null); break;
+      case 'welcomeWatch': TOUR.hideWelcome(true); TOUR.start('happy', 'watch'); break;
+      case 'welcomeNo': TOUR.hideWelcome(true); break;
+      default: break;
+    }
+  },
+  inUI(t) { return !!(t && t.closest && t.closest('[data-tour-ui], [data-tour]')); },
+  onClick(e) {
+    const t = e.target, r = TOUR.run;
+    const b = t.closest ? t.closest('[data-tour]') : null;
+    if (b) { e.preventDefault(); e.stopImmediatePropagation(); if (!b.disabled) TOUR.act(b.dataset.tour, b); return; }
+    if (!r) return;
+    if (TOUR.inUI(t)) { e.stopImmediatePropagation(); return; }
+    if (r.mode === 'watch') {
+      if (e.isTrusted) { e.preventDefault(); e.stopImmediatePropagation(); if (!r.card) TOUR.pause(); }
+      return;
+    }
+    if (r.mode === 'try' && e.isTrusted && !r.card && !r.busy) {
+      const step = TOUR.cur(), el = step && TOUR.resolve(step);
+      if (el && (el === t || el.contains(t))) { if (!step.expect && step.do !== 'note') { r.clicked = true; } setTimeout(() => TOUR.evaluate(), 0); }
+      else if (el && !t.closest('#cm-drawer, #cm-layer, [data-cm]')) { r.misses++; if (r.misses >= 2 && !r.hint) { r.hint = true; setTimeout(() => TOUR.renderUI(), 0); } }
+    }
+  },
+  onBlock(e) { const r = TOUR.run; if (r && r.mode === 'watch' && e.isTrusted && !TOUR.inUI(e.target)) { e.preventDefault(); e.stopImmediatePropagation(); } },
+  onKey(e) {
+    const r = TOUR.run; if (!r || !e.isTrusted) return;
+    const typing = e.target && e.target.closest && e.target.closest('input, textarea, select');
+    if (e.key === 'Escape') {
+      if (r.mode === 'try' && (modals.length || db.ui.menu || CM.comp || CM.armed)) return; // let the app / comments close their own layer first
+      e.preventDefault(); e.stopImmediatePropagation(); TOUR.stop(r.card === 'handover' ? 'finished' : 'exit'); return;
+    }
+    if (r.mode !== 'watch') return;
+    if (TOUR.inUI(e.target) && (e.key === 'Tab' || e.key === 'Enter' || (e.key === ' ' && e.target.tagName === 'BUTTON'))) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    if (r.card) return;
+    if (e.key === ' ' || e.key === 'k') { if (r.paused) TOUR.resume(); else TOUR.pause(); }
+    else if (e.key === 'ArrowRight') TOUR.next();
+    else if (e.key === 'ArrowLeft') TOUR.back();
+    else if (!typing) TOUR.pause();
+  },
+  drag(e) {
+    const h = e.target.closest && e.target.closest('[data-tour-drag]'); if (!h || e.target.closest('button')) return;
+    const box = $('#tour-list'), b = box.getBoundingClientRect(), dx = e.clientX - b.left, dy = e.clientY - b.top;
+    e.preventDefault();
+    const move = ev => { box.style.left = Math.max(4, Math.min(window.innerWidth - b.width - 4, ev.clientX - dx)) + 'px'; box.style.top = Math.max(52, Math.min(window.innerHeight - 60, ev.clientY - dy)) + 'px'; box.style.right = 'auto'; };
+    const up = () => { document.removeEventListener('mousemove', move, true); document.removeEventListener('mouseup', up, true); };
+    document.addEventListener('mousemove', move, true); document.addEventListener('mouseup', up, true);
+  },
+  boot() {
+    TOUR.load();
+    TOUR.SCRIPTS = TOUR.buildScripts();
+    document.body.insertAdjacentHTML('beforeend', `<div id="tour-strip" data-tour-ui role="region" aria-label="Guided demo" hidden></div>
+      <div class="tour-dim" hidden></div><div class="tour-dim" hidden></div><div class="tour-dim" hidden></div><div class="tour-dim" hidden></div>
+      <div id="tour-ring" hidden></div><div id="tour-ripple" hidden></div>
+      <div id="tour-cursor" hidden aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 2l15 9.5-6.6 1.3 3.9 7.3-2.7 1.4-3.8-7.4L4 19z" fill="#111" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+      <div id="tour-cap" data-tour-ui role="group" aria-label="Demo captions" hidden></div><div id="tour-coach" data-tour-ui role="group" aria-label="Current step" hidden></div>
+      <div id="tour-list" data-tour-ui role="group" aria-label="Your steps" hidden></div><div id="tour-card" data-tour-ui role="dialog" aria-label="Guided demo" hidden></div>
+      <div id="tour-welcome" data-tour-ui role="complementary" aria-label="Welcome" hidden></div>`);
+    const _toast = toast;
+    toast = function (msg, kind, ms) { TOUR.toasts.push(String(msg)); if (TOUR.toasts.length > 200) TOUR.toasts.splice(0, 100); if (TOUR.run && TOUR.run.instant) return; return _toast(msg, kind, ms); };
+    document.addEventListener('click', TOUR.onClick, true);
+    ['mousedown', 'mouseup', 'dblclick', 'contextmenu'].forEach(ev => document.addEventListener(ev, TOUR.onBlock, true));
+    document.addEventListener('mousedown', TOUR.drag, true);
+    document.addEventListener('keydown', TOUR.onKey, true);
+    document.addEventListener('input', () => { if (TOUR.run && TOUR.run.mode === 'try') setTimeout(() => TOUR.evaluate(), 0); }, true);
+    document.addEventListener('change', () => { if (TOUR.run && TOUR.run.mode === 'try') setTimeout(() => TOUR.evaluate(), 0); }, true);
+    window.addEventListener('scroll', () => TOUR.position(), { capture: true, passive: true });
+    window.addEventListener('resize', () => TOUR.position());
+    TOUR.ready = true;
+    window.__tour = TOUR;
+    setTimeout(() => TOUR.showWelcome(), 1200);
+  }
+});
+TOUR.boot();
 </script>
 </body>
 </html>

@@ -39,7 +39,8 @@ function clean(it) {
       view: str(s.view, 20), id: str(s.id, 40) || null, tab: str(s.tab, 20) || null, vtab: str(s.vtab, 20) || null, step: +s.step || null,
       tenderTitle: str(s.tenderTitle, 120) || null, tenderStatus: str(s.tenderStatus, 40) || null, rev: s.rev == null ? null : +s.rev,
       modal: s.modal && typeof s.modal === 'object' ? { key: str(s.modal.key, 40), title: str(s.modal.title, 120), ctx: s.modal.ctx && typeof s.modal.ctx === 'object' ? s.modal.ctx : {} } : null,
-      now: str(s.now, 40), scenario: str(s.scenario, 40) || null, menu: str(s.menu, 60) || null
+      now: str(s.now, 40), scenario: str(s.scenario, 40) || null, menu: str(s.menu, 60) || null,
+      tour: s.tour && typeof s.tour === "object" ? { mode: s.tour.mode === "try" ? "try" : "watch", id: str(s.tour.id, 20), step: +s.tour.step || 0, title: str(s.tour.title, 120) } : null
     },
     anchor: a ? { scope: str(a.scope, 10), sel: str(a.sel, 400), idx: +a.idx || 0, fx: +a.fx || 0.5, fy: +a.fy || 0.5, label: str(a.label, 80), px: +a.px || 0, py: +a.py || 0, vw: +a.vw || 0, vh: +a.vh || 0 } : null
   };
@@ -59,6 +60,7 @@ function where(c) {
   if (c.anchor) parts.push(`on ${c.anchor.label}`);
   if (s.now) parts.push(`clock ${fdt(s.now)}`);
   if (s.scenario) parts.push(`scenario "${s.scenario}"`);
+  if (s.tour) parts.push(`${s.tour.mode === "try" ? "Try it" : "Watch"} · scenario "${s.tour.title}" · step ${s.tour.step}`);
   return parts.join(' · ');
 }
 
