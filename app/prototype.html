@@ -460,6 +460,102 @@ body.tour-try #tour-ring{border-color:var(--tour-ok);box-shadow:0 0 0 6px var(--
 #tour-welcome h4{margin:0 0 4px;font-size:15px} #tour-welcome p{margin:0 0 12px;color:var(--color-text-muted);font-size:var(--fs-cap)}
 @media (max-width:899px){#tour-cap{left:16px;right:16px;transform:none;width:auto} .tour-note{display:none}}
 @media (prefers-reduced-motion:reduce){#tour-cursor,#tour-ring,.tour-dim{transition:none!important} #tour-ripple{animation:none;display:none}}
+/* ---------------- explain mode (XP) ---------------- */
+:root{--xp:#0F766E;--xp-hover:#0B5E58;--xp-bg:#ECFDF9;--xp-line:#99E0D3;--xp-ring:rgba(15,118,110,.25)}
+.proto .pbtn[data-xp="toggle"][aria-pressed="true"]{background:var(--xp);border-color:var(--xp);color:#fff}
+body.xp-on #app,body.xp-on #app *,body.xp-on #modals .md,body.xp-on #modals .md *{cursor:help}
+body.xp-on #app input,body.xp-on #app textarea,body.xp-on #app select{cursor:help}
+#xp-hover{position:fixed;z-index:205;border:2px dashed var(--xp);border-radius:10px;background:rgba(15,118,110,.06);pointer-events:none}
+#xp-hover-lbl{position:fixed;z-index:205;background:var(--xp);color:#fff;font:600 var(--fs-xs) var(--font);padding:2px 8px;border-radius:6px;pointer-events:none;white-space:nowrap;max-width:420px;overflow:hidden;text-overflow:ellipsis}
+#xp-ring{position:fixed;z-index:205;border:3px solid var(--xp);border-radius:10px;box-shadow:0 0 0 6px var(--xp-ring);pointer-events:none}
+#xp-banner{position:fixed;left:50%;transform:translateX(-50%);top:calc(var(--proto-h) + 10px);z-index:206;background:var(--xp);color:#fff;font-size:var(--fs-cap);padding:6px 6px 6px 14px;border-radius:var(--r-full);box-shadow:var(--shadow);display:flex;gap:8px;align-items:center;white-space:nowrap;max-width:calc(100vw - 24px);flex-wrap:wrap;justify-content:center}
+body.tour-on #xp-banner{top:calc(var(--proto-h) + 58px)}
+#xp-banner button{height:26px;border:0;border-radius:var(--r-full);padding:0 10px;background:rgba(255,255,255,.2);color:#fff;font:600 var(--fs-sm) var(--font);cursor:pointer}
+#xp-banner button:hover{background:rgba(255,255,255,.32)}
+#xp-banner button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+#xp-banner .xp-hint{font-size:var(--fs-xs);opacity:.85;width:100%;text-align:center;padding-bottom:2px}
+#xp-card{position:fixed;z-index:258;width:400px;max-width:calc(100vw - 16px);display:flex;flex-direction:column;background:var(--color-bg-surface);border-radius:var(--r-md);box-shadow:var(--shadow),0 14px 36px rgba(0,0,0,.24);font-size:var(--fs-cap);color:var(--color-text);overflow:hidden}
+#xp-card.sheet{left:0!important;right:0;bottom:0;top:auto!important;width:auto;max-width:none;max-height:70vh!important;border-radius:var(--r-md) var(--r-md) 0 0}
+.xp-h{padding:12px 14px 10px;border-bottom:var(--bw) solid var(--color-border-soft);background:var(--xp-bg);flex:none}
+.xp-k{font-size:10px;letter-spacing:.3px;text-transform:uppercase;color:var(--xp);font-weight:700}
+.xp-t{font-size:var(--fs-md);font-weight:700;margin-top:1px;display:flex;gap:8px;align-items:center}
+.xp-x{margin-left:auto;width:28px;height:28px;border:0;border-radius:var(--r-full);background:transparent;color:var(--color-text-muted);cursor:pointer;flex:none}
+.xp-x:hover{background:rgba(0,0,0,.06)}
+.xp-b{padding:10px 14px 12px;overflow:auto;flex:1 1 auto;min-height:0}
+.xp-b h5{margin:10px 0 3px;font-size:10px;letter-spacing:.3px;text-transform:uppercase;color:var(--color-text-muted)}
+.xp-b h5:first-child{margin-top:0}
+.xp-b p{margin:0;color:var(--color-text-body)}
+.xp-now{border-radius:var(--r-sm);padding:7px 10px;font-weight:600;display:flex;gap:8px;align-items:flex-start}
+.xp-now small{display:block;font-weight:400;opacity:.9;margin-top:1px}
+.xp-now.ok{background:var(--status-green-bg);color:var(--status-green-fg)}
+.xp-now.lock{background:var(--status-orange-bg);color:var(--status-orange-fg)}
+.xp-now.na{background:var(--status-grey-bg);color:var(--status-grey-fg)}
+.xp-dep{list-style:none;margin:0;padding:0}
+.xp-dep li{display:flex;gap:8px;padding:2px 0;color:var(--color-text-body)}
+.xp-dep li i{flex:none;width:16px;height:16px;border-radius:50%;font-style:normal;font-size:10px;display:grid;place-items:center;margin-top:2px}
+.xp-dep li.y i{background:var(--status-green-fg);color:#fff}
+.xp-dep li.n{color:var(--color-text);font-weight:600}
+.xp-dep li.n i{background:#fff;border:1.5px solid var(--status-orange-fg);color:var(--status-orange-fg)}
+.xp-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.xp-lead{margin:0;padding-left:18px;color:var(--color-text-body)} .xp-lead li{margin:1px 0}
+.xp-who{display:flex;gap:6px;flex-wrap:wrap}
+.xp-who span{font-size:var(--fs-xs);padding:2px 8px;border-radius:var(--r-full);border:var(--bw) solid var(--color-border);background:#fff}
+.xp-who span.y{background:var(--status-green-bg);border-color:#B7DEC1;color:var(--status-green-fg);font-weight:600}
+.xp-assume{background:var(--status-amber-bg);border:1px solid #E9B872;color:var(--status-amber-fg);border-radius:var(--r-sm);padding:6px 10px;font-size:var(--fs-sm);margin-top:10px}
+.xp-chain{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin:2px 0 4px}
+.xp-chain span{font-size:var(--fs-xs);padding:1px 7px;border-radius:var(--r-full);background:var(--status-grey-bg);color:var(--status-grey-fg);font-weight:600}
+.xp-chain span.cur{background:var(--xp);color:#fff}
+.xp-chain em{font-style:normal;color:var(--color-text-muted)}
+.xp-chain .xp-side{background:none;padding:0;font-weight:400;color:var(--color-text-muted);display:flex;gap:4px;align-items:center;margin-left:6px}
+.xp-term{border:0;background:none;padding:0;font:inherit;color:inherit;text-decoration:underline dotted var(--xp);text-underline-offset:3px;cursor:pointer}
+.xp-ft{display:flex;gap:8px;padding:10px 14px;border-top:var(--bw) solid var(--color-border-soft);background:#FAFAFA;align-items:center;flex-wrap:wrap;flex:none}
+.xp-ft .sp{flex:1}
+.xp-b1{height:30px;padding:0 10px;border-radius:var(--r-sm);border:var(--bw) solid var(--color-border);background:#fff;font:600 var(--fs-sm) var(--font);color:var(--color-text);display:inline-flex;align-items:center;gap:6px;white-space:nowrap;cursor:pointer}
+.xp-b1:hover{border-color:var(--color-border-strong)}
+.xp-b1.p{background:var(--xp);border-color:var(--xp);color:#fff} .xp-b1.p:hover{background:var(--xp-hover)}
+.xp-b1.pin{border-color:var(--cm-pin,#B45309);color:var(--cm-pin,#B45309)}
+.xp-b1[disabled]{opacity:.45;cursor:not-allowed}
+#xp-map{position:fixed;left:0;right:0;top:var(--proto-h);bottom:0;z-index:255;background:var(--color-bg-app);overflow:auto;padding:16px 24px 32px;color:var(--color-text)}
+body.cm-open #xp-map{left:var(--cm-w)}
+@media (max-width:1179px){body.cm-open #xp-map{left:0}}
+.xp-mh{display:flex;gap:16px;align-items:flex-start;margin-bottom:10px}
+.xp-mh h3{margin:0;font-size:var(--fs-lg)} .xp-mh p{margin:2px 0 0;color:var(--color-text-muted);font-size:var(--fs-cap)} .xp-mh .xp-b1{margin-left:auto}
+.xp-legend{display:flex;gap:14px;font-size:var(--fs-sm);align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.xp-legend .sp{flex:1}
+.xp-legend span{padding:2px 8px;border-radius:6px}
+.xp-legend .done{background:var(--status-green-bg);color:var(--status-green-fg)} .xp-legend .now{background:#EFF4FF;color:#1D4ED8} .xp-legend .lock{background:var(--status-orange-bg);color:var(--status-orange-fg)} .xp-legend .na{background:var(--status-grey-bg);color:var(--status-grey-fg)}
+.xp-legend select{height:30px;border:var(--bw) solid var(--color-border);border-radius:var(--r-sm);padding:0 8px;font:inherit;margin-left:4px}
+.xp-lanes{background:var(--color-bg-surface);border-radius:var(--r-md);box-shadow:var(--shadow);padding:0 16px}
+.xp-lane{display:flex;align-items:stretch;border-top:var(--bw) solid var(--color-border-soft);min-height:72px}
+.xp-lane:first-child{border-top:0}
+.xp-lane.dim .xp-node{opacity:.45}
+.xp-p{flex:none;width:170px;padding:10px 8px 10px 0;font-size:var(--fs-sm);color:var(--color-text-muted)} .xp-p b{display:block;color:var(--color-text);font-size:var(--fs-cap)}
+.xp-n{flex:1;display:flex;gap:10px;align-items:center;padding:10px 0;overflow-x:auto}
+.xp-node{flex:none;min-width:120px;max-width:190px;text-align:left;border-radius:10px;padding:7px 10px;font:600 var(--fs-sm)/1.25 var(--font);border:1.5px solid transparent;cursor:pointer}
+.xp-node small{display:block;font-weight:400;font-size:var(--fs-xs);margin-top:2px}
+.xp-node.done{background:var(--status-green-bg);color:var(--status-green-fg);border-color:#B7DEC1}
+.xp-node.now{background:#EFF4FF;color:#1D4ED8;border-color:#1D4ED8}
+.xp-node.now.mine{box-shadow:0 0 0 4px rgba(29,78,216,.18)}
+.xp-node.lock{background:var(--status-orange-bg);color:var(--status-orange-fg);border-color:#F0C9A0}
+.xp-node.na{background:var(--status-grey-bg);color:var(--status-grey-fg);border-style:dashed;border-color:#CCC}
+.xp-node:focus-visible{outline:3px solid var(--xp);outline-offset:2px}
+.xp-arr{flex:none;color:#AAA;font-size:16px}
+.xp-chip{font-size:var(--fs-sm);padding:3px 10px;border-radius:var(--r-full);background:var(--status-grey-bg);color:var(--status-grey-fg)}
+.xp-lnk{border:0;background:none;padding:0;color:var(--xp);font:600 var(--fs-cap) var(--font);cursor:pointer}
+.xp-lnk:hover{text-decoration:underline}
+.xp-tlist{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+#xp-gloss{position:fixed;right:0;top:var(--proto-h);bottom:0;width:min(380px,100vw);z-index:257;background:var(--color-bg-surface);box-shadow:-8px 0 32px rgba(0,0,0,.18);display:flex;flex-direction:column;color:var(--color-text)}
+.xp-gh{display:flex;align-items:center;padding:12px 14px;border-bottom:var(--bw) solid var(--color-border-soft);background:var(--xp-bg)} .xp-gh h3{margin:0;font-size:var(--fs-md);color:var(--xp)}
+.xp-gq{margin:10px 14px;height:34px;border:var(--bw) solid var(--color-border);border-radius:var(--r-sm);padding:0 10px;font:inherit}
+#xp-gl{margin:0;padding:0 14px 16px;overflow:auto}
+.xp-gi{padding:8px 0;border-bottom:var(--bw) solid var(--color-border-soft)}
+.xp-gi.hit{background:var(--xp-bg);margin:0 -14px;padding:8px 14px}
+.xp-gi dt{font-weight:700} .xp-gi dd{margin:2px 0 0;color:var(--color-text-body)}
+@media (max-width:899px){.xp-p{width:110px}}
+/* keep the purple bar on one line at 1440px now that it has one more button */
+.proto{column-gap:8px}
+.proto .pbtn{padding:0 10px}
+.proto select{max-width:220px}
 </style>
 </head>
 <body>
@@ -937,7 +1033,7 @@ function protoBar() {
     <button class="pbtn" data-a="m-scenarios">Scenarios</button>
     <button class="pbtn" data-a="m-guide">Layout rules</button>
     <button class="pbtn" data-a="reset">Reset</button>
-    ${window.CM && CM.ready ? CM.barBtn() : ''}
+    ${window.XP && XP.ready ? XP.barBtn() : ''}${window.CM && CM.ready ? CM.barBtn() : ''}
   </div>`;
 }
 function topBar() {
@@ -2327,6 +2423,7 @@ function render() {
   }
   if (window.CM && CM.ready) CM.afterAppRender();
   if (window.TOUR && TOUR.ready) TOUR.afterRender();
+  if (window.XP && XP.ready) XP.afterRender();
 }
 function shell() { return protoBar() + topBar() + '<div class="edge" aria-hidden="true"></div>' + (db.ui.navOpen ? opsPanel() : '') + `<main class="main" id="main" tabindex="-1">${view()}</main>`; }
 
@@ -2687,6 +2784,7 @@ var CM = {
 
   /* ---------- armed mode ---------- */
   arm(move) {
+    if (window.XP && XP.on) XP.toggle(false);
     if (CM.comp && CM.comp.mode === 'pin') CM.closeComposer();
     CM.armed = { move: move || null };
     CM.ui.menu = null; CM.ui.exp = false;
@@ -2743,6 +2841,22 @@ var CM = {
     CM.st.open = true; CM.save();
     CM.render(); CM.syncBar();
     const ta = $('#cm-text'); if (ta) ta.focus();
+  },
+  // Start a pin comment on a known element (used by Explain mode's "Comment" button).
+  startOn(el, label) {
+    if (!el || !el.isConnected) { CM.openNote(); return; }
+    const b = el.getBoundingClientRect();
+    const a = CM.anchorFor(el, b.left + b.width / 2, b.top + b.height / 2);
+    if (!a) { CM.openNote(); return; }
+    delete a._el;
+    if (label) a.label = label;
+    if (CM.comp) CM.closeComposer();
+    if (CM.armed) CM.disarm();
+    CM.ghost = { anchor: a, screen: CM.screen() };
+    CM.comp = { mode: 'pin', cat: CM.st.lastCat || 'flow', text: '', name: '', err: '' };
+    CM.st.open = true; CM.save();
+    CM.render(); CM.syncBar(); CM.renderComposer(); CM.reposition();
+    const ta = $('#cm-text'); if (ta) ta.focus({ preventScroll: true });
   },
   closeComposer() {
     CM.comp = null; CM.ghost = null;
@@ -3331,6 +3445,7 @@ var TOUR = {
     if (CM.armed) CM.disarm();
     const cmWasOpen = !!CM.st.open;
     if (mode === 'watch' && CM.st.open) { CM.st.open = false; CM.render(); CM.syncBar(); }
+    if (mode === 'watch' && window.XP && XP.on) XP.toggle(false);
     TOUR.hideWelcome();
     if (window.innerWidth < 900) TOUR.st.listMin = true;
     TOUR.run = { id, mode, i: 0, steps: TOUR.SCRIPTS[id], paused: false, token: {}, shown: 0, skipped: 0, misses: 0, since: Date.now(), cmWasOpen, vars: {}, instant: !!opts.instant, fast: false, ack: false, clicked: false, toastMark: TOUR.toasts.length, nowAtStep: null, card: null, offSince: 0, hint: false };
@@ -4116,6 +4231,901 @@ Object.assign(TOUR, {
   }
 });
 TOUR.boot();
+
+/* ---------------- explain mode (XP) ----------------
+   Teal learning layer: click any control to learn what it does, whether it is available right now and why,
+   what it depends on and what it leads to. Reads the prototype's own rule functions — never retypes a rule. */
+const XG = {
+  def: k => c => (c.t ? (actionDefs(c.t)[k] || {}).reason || '' : 'Open a tender first'),
+  lock: part => c => (c.t ? lockReason(c.t, part) : ''),
+  open: c => (c.t && c.s ? G.open(c.t, c.s) : ''),
+  evalr: c => (c.t && c.s ? G.evaluate(c.t, c.s) : ''),
+  vedit: c => (c.t && c.r ? vGate(c.t, c.r).edit : ''),
+  vsubmit: c => { if (!c.t || !c.r || !isPublishedTo(c.r)) return c.t && c.r ? vGate(c.t, c.r).submit : ''; const g = vGate(c.t, c.r); return g.submit || ((vChecklist(c.t, c.r).find(x => x.block) || {}).fail || ''); },
+  vaccept: c => (c.t && db.now >= c.t.sub ? 'Invitation can no longer be accepted after the submission date' : ''),
+  el: c => (c.el && c.el.getAttribute && c.el.getAttribute('aria-disabled') === 'true' ? c.el.dataset.reason || 'Not available right now' : c.el && c.el.disabled ? 'Not available right now' : '')
+};
+
+var XP = {
+  KEY: 'wrench-etender-explain-v1',
+  st: null, ready: false, on: false, card: null, mapOpen: false, glossOpen: false, glossTerm: null, viewAs: 'all', mapTender: null,
+  CAT: null, GLOSS: null, MAP: null, hoverKey: null, rafPending: false,
+
+  load() { let s = null; try { const o = JSON.parse(localStorage.getItem(XP.KEY) || 'null'); if (o && o.v === 1) s = o; } catch (e) { /* storage blocked */ } XP.st = Object.assign({ v: 1, seenHint: false }, s || {}); },
+  save() { try { localStorage.setItem(XP.KEY, JSON.stringify(XP.st)); } catch (e) { /* storage blocked */ } },
+
+  /* ---------- matching ---------- */
+  ignored(el) { return !el || !el.closest || !!el.closest('[data-cm], #cm-drawer, #cm-layer, [data-tour-ui], [data-tour], [data-xp], #xp-card, #xp-map, #xp-gloss, #xp-banner, #toasts, .toasts'); },
+  modalKey(el) { const md = el.closest('#modals .md'); if (!md) return null; const all = $$('#modals .md'); const i = all.indexOf(md); return modals[i] ? modals[i].key : null; },
+  pillKey(txt) {
+    const t = String(txt || '').replace(/\s+/g, ' ').trim();
+    if (XP.CAT['pill:' + t]) return 'pill:' + t;
+    const keys = Object.keys(XP.CAT).filter(k => k.startsWith('pill:')).sort((a, b) => b.length - a.length);
+    const hit = keys.find(k => t.startsWith(k.slice(5) + ' ') || t.startsWith(k.slice(5) + ' ·'));
+    return hit || 'pill:' + t;
+  },
+  keyOf(target) {
+    if (!target || XP.ignored(target)) return null;
+    let el0 = target;
+    if (el0.tagName === 'LABEL' && el0.control && !el0.closest('[data-a]')) el0 = el0.control;
+    const C = s => el0.closest(s);
+    const mk = (key, el, vars) => { const e = XP.entry(key); return e ? { key: XP.entryKey(key), rawKey: key, el, vars: vars || {}, entry: e } : { key: null, rawKey: key, el, vars: vars || {}, entry: null }; };
+    let el;
+    if ((el = C('.pill'))) return mk(XP.pillKey(el.textContent), el);
+    if ((el = C('[data-rate]'))) return mk('rate', el, { item: el.dataset.rate });
+    if ((el = C('[data-tc]'))) return mk('tc:response', el);
+    if ((el = C('[data-tcdev]'))) return mk('tc:deviation', el);
+    if ((el = C('[data-tcnote]'))) return mk('tc:note', el);
+    if ((el = C('[data-mq]'))) return mk('po:qty', el, { item: el.dataset.mq });
+    if ((el = C('[data-mf]'))) { const mkey = XP.modalKey(el); return mk(mkey && XP.CAT[`mf:${el.dataset.mf}@${mkey}`] ? `mf:${el.dataset.mf}@${mkey}` : `mf:${el.dataset.mf}`, el); }
+    for (const [attr, pre] of [['data-f', 'f'], ['data-fs', 'fs'], ['data-fx', 'fx'], ['data-team', 'team']]) { if ((el = C(`[${attr}]`))) return mk(`${pre}:${el.getAttribute(attr)}`, el); }
+    if ((el = C('[data-change]'))) return mk(`change:${el.dataset.change}`, el);
+    if ((el = C('[data-input="q"]'))) return mk('search', el);
+    if ((el = C('#otp-T, #otp-C'))) return mk('otp', el, { s: el.id.slice(4) });
+    if ((el = C('[id^="sb-"], [id^="gi-"], #team-add'))) return mk(el.id === 'team-add' ? 'team:add' : el.id.replace('-', ':'), el);
+    if ((el = C('[data-a]'))) {
+      const d = el.dataset, a = d.a;
+      let key = a;
+      if (a === 'tab' && d.k) key = `act:${d.k}`;
+      else if (a === 'tab') key = `tab:${d.tab}`;
+      else if (a === 'vtab') key = `vtab:${d.k}`;
+      else if (a === 'wStep') key = `wstep:${d.n}`;
+      else if (a === 'stab') key = `stab:${d.k}`;
+      else if (a === 'menu') key = String(d.id || '').startsWith('notify') ? 'menu:notify' : d.id === 'vmore' ? 'menu:vmore' : d.id === 'attach' ? 'menu:attach' : 'menu:more';
+      else if (a === 'm-notify') key = `m-notify:${d.kind}`;
+      else if (a === 'jump') key = `jump:${d.to}`;
+      else if (a === 'cmpMode') key = `cmpMode:${d.k}`;
+      else if (a === 'vImport') key = `vImport:${d.kind}`;
+      else if (a === 'm-vupload') key = d.purpose === 'NDA Submission' ? 'm-vupload:nda' : 'm-vupload:doc';
+      else if (['filter', 'vfilter', 'logf'].includes(a)) key = 'filter';
+      else if (['mSel', 'mToggle', 'mAtt'].includes(a)) { const mkey = XP.modalKey(el); key = mkey && XP.CAT[`${a}@${mkey}`] ? `${a}@${mkey}` : a; }
+      return mk(key, el, { s: d.s, code: d.code, kind: d.kind, k: d.k, item: d.code });
+    }
+    const areas = [['ol.life', 'area:tracker'], ['.gate', 'area:gate'], ['#vf', 'area:vfooter'], ['#bid-total', 'area:total'], ['.bulk', 'area:bulk']];
+    for (const [s, k] of areas) if ((el = C(s))) return mk(k, el);
+    if ((el = C('.kpis'))) return mk(/L1|Lowest/.test(el.textContent) ? 'area:l1h1' : 'area:remaining', el);
+    if ((el = C('#main .card')) && el.querySelector('.card-h h3') && /\bbid$/.test(el.querySelector('.card-h h3').textContent.trim())) return mk('area:opening', el, { s: /^Technical/.test(el.querySelector('.card-h h3').textContent) ? 'T' : 'C' });
+    if ((el = C('#modals .tw tbody td:last-child')) && el.closest('tr').querySelector('input[data-a="mSel"]')) return mk('area:elig', el);
+    return null;
+  },
+  entryKey(key) { if (XP.CAT[key]) return key; const a = key.replace(/@.*$/, ''); if (XP.CAT[a]) return a; const b = a.replace(/:.*$/, ''); return XP.CAT[b] ? b : null; },
+  entry(key) { const k = XP.entryKey(key); return k ? XP.CAT[k] : null; },
+
+  /* ---------- context, gates, needs ---------- */
+  ctx(el, vars) {
+    const t = db.ui.view === 'wizard' ? wT() : (db.ui.id ? T(db.ui.id) : null);
+    const v = vars || {};
+    let s = v.s || (el && el.dataset && el.dataset.s) || null;
+    if (!s && el && el.closest) { const card = el.closest('#main .card'); const h = card && card.querySelector('.card-h h3'); if (h) s = /^Commercial/.test(h.textContent) ? 'C' : /^Technical/.test(h.textContent) ? 'T' : null; }
+    if (!s && el && el.id && /^otp-/.test(el.id)) s = el.id.slice(4);
+    let code = v.code || (el && el.dataset && el.dataset.code) || null;
+    if (!code && t && modals.length && topModal().ctx && topModal().ctx.code) code = topModal().ctx.code;
+    let r = null;
+    if (t) { if (code) r = t.vendors.find(x => x.code === code) || null; if (!r && !isBuyer()) r = myRow(t) || null; }
+    if (t && !s) s = stages(t)[0];
+    return { t, r, s, code, el, item: v.item, user: db.user };
+  },
+  gate(entry, c) {
+    if (!entry || !entry.gate) return '';
+    try { return entry.gate(c) || ''; } catch (e) { return ''; }
+  },
+  needs(entry, c) {
+    if (!entry || !entry.needs || !c.t) return [];
+    return entry.needs.map(n => (Array.isArray(n) ? { text: n[0], ok: n[1] } : n)).filter(n => { try { return !n.if || n.if(c.t, c.r, c); } catch (e) { return false; } })
+      .map(n => { let ok = false; try { ok = !!n.ok(c.t, c.r, c); } catch (e) { ok = false; } return { text: XP.fill(n.text, c), ok, fix: n.fix }; });
+  },
+  as(user, fn) { const keep = db.user; try { db.user = user; return fn(); } catch (e) { return ''; } finally { db.user = keep; } },
+  fill(s, c) {
+    if (!s) return '';
+    return String(s).replace(/\{stage\}/g, c && c.s ? STAGE[c.s] : 'this').replace(/\{vendor\}/g, c && c.code && V(c.code) ? V(c.code).name : 'this vendor').replace(/\{item\}/g, c && c.item ? c.item : 'this item')
+      .replace(/\{label\}/g, c && c.el ? XP.labelOf(c.el) : '');
+  },
+  labelOf(el) {
+    if (!el) return '';
+    let s = '';
+    if (['INPUT', 'SELECT', 'TEXTAREA'].includes(el.tagName)) { const lb = el.id && document.querySelector(`label[for="${CSS.escape(el.id)}"]`); s = (lb && lb.textContent) || el.getAttribute('aria-label') || ''; }
+    else { const c = el.cloneNode(true); c.querySelectorAll('small, .cnt, .cm-cnt').forEach(x => x.remove()); s = c.textContent || el.getAttribute('aria-label') || ''; }
+    s = s.replace(/[▾▸◂*]/g, '').replace(/\s+/g, ' ').trim();
+    return s.length > 48 ? s.slice(0, 47).trimEnd() + '…' : s;
+  },
+  titleOf(entry, c) { const l = entry.nameFromLabel && c.el ? XP.labelOf(c.el) : ''; return l || XP.fill(entry.name, c); },
+  whoChips(entry, c) {
+    const out = [];
+    (entry.who || []).forEach(tok0 => {
+      const tok = XP.fill(tok0, c);
+      let label = '', mine = false;
+      const [kind, arg] = tok0.split(':');
+      if (kind === 'officer') { label = `${STAGE[c.s] || ''} opening officer`.trim(); mine = !!(c.t && c.s && isOfficer(c.t, c.s)); }
+      else if (kind === 'evaluator') { label = `${STAGE[c.s] || ''} evaluator`.trim(); mine = !!(c.t && c.s && isEvaluator(c.t, c.s)); }
+      else if (kind === 'team') { label = 'Tender team'; mine = !!(c.t && inTeam(c.t)); }
+      else if (kind === 'vendor') { label = 'Vendors'; mine = !isBuyer(); }
+      else if (kind === 'anyone') { label = 'Anyone'; mine = true; }
+      else {
+        const titles = [...new Set(Object.values(USERS).filter(u => (u.perms || []).includes(kind)).map(u => u.title.split(' · ')[0]))];
+        titles.forEach(ti => out.push({ label: ti, mine: me().title.split(' · ')[0] === ti && can(kind) }));
+        return;
+      }
+      void tok; void arg;
+      out.push({ label, mine });
+    });
+    const seen = new Set();
+    return out.filter(x => (seen.has(x.label) ? false : seen.add(x.label)));
+  },
+
+  /* ---------- mode ---------- */
+  barBtn() { return `<button class="pbtn" data-xp="toggle" aria-pressed="${!!XP.on}" title="Explain mode (?)">ⓘ Explain</button>`; },
+  syncBar() { const b = $('#app .proto [data-xp="toggle"]'); if (b) b.outerHTML = XP.barBtn(); },
+  toggle(on) {
+    const want = on == null ? !XP.on : !!on;
+    if (want === XP.on) return;
+    if (want) {
+      if (window.TOUR && TOUR.run && TOUR.run.mode === 'watch') { toast('Explain mode is not available while a demo is playing', 'info'); return; }
+      if (window.CM) { if (CM.comp) CM.closeComposer(); if (CM.armed) CM.disarm(); }
+    }
+    XP.on = want;
+    document.body.classList.toggle('xp-on', want);
+    if (!want) { XP.close(); XP.closeMap(true); XP.closeGloss(); $('#xp-hover').hidden = true; $('#xp-hover-lbl').hidden = true; }
+    XP.renderBanner(); XP.syncBar();
+  },
+  renderBanner() {
+    const b = $('#xp-banner');
+    if (!XP.on) { b.hidden = true; b.innerHTML = ''; return; }
+    b.hidden = false;
+    b.innerHTML = `<span>ⓘ Explain mode — click anything to learn about it</span><button type="button" data-xp="map">🗺 Open the map</button><button type="button" data-xp="gloss">Glossary</button><button type="button" data-xp="off" aria-label="Leave Explain mode">Esc</button>${XP.st.seenHint ? '' : '<span class="xp-hint">Alt+click works normally, if you need to move around.</span>'}`;
+    if (!XP.st.seenHint) { XP.st.seenHint = true; XP.save(); }
+  },
+
+  /* ---------- card ---------- */
+  open(el, vars, opts = {}) {
+    const k = XP.keyOf(el);
+    const key = k && k.key;
+    if (!key) { toast('No explanation for this yet', 'warn'); return; }
+    XP.card = { key, rawKey: k.rawKey, el: k.el, vars: Object.assign({}, k.vars, vars || {}), node: opts.node || null };
+    XP.renderCard();
+    setTimeout(() => { const x = $('#xp-card [data-xp="close"]'); if (x) x.focus({ preventScroll: true }); }, 0);
+  },
+  openKey(key, el, vars, opts = {}) {
+    if (!XP.entry(key)) return;
+    XP.card = { key: XP.entryKey(key), rawKey: key, el: el || null, vars: vars || {}, node: opts.node || null, anchor: opts.anchor || null };
+    XP.renderCard();
+  },
+  close() { XP.card = null; const c = $('#xp-card'); if (c) { c.hidden = true; c.innerHTML = ''; } const r = $('#xp-ring'); if (r) r.hidden = true; },
+  closeMap(silent) { if (!XP.mapOpen) return; XP.mapOpen = false; const m = $('#xp-map'); m.hidden = true; m.innerHTML = ''; if (!silent) XP.close(); },
+  closeGloss() { XP.glossOpen = false; const g = $('#xp-gloss'); if (g) { g.hidden = true; g.innerHTML = ''; } },
+  doIt() {
+    const c = XP.card; if (!c) return;
+    const el = c.el && c.el.isConnected ? c.el : null;
+    const e = XP.CAT[c.key];
+    XP.toggle(false);
+    if (!el) return;
+    if (e && e.kind === 'field') { try { el.focus(); } catch (x) { /* ignore */ } return; }
+    el.click();
+  },
+  demo() {
+    const c = XP.card; if (!c) return;
+    const e = XP.CAT[c.key]; if (!e || !e.demo || !window.TOUR) return;
+    const [id, say] = e.demo; const idx = Math.max(0, (TOUR.SCRIPTS[id] || []).findIndex(s => s.say === say));
+    XP.toggle(false);
+    modals = []; render();
+    TOUR.jumpTo(id, 'watch', idx).then(() => { if (TOUR.run) TOUR.resume(); });
+  },
+  comment() {
+    const c = XP.card; if (!c || !window.CM) return;
+    const e = XP.CAT[c.key], el = c.el && c.el.isConnected ? c.el : null;
+    const label = `${e.kind === 'status' ? 'status' : e.kind} "${XP.titleOf(e, XP.ctx(el, c.vars))}"`;
+    XP.toggle(false);
+    if (!CM.st.open) CM.act('toggle', { dataset: {} });
+    if (el && CM.startOn) CM.startOn(el, label); else CM.openNote();
+  },
+  demoIndex(e) { if (!e || !e.demo || !window.TOUR || !TOUR.SCRIPTS) return -1; return (TOUR.SCRIPTS[e.demo[0]] || []).findIndex(s => s.say === e.demo[1]); },
+
+  /* ---------- listeners ---------- */
+  onMove(e) {
+    if (!XP.on || !e.target || !e.target.closest) return;
+    const hb = $('#xp-hover'), hl = $('#xp-hover-lbl');
+    const k = XP.keyOf(e.target);
+    if (!k || !k.key) { hb.hidden = true; hl.hidden = true; XP.hoverKey = null; return; }
+    const b = k.el.getBoundingClientRect();
+    Object.assign(hb.style, { left: b.left - 4 + 'px', top: b.top - 4 + 'px', width: b.width + 8 + 'px', height: b.height + 8 + 'px' });
+    const en = XP.CAT[k.key], c = XP.ctx(k.el, k.vars);
+    hl.textContent = `${en.kind === 'info' ? 'area' : en.kind} · ${XP.titleOf(en, c)}`;
+    Object.assign(hl.style, { left: Math.max(4, b.left - 4) + 'px', top: Math.max(4, b.top - 26) + 'px' });
+    hb.hidden = false; hl.hidden = false; XP.hoverKey = k.key;
+  },
+  onClick(e) {
+    const t = e.target;
+    const x = t.closest ? t.closest('[data-xp]') : null;
+    if (x) { e.preventDefault(); e.stopImmediatePropagation(); if (!x.disabled) XP.act(x.dataset.xp, x, e); return; }
+    if (!XP.on) return;
+    if (t.closest && t.closest('#xp-card, #xp-map, #xp-gloss, #xp-banner')) return;
+    if (XP.ignored(t)) return;
+    if (e.altKey) return;
+    const k = XP.keyOf(t);
+    if (!k) {
+      if (t.closest && t.closest('#modals .ov') && !t.closest('#modals .md')) return;
+      if (t.closest && t.closest('[data-a]')) { e.preventDefault(); e.stopImmediatePropagation(); toast('No explanation for this yet', 'warn'); }
+      return;
+    }
+    if (k.rawKey && (k.rawKey.startsWith('menu:') || k.rawKey === 'mClose')) return;
+    if (!k.key) { e.preventDefault(); e.stopImmediatePropagation(); toast('No explanation for this yet', 'warn'); return; }
+    e.preventDefault(); e.stopImmediatePropagation();
+    XP.open(t);
+  },
+  onKey(e) {
+    const typing = e.target && e.target.closest && e.target.closest('input, textarea, select, [contenteditable="true"]');
+    if (e.key === 'Escape') {
+      if (XP.card) { e.preventDefault(); e.stopImmediatePropagation(); XP.close(); return; }
+      if (XP.mapOpen || XP.glossOpen) { e.preventDefault(); e.stopImmediatePropagation(); XP.closeMap(); XP.closeGloss(); return; }
+      if (XP.on && !modals.length && !db.ui.menu) { e.preventDefault(); e.stopImmediatePropagation(); XP.toggle(false); }
+      return;
+    }
+    if (e.key === '?' && !typing && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      if (window.TOUR && TOUR.run && TOUR.run.mode === 'watch') return;
+      e.preventDefault(); e.stopImmediatePropagation(); XP.toggle();
+    }
+  },
+  act(k, el, e) {
+    switch (k) {
+      case 'toggle': XP.toggle(); break;
+      case 'off': XP.toggle(false); break;
+      case 'close': XP.close(); break;
+      case 'doit': XP.doIt(); break;
+      case 'demo': XP.demo(); break;
+      case 'comment': XP.comment(); break;
+      case 'map': XP.close(); XP.openMap(); break;
+      case 'closeMap': XP.closeMap(); break;
+      case 'viewAs': break;
+      case 'node': XP.nodeCard(el.dataset.node, el.dataset.code || null, el); break;
+      case 'goto': XP.goControl(); break;
+      case 'mapTender': XP.mapTender = el.dataset.id; XP.renderMap(); break;
+      case 'gloss': XP.openGloss(el.dataset.term || null); break;
+      case 'closeGloss': XP.closeGloss(); break;
+      case 'see': XP.openKey(el.dataset.key, null, {}); break;
+      case 'expand': XP.vendorsOpen = !XP.vendorsOpen; XP.renderMap(); break;
+      default: break;
+    }
+  },
+  afterRender() {
+    if (!XP.ready) return;
+    XP.syncBar();
+    if (XP.card && XP.card.el && !XP.card.el.isConnected) {
+      const m = XP.card.rawKey && XP.refind(XP.card);
+      XP.card.el = m || null;
+    }
+    if (XP.card && !XP.mapOpen) XP.renderCard(true);
+    else XP.position();
+  },
+  refind(card) {
+    const all = $$('[data-a], [data-f], [data-fs], [data-fx], [data-team], [data-mf], [data-rate], [data-change], .pill');
+    return all.find(el => { const k = XP.keyOf(el); return k && k.rawKey === card.rawKey && (!card.vars.code || el.dataset.code === card.vars.code) && (!card.vars.s || el.dataset.s === card.vars.s); }) || null;
+  }
+};
+
+/* ---------- XP: catalogue, statuses, glossary, map (copy from guide 11 §9) ---------- */
+XP.buildCatalogue = function () {
+  const opened_ = (t, s) => opened(t, s);
+  const C = {
+    /* 9.3 buyer lifecycle */
+    create: { kind: 'button', name: '+ Create tender', where: 'Tender list', what: 'Starts a new tender in a six-step form: information, attachments, items, terms, vendors, bid settings.', why: 'A tender is prepared in private. Vendors see nothing until it is published.', who: ['create'], gate: c => G.create() || XG.el(c), leads: ['A Draft is saved as soon as step 1 is valid', 'Finishing the form sets the status to Created'], demo: ['happy', 'Priya starts a new tender'], node: 'create' },
+    wizard: { kind: 'button', name: 'Edit tender', nameFromLabel: true, where: 'Tender header · More ▸ Tender', what: 'Reopens the six-step form. Each step is editable or locked depending on the tender status.', why: 'What may still change is strictly controlled once vendors are involved.', who: ['edit'], gate: c => XG.def('edit')(c) || XG.el(c), when: 'Editable parts: information, vendors and settings until bids are evaluated; attachments and items only in Draft, Created, Invites Sent or Revised; terms never after the first publish; dates until publishing.', leads: ['Locked steps show a banner with the reason'], demo: ['revise', 'She edits the tender'] },
+    'm-invite': { kind: 'button', name: 'Invite vendors', where: 'Tender header · More ▸ Tender', what: 'Sends an invitation email to the selected vendors asking them to accept or reject.', why: 'Inviting first lets the buyer see who intends to bid — and, when set, collect a signed NDA — before tender details are released.', who: ['invite'], gate: c => XG.def('invite')(c) || XG.el(c), when: 'Available while the tender is Created, Invites Sent or Revised and has at least one vendor.', needs: [['Tender created', t => t.status !== 'Draft'], ['At least one vendor added', t => t.vendors.length > 0], ['A vendor with an email address', t => t.vendors.some(r => V(r.code).email)]], leads: ['Tender status → Invites Sent', 'Vendor status → Invited', 'Vendor can Accept or Reject; accepting may request an NDA automatically'], demo: ['nda', 'Priya invites the vendors'], node: 'invite' },
+    doInvite: { kind: 'button', name: 'Invite', where: 'Invite vendors dialog', what: 'Sends the invitation to every ticked, eligible vendor with the subject and message shown.', why: 'Vendors without an email, or who already accepted or rejected, cannot be ticked — the Eligibility column says why.', who: ['invite'], gate: XG.el, leads: ['“Tender Invitation Successfully”', 'Logged in Activity'] },
+    'm-publish': { kind: 'button', name: 'Publish tender', nameFromLabel: true, where: 'Tender header · More ▸ Tender', what: 'Sends the tender to the selected vendors so they can see the items and terms and start bidding. After a revision the same button reads “Publish revision”.', why: 'Vendors see nothing until a tender is published. Publishing also locks the Terms & Conditions for every later revision.', who: ['publish'], gate: c => XG.def('publish')(c) || XG.el(c), when: 'Available while the tender is Created, Invites Sent or Revised, before the submission date, with items and vendors. Each vendor must also be eligible (see the dialog).', needs: [['Tender created', t => t.status !== 'Draft'], ['Items added', t => t.items.length > 0], ['Vendors added', t => t.vendors.length > 0], ['Submission date not yet passed', t => db.now < t.sub], { text: 'A vendor accepted the invitation', ok: t => t.vendors.some(r => r.acceptedAt), if: t => t.settings.inviteFirst }, { text: 'Signed NDA received from that vendor', ok: t => t.vendors.some(r => r.acceptedAt && (!r.ndaReq || r.ndaSub)), if: t => t.settings.ndaAuto }, ['At least one vendor is eligible', t => t.vendors.some(r => !pubElig(t, r))]], leads: ['Tender status → Published (Republished after a revision)', 'Vendors are notified by email and can accept, price, upload and submit', 'Terms & Conditions become locked for good', 'Unlocks: Send reminder · Revise tender'], demo: ['happy', 'Priya publishes the tender'], node: 'publish', assume: 'A tender can be published to some vendors while others are still only invited.' },
+    doPublish: { kind: 'button', name: 'Publish', where: 'Publish Tender dialog', what: 'Publishes to every ticked, eligible vendor.', why: 'Eligibility is decided per vendor: email on file, invitation accepted (when required), NDA returned (when requested), not already published in this revision.', who: ['publish'], gate: XG.el, leads: ['“Tender Publish Notification Sent Successfully”'] },
+    'm-remind': { kind: 'button', name: 'Send reminder', where: 'Tender header · More ▸ Tender', what: 'Emails a bid submission reminder to vendors who have not submitted yet.', why: 'Reminders also go automatically some days before the deadline (Bid Settings ▸ reminder days).', who: ['remind'], gate: c => XG.def('remind')(c) || XG.el(c), when: 'Available once the tender is published, until evaluation ends.', needs: [['Tender published', t => ['Published', 'Republished', 'Closed', 'Bid Evaluation'].includes(t.status)], ['A vendor has not submitted', t => t.vendors.some(r => isPublishedTo(r) && !(t.bids[r.code] && t.bids[r.code].cur.submittedAt))]], leads: ['“Last reminder” date updates on the vendor row', 'Copy to the internal distribution list'], node: 'remind' },
+    doRemind: { kind: 'button', name: 'Send', where: 'Reminder dialog', what: 'Sends the reminder to the ticked vendors.', who: ['remind'], gate: XG.el },
+    revise: { kind: 'button', name: 'Revise tender', where: 'More ▸ Tender', what: 'Creates the next revision of a published tender so items, dates or vendors can change.', why: 'A published tender is frozen. Any change after publishing must go out to every vendor as a new revision.', who: ['revise'], gate: c => XG.def('revise')(c) || XG.el(c), when: 'Available for Published, Republished, Closed, Bid Evaluation or Recommended tenders — never after a purchase order.', needs: [['Tender has been published', t => t.pubEver], ['No purchase order issued', t => t.pos.length === 0]], leads: ['Revision number +1, status → Revised', 'Verification codes, bid openings, evaluations and recommendations are cleared', 'Vendors’ bids are archived for comparison; they are locked out until you republish', 'Terms & Conditions stay locked'], demo: ['revise', 'Priya revises the tender'], node: 'revise' },
+    obsolete: { kind: 'button', name: 'Obsolete tender', where: 'More ▸ (bottom, red)', what: 'Withdraws a tender that vendors have already seen.', why: 'A published tender cannot be deleted — it is made obsolete so the record and the notifications remain.', who: ['obsolete'], gate: c => XG.def('obsolete')(c) || XG.el(c), when: 'Available once invitations or the tender went out, until a PO exists. Draft and Created tenders are removed instead.', leads: ['Status → Obsolete; everything becomes read-only', 'Vendors and the internal distribution list are notified', 'BOQ items return to the pool for other tenders', 'Cannot be undone'], demo: ['perms', 'A draft cannot be made obsolete'], node: 'obsolete' },
+    remove: { kind: 'button', name: 'Remove tender', where: 'More ▸ (bottom, red)', what: 'Deletes a tender nobody outside has seen.', why: 'Only Draft and Created tenders can be deleted; anything vendors saw must be made obsolete instead.', who: ['remove'], gate: c => XG.def('remove')(c) || XG.el(c), leads: ['The tender disappears from the list', 'Its BOQ items become available again'], demo: ['perms', 'The draft is deleted'] },
+    export: { kind: 'button', name: 'Export comparison to Excel', where: 'Comparison tab · More ▸ Records', what: 'Downloads the comparison grid as a spreadsheet.', who: ['compare', 'team'], gate: c => (c.el && c.el.classList.contains('mi') ? XG.def('export')(c) : '') || XG.el(c) },
+    /* header / menu buttons that navigate to a tab (data-a="tab" + data-k) */
+    'act:open': { kind: 'button', name: 'Open bid', nameFromLabel: true, where: 'Tender header', what: 'Takes you to the Evaluation tab, where the sealed bids are opened.', why: 'Bids stay sealed until the Bid Opening Date and a designated officer opens them.', who: ['officer:{stage}', 'team'], gate: c => XG.def('open')(c) || XG.el(c), leads: ['Evaluation tab'], demo: ['opening', 'Rahul asks for a verification code'] },
+    'act:evaluate': { kind: 'button', name: 'Evaluate bids', nameFromLabel: true, where: 'Tender header', what: 'Takes you to the Evaluation tab to accept or reject opened bids.', who: ['evaluator:{stage}'], gate: c => XG.def('evaluate')(c) || XG.el(c), leads: ['Evaluation tab'] },
+    'act:compare': { kind: 'button', name: 'Compare bids', nameFromLabel: true, where: 'Tender header · More ▸ Evaluation & award', what: 'Takes you to the Comparison tab: all vendors’ rates side by side.', who: ['compare', 'team'], gate: c => XG.def('compare')(c) || XG.el(c), leads: ['Comparison tab'] },
+    'act:pos': { kind: 'button', name: 'View purchase orders', nameFromLabel: true, where: 'More ▸ Evaluation & award', what: 'Takes you to the purchase orders issued from this tender.', gate: c => XG.def('pos')(c) || XG.el(c) },
+    'act:activity': { kind: 'button', name: 'Notifications log', nameFromLabel: true, where: 'More ▸ Records', what: 'Takes you to the Activity tab: every action and email on this tender.', who: ['team'], gate: c => XG.def('activity')(c) || XG.el(c) },
+
+    /* 9.4 opening, evaluation, award */
+    otpGen: { kind: 'button', name: 'Generate verification code', nameFromLabel: true, where: 'Evaluation tab · {stage} bid card', what: 'Sends a one-time code to you, the designated {stage} opening officer.', why: 'Bids are sealed. The code proves that the named officer — and nobody else — opened them.', who: ['officer:{stage}'], gate: c => XG.el(c) || XG.open(c), when: 'From the Bid Opening Date, for designated officers of this stage. In a two-stage tender the second stage waits for the first.', needs: [['Tender published', t => !PRE.includes(t.status)], ['Bid Opening Date reached', t => db.now >= t.open], { text: 'First stage already opened', ok: (t, r, c) => c.s === t.settings.sequence || opened_(t, t.settings.sequence), if: t => t.type === 'TC' && t.settings.openMode === 'two' && t.settings.sequence !== 'none' }, ['You are an opening officer for this stage', (t, r, c) => isOfficer(t, c.s)]], leads: ['A code valid for the minutes set in Bid Settings', 'The code appears in a message (prototype only)'], demo: ['opening', 'Rahul asks for a verification code'], node: 'openT' },
+    otp: { kind: 'field', name: 'Verification code', where: 'Evaluation tab', what: 'The 6-digit code that was just sent to you.', why: 'A wrong or expired code is refused: “Invalid verification code”.', who: ['officer:{stage}'], gate: XG.open, leads: ['With the right code, Verify opens the {stage} bid'] },
+    otpVerify: { kind: 'button', name: 'Verify', where: 'Evaluation tab · {stage} bid card', what: 'Checks the code and opens the {stage} bid.', why: 'With “Open By All”, every designated officer must do this before the bid counts as opened; with “Open By Any”, one is enough.', who: ['officer:{stage}'], gate: c => XG.el(c) || XG.open(c), needs: [['A code was generated', (t, r, c) => !!t.otp[c.s + ':' + db.user]]], leads: ['{stage} documents and results become visible to the team', 'Accept / Reject become available to {stage} evaluators', 'Opens the way for the next stage and for comparison'], demo: ['opening', 'The technical bid opens'] },
+    clickOpen: { kind: 'button', name: 'Click to Open', where: 'Evaluation tab · {stage} bid card', what: 'Opens the {stage} bid with one click — used when verification codes are switched off in Bid Settings.', who: ['officer:{stage}'], gate: c => XG.el(c) || XG.open(c), leads: ['Same result as Verify'], demo: ['tech', '“Click to Open” — no verification code'] },
+    openNoOfficer: { kind: 'button', name: 'Open bid', nameFromLabel: true, where: 'Evaluation tab', what: 'Opens a bid when no opening officer was designated for this stage.', why: 'Without designated officers, any tender team member may open the bid.', who: ['team'], gate: c => XG.el(c) || XG.open(c) },
+    accept: { kind: 'button', name: '✓ Accept', where: 'Evaluation tab · vendor row', what: 'Marks {vendor}’s {stage} bid as approved.', why: 'Each vendor is evaluated per stage. A vendor rejected technically is not evaluated commercially.', who: ['evaluator:{stage}'], gate: c => XG.el(c) || XG.evalr(c), needs: [['{stage} bid opened', (t, r, c) => opened_(t, c.s)], ['You are a {stage} evaluator', (t, r, c) => isEvaluator(t, c.s)]], leads: ['Evaluation status → Approved', 'Changing a saved result asks for confirmation', 'Approved vendors appear in comparison and recommendation'], demo: ['opening', 'Rahul accepts Alpha Fabricators'], node: 'evalT', assume: 'Vendors rejected in the technical stage cannot be evaluated commercially.' },
+    'm-reject': { kind: 'button', name: '✕ Reject', where: 'Evaluation tab · vendor row', what: 'Rejects {vendor}’s {stage} bid. Remarks are mandatory.', why: 'The reason is recorded so the vendor can be told why.', who: ['evaluator:{stage}'], gate: c => XG.el(c) || XG.evalr(c), leads: ['Evaluation status → Rejected with remarks', 'Technically rejected vendors are greyed out in the commercial stage'], demo: ['opening', 'Gamma Metals is rejected'] },
+    doRejectEval: { kind: 'button', name: 'Reject bid', where: 'Reject dialog', what: 'Saves the rejection with your comments.', who: ['evaluator:{stage}'], gate: XG.el, needs: [['Rejection comments entered', () => !!(topModal() && String(topModal().ctx.remarks || '').trim())]] },
+    'm-docs': { kind: 'button', name: 'Vendor uploads', nameFromLabel: true, where: 'Evaluation tab · vendor row', what: 'Lists the documents this vendor submitted, with versions.', who: ['team'], gate: XG.el },
+    'm-resub': { kind: 'button', name: 'Request resubmission', where: 'Evaluation tab (↻ on a row) · More ▸ Tender', what: 'Reopens part of a vendor’s bid — technical, commercial or both — until a due date.', why: 'Used when a bid needs a correction or a better price without revising the whole tender.', who: ['resubmit', 'evaluator:{stage}'], gate: c => XG.el(c) || XG.def('resub')(c), when: 'For published tenders with at least one submitted bid, before any PO.', needs: [['A vendor has submitted', t => t.vendors.some(r => ['Submitted', 'Resubmission'].includes(r.status))], ['No purchase order yet', t => t.pos.length === 0]], leads: ['Vendor status → Resubmission; only the requested part becomes editable', 'A second request of the same scope is refused while one is active', 'After the vendor resubmits, only that scope’s evaluation is reset'], demo: ['resub', 'Anita asks Alpha to resubmit'], node: 'resub', assume: 'A commercial resubmission lets the vendor edit rates after the opening date, until its due date.' },
+    mScope: { kind: 'field', name: 'What should the vendor resubmit?', where: 'Resubmission dialog', what: 'Technical documents, commercial rates and documents, or both.', why: 'Evaluators may only request their own stage; the Tender Manager may request any.', who: ['resubmit', 'evaluator:{stage}'] },
+    'mf:due': { kind: 'field', name: 'Resubmission Date', where: 'Resubmission dialog', what: 'The vendor may resubmit until this moment.', why: 'Empty means no deadline — then no further request is allowed while this one is open.', leads: ['After this date the vendor sees “Resubmission window closed”'] },
+    doResub: { kind: 'button', name: 'Send', where: 'Resubmission dialog', what: 'Sends the request to the ticked vendors.', who: ['resubmit', 'evaluator:{stage}'], gate: XG.el },
+    'm-decline': { kind: 'button', name: 'Cancel resubmission', where: 'Vendors tab · bulk bar', what: 'Withdraws an open resubmission request.', who: ['resubmit'], gate: XG.el, leads: ['Vendor status returns to Submitted'] },
+    'cmpMode:vendor': { kind: 'button', name: 'Vendor comparison', where: 'Comparison tab', what: 'Shows every vendor’s rates side by side, item by item.', who: ['compare', 'team'], gate: c => XG.el(c) || XG.def('compare')(c), demo: ['award', 'Back to the vendor comparison'], node: 'compare' },
+    'cmpMode:rev': { kind: 'button', name: 'Revision wise', where: 'Comparison tab', what: 'Shows how one vendor’s rates changed between revisions.', who: ['compare', 'team'], gate: c => XG.el(c) || XG.def('compare')(c), demo: ['award', 'Revision-wise view'] },
+    'change:itemType': { kind: 'field', name: 'Item type', where: 'Comparison tab', what: 'Filters the comparison to all items, rate-and-quantity items, or rate-only items.', why: 'Lowest (L1) and highest (H1) totals are shown only when every compared item has a quantity.', demo: ['award', 'Only “Rate and Quantity” items'] },
+    'change:revVendor': { kind: 'field', name: 'Vendor', where: 'Comparison tab · Revision wise', what: 'Chooses whose revisions to compare.' },
+    cmpInc: { kind: 'field', name: 'Include in comparison', where: 'Comparison tab · summary', what: 'Leaves a vendor out of the totals and the L1/H1 ranking without changing their bid.', demo: ['award', 'A vendor can be left out of the comparison'] },
+    'm-reco': { kind: 'button', name: 'Recommend vendors', nameFromLabel: true, where: 'Comparison tab · More ▸ Evaluation & award', what: 'Records which vendor(s) the procurement team recommends, with supporting files.', why: 'The recommendation is the formal basis for the award; it can be made mandatory before a PO.', who: ['recommend'], gate: c => XG.el(c) || XG.def('recommend')(c), needs: [['Commercial bid opened', t => commOpened(t)], ['No purchase order yet', t => t.pos.length === 0]], leads: ['Tender status → Recommended (back to Bid Evaluation if all are removed)', 'Selection notices default to the recommended vendors', 'Required for Issue PO when the setting is on'], demo: ['award', 'Vikram recommends a vendor'], node: 'reco' },
+    doReco: { kind: 'button', name: 'Save', where: 'Recommendation dialog', what: 'Saves the ticked vendors as recommended.', who: ['recommend'], gate: XG.el },
+    recoMail: { kind: 'button', name: 'Send Mail', where: 'Recommendation dialog', what: 'Emails the recommendation to the procurement team.', who: ['recommend'], gate: XG.el },
+    mAddFile: { kind: 'button', name: 'Attach', where: 'Recommendation dialog', what: 'Adds a supporting file (comparison sheet, recommendation letter).', gate: XG.el },
+    mRmFile: { kind: 'button', name: 'Remove attachment', where: 'Recommendation dialog', what: 'Removes a supporting file after confirmation.', gate: XG.el },
+    'mf:file': { kind: 'field', name: 'File name', where: 'Recommendation dialog', what: 'Name of the supporting file to attach.' },
+    'menu:notify': { kind: 'button', name: 'Notify vendors ▾', where: 'Comparison tab', what: 'Opens the two outcome notices: selection and rejection.', who: ['notify'], gate: XG.el },
+    'm-notify:sel': { kind: 'button', name: 'Bid selection notice', where: 'Notify vendors ▾ · More ▸ Evaluation & award', what: 'Sends the Letter of Intent (LOI) to the winning vendor(s).', why: 'After the notice the vendor’s status is final and cannot be changed.', who: ['notify'], gate: c => XG.el(c) || XG.def('notifySel')(c), needs: [['Commercial bid opened', t => commOpened(t)], ['A vendor is recommended', t => t.reco.vendors.length > 0]], leads: ['Vendor status → LOI Issued', 'That vendor cannot be notified again'], demo: ['award', 'A selection notice for the winner'], node: 'notify' },
+    'm-notify:rej': { kind: 'button', name: 'Bid rejection notice', where: 'Notify vendors ▾ · More ▸ Evaluation & award', what: 'Tells unsuccessful vendors that their bid was not selected.', who: ['notify'], gate: c => XG.el(c) || XG.def('notifyRej')(c), leads: ['Vendor status → Bid Rejected (final)'], demo: ['award', 'Bid rejection notice'] },
+    doNotify: { kind: 'button', name: 'Notify', where: 'Notify dialog', what: 'Sends the notice to the ticked vendors.', who: ['notify'], gate: XG.el },
+    'm-po': { kind: 'button', name: 'Issue PO', nameFromLabel: true, where: 'Tender header · Purchase orders tab · More ▸ Evaluation & award', what: 'Creates a purchase order for one vendor from their quoted rates.', why: 'Quantities may be lower than tendered, so one tender can produce several partial POs.', who: ['po'], gate: c => XG.el(c) || XG.def('po')(c), needs: [['Commercial bid opened', t => commOpened(t)], { text: 'A vendor is recommended', ok: t => t.reco.vendors.length > 0, if: t => t.settings.recoMandatory }, ['Items still to order', t => t.status !== 'PO Issued']], leads: ['Status → Part PO Issued, or PO Issued when every item is fully ordered', 'Revise, Obsolete and Recommend become unavailable', 'Issuing again asks whether to show only the remaining items'], demo: ['award', 'A purchase order is started'], node: 'po', assume: 'Rate-only items have no quantity and are left out of purchase orders.' },
+    poVendor: { kind: 'field', name: 'Vendor', where: 'Issue PO dialog', what: 'The vendor who receives this purchase order.', why: 'Only recommended vendors are listed when recommendation is mandatory.' },
+    poLine: { kind: 'field', name: 'Include item', where: 'Issue PO dialog', what: 'Adds or removes an item from this PO.', why: 'Items already fully ordered, or not quoted by this vendor, cannot be ticked.' },
+    'po:qty': { kind: 'field', name: 'PO qty', where: 'Issue PO dialog', what: 'Quantity to order now. Defaults to what is still open.', leads: ['Less than the full quantity → Part PO Issued'], demo: ['award', 'Only half of item 2.1 for now'] },
+    poNext: { kind: 'button', name: 'Next ▸', where: 'Issue PO dialog', what: 'Goes to the PO details.', gate: XG.el },
+    poBack: { kind: 'button', name: '◂ Back', where: 'PO details', what: 'Returns to vendor and items.', gate: XG.el },
+    doPO: { kind: 'button', name: 'Save — issue PO', where: 'PO details', what: 'Issues the purchase order.', who: ['po'], gate: XG.el, leads: ['PO number assigned', 'Tender status updated', 'Shown on the Purchase orders tab'] },
+    'mf:descr': { kind: 'field', name: 'PO description', where: 'PO details', what: 'Defaults to the tender description.' },
+    'mf:order': { kind: 'field', name: 'Order number', where: 'PO details', what: 'Your internal order reference (optional).' },
+    'mf:payDays': { kind: 'field', name: 'Payment days', where: 'PO details', what: 'Payment term in days. Mandatory.' },
+
+    /* 9.5 wizard navigation */
+    'wstep:1': { kind: 'tab', name: '1 · Tender Information', where: 'Tender form', what: 'Description, dates, type, specialisation, location and currency.', gate: XG.lock('info') },
+    'wstep:2': { kind: 'tab', name: '2 · Bid Attachments', where: 'Tender form', what: 'Documents sent to vendors, and the documents vendors must send back (submittals).', gate: XG.lock('attach') },
+    'wstep:3': { kind: 'tab', name: '3 · Item Details', where: 'Tender form', what: 'The BOQ items vendors will price.', gate: XG.lock('items') },
+    'wstep:4': { kind: 'tab', name: '4 · Terms & Conditions', where: 'Tender form', what: 'Terms each vendor must accept, reject or deviate from.', why: 'Locked for good once the tender has been published.', gate: XG.lock('tcs'), demo: ['revise', 'Terms are locked'] },
+    'wstep:5': { kind: 'tab', name: '5 · Vendor Details', where: 'Tender form', what: 'Which vendors take part.', gate: XG.lock('vendors') },
+    'wstep:6': { kind: 'tab', name: '6 · Bid Settings', where: 'Tender form', what: 'Team roles, opening rules and notifications.', gate: XG.lock('settings') },
+    wNext: { kind: 'button', name: 'Next ▸', where: 'Tender form footer', what: 'Goes to the next step. Step 1 must be valid first; a Draft reference is created then.', gate: XG.el, demo: ['happy', 'Next is refused while required fields are empty'] },
+    wBack: { kind: 'button', name: '◂ Back', where: 'Tender form footer', what: 'Previous step.', gate: XG.el },
+    wSave: { kind: 'button', name: 'Save draft', where: 'Tender form footer', what: 'Saves what you entered and stays on the form.', gate: XG.el },
+    wFinish: { kind: 'button', name: 'Create tender', nameFromLabel: true, where: 'Tender form footer', what: 'Checks every step and creates the tender (or saves the changes of an existing one).', gate: XG.el, needs: [['Description and dates valid', t => !!t.desc && !!t.sub && !!t.open && t.open > t.sub], ['At least one item', t => t.items.length > 0], ['At least one vendor', t => t.vendors.length > 0]], leads: ['Status → Created', 'The primary button then names the next step'], demo: ['happy', 'The tender is created'] },
+    wCancel: { kind: 'button', name: 'Close', nameFromLabel: true, where: 'Tender form footer', what: 'Leaves the form. An unsaved new tender asks before discarding.', gate: XG.el },
+    /* step 1 fields */
+    'f:desc': { kind: 'field', name: 'Tender description', where: 'Step 1', what: 'The title vendors and colleagues see everywhere.', why: 'Mandatory.', gate: XG.lock('info'), leads: ['Shown in lists, emails and purchase orders'] },
+    'f:sub': { kind: 'field', name: 'Bid Submission Date', where: 'Step 1', what: 'The deadline for vendors to submit or update a bid.', why: 'Mandatory; cannot be in the past.', gate: XG.lock('dates'), leads: ['At this moment the tender becomes Closed by itself', 'Vendors see “Tender is closed” and can no longer edit', 'Invitations can no longer be accepted', 'Publishing is no longer possible'], demo: ['vendor', 'The submission date passes'] },
+    'f:open': { kind: 'field', name: 'Bid Opening Date', where: 'Step 1', what: 'The moment sealed bids may be opened by the designated officers.', why: 'Mandatory once a submission date is set; must be later than it.', gate: XG.lock('dates'), leads: ['At this moment the tender moves to Bid Evaluation by itself', 'Unlocks the opening buttons for the officers', 'Shown on the lifecycle tracker and to vendors'], demo: ['happy', 'Two weeks later: the opening date arrives'] },
+    'f:type': { kind: 'field', name: 'Tender type', where: 'Step 1', what: 'Technical, Commercial, or Technical and Commercial.', why: 'Decides which bid stages exist.', gate: XG.lock('type'), leads: ['Technical-only: no rates, attachments mandatory, no PO', 'Tech & Comm: one or two opening stages (Bid Settings)'] },
+    'f:spec': { kind: 'field', name: 'Specialisation', where: 'Step 1', what: 'The trade this tender belongs to.', gate: XG.lock('info'), leads: ['Pre-filters the vendor search in step 5'] },
+    'f:loc': { kind: 'field', name: 'Location', where: 'Step 1', what: 'Delivery or site location.', gate: XG.lock('info') },
+    'f:currency': { kind: 'field', name: 'Currency', where: 'Step 1', what: 'Default currency. Vendors may bid in their own.', gate: XG.lock('info'), leads: ['POs use the vendor’s bid currency'] },
+    'f:remarks': { kind: 'field', name: 'Remarks', where: 'Step 1', what: 'Notes vendors can read.', gate: XG.lock('info') },
+    'f:iremarks': { kind: 'field', name: 'Internal remarks', where: 'Step 1', what: 'Notes only the buyer team sees.', gate: XG.lock('info') },
+    /* step 2 */
+    'f:pkg': { kind: 'field', name: 'Package Type', where: 'Step 1', what: 'Specialization: items come from one trade’s BOQ and vendors are filtered by that trade. General: free items can be added and any vendor can be invited.', why: 'Mandatory. Cannot change once items are added or the tender has moved on.', gate: XG.lock('items'), leads: ['Specialization shows the Specialisation field', 'General shows “Add item” for items outside the BOQ'] },
+    'fs:altMake': { kind: 'field', name: 'Alternate make & model', where: 'Step 6 · Bid settings', what: 'Lets vendors offer a different make or model than specified, with details.', gate: XG.lock('settings') },
+    'fs:qtyMod': { kind: 'field', name: 'Supply quantity editable', where: 'Step 6 · Bid settings', what: 'Lets vendors quote a different quantity than tendered.', gate: XG.lock('settings') },
+    'menu:attach': { kind: 'button', name: 'Attach ▾', where: 'Step 2', what: 'Adds an attachment from Wrench documents or from your computer.', gate: XG.el },
+    'm-wrenchDoc': { kind: 'button', name: 'Add from Wrench', nameFromLabel: true, where: 'Step 2', what: 'Attaches a controlled document from the project.', gate: c => XG.el(c) || XG.lock('attach')(c) },
+    doWrenchDoc: { kind: 'button', name: 'Add', where: 'Document search', what: 'Adds the ticked documents.', gate: XG.el },
+    'm-diskFile': { kind: 'button', name: 'Attach from disk', nameFromLabel: true, where: 'Step 2 · Bid Settings ▸ internal documents', what: 'Attaches a file from your computer.', gate: XG.el },
+    doDiskFile: { kind: 'button', name: 'Attach', where: 'Attach dialog', what: 'Adds the file with the chosen purpose.', gate: XG.el },
+    'mf:name': { kind: 'field', name: 'File', where: 'Upload / attach dialog', what: 'The file to attach.' },
+    'mf:purpose': { kind: 'field', name: 'Attachment purpose', where: 'Attach dialog', what: 'When the vendor receives it: with the invitation, with the NDA request, or at publication.' },
+    rmAttach: { kind: 'button', name: 'Remove attachment', nameFromLabel: true, where: 'Step 2', what: 'Removes an attachment after confirmation.', gate: c => XG.el(c) || XG.lock('attach')(c) },
+    'sb:desc': { kind: 'field', name: 'Submittal description', where: 'Step 2 · Vendor submittals', what: 'A document vendors must send with their bid.', leads: ['Listed on the vendor’s Documents tab'] },
+    'sb:type': { kind: 'field', name: 'Submittal type', where: 'Step 2 · Vendor submittals', what: 'How the document is classified.' },
+    'sb:mand': { kind: 'field', name: 'Mandatory', where: 'Step 2 · Vendor submittals', what: 'A mandatory submittal blocks the vendor’s Submit until it is uploaded.', demo: ['vendor', 'Submit is blocked'] },
+    'change:sbPurpose': { kind: 'field', name: 'Attachment purpose', where: 'Step 2', what: 'Filters the submittal types by purpose.' },
+    addSubmittal: { kind: 'button', name: 'Add submittal', nameFromLabel: true, where: 'Step 2', what: 'Adds the requirement to the list.', gate: c => XG.el(c) || XG.lock('attach')(c) },
+    rmSubmittal: { kind: 'button', name: 'Remove submittal', nameFromLabel: true, where: 'Step 2', what: 'Removes the requirement after confirmation.', gate: c => XG.el(c) || XG.lock('attach')(c) },
+    /* step 3 */
+    'm-boq': { kind: 'button', name: '+ Add from BOQ', nameFromLabel: true, where: 'Step 3', what: 'Picks items from the project bill of quantities.', why: 'An item can be in only one live tender; used items show that tender’s number.', gate: c => XG.el(c) || XG.lock('items')(c), demo: ['happy', 'Items come from the project BOQ'] },
+    doAddBoq: { kind: 'button', name: 'OK', where: 'BOQ search', what: 'Adds the ticked items.', gate: XG.el },
+    rmItem: { kind: 'button', name: 'Remove item', nameFromLabel: true, where: 'Step 3', what: 'Takes the item out; it returns to the BOQ.', gate: c => XG.el(c) || XG.lock('items')(c), demo: ['revise', 'Item 3.4 is taken out of the tender'] },
+    addGItem: { kind: 'button', name: 'Add item', nameFromLabel: true, where: 'Step 3 · General items', what: 'Adds an item that is not in the BOQ.', gate: c => XG.el(c) || XG.lock('items')(c) },
+    'gi:desc': { kind: 'field', name: 'Description', where: 'Step 3 · General items', what: 'Item description.' },
+    'gi:uom': { kind: 'field', name: 'UOM', where: 'Step 3 · General items', what: 'Unit of measure.' },
+    'gi:qty': { kind: 'field', name: 'Quantity', where: 'Step 3 · General items', what: 'Must be above zero.' },
+    'gi:rate': { kind: 'field', name: 'Estimated rate', where: 'Step 3 · General items', what: 'Budget rate, internal only.' },
+    'fx:mustRates': { kind: 'field', name: 'Proposals must have rates', where: 'Step 3', what: 'When on, a vendor cannot submit until every item has a rate.', leads: ['Submit checklist: “Enter a rate for every item”'] },
+    'fx:splitUp': { kind: 'field', name: 'Rate split-up', where: 'Step 3', what: 'Asks vendors to break a rate into components.' },
+    /* step 4 */
+    'm-tcMaster': { kind: 'button', name: 'Add from master', nameFromLabel: true, where: 'Step 4', what: 'Adds standard terms from the company master list.', gate: c => XG.el(c) || XG.lock('tcs')(c) },
+    doAddTc: { kind: 'button', name: 'Add', nameFromLabel: true, where: 'Terms master', what: 'Adds the ticked terms.', gate: XG.el },
+    'm-tcCustom': { kind: 'button', name: 'Add custom term', nameFromLabel: true, where: 'Step 4', what: 'Writes a term that applies to this tender only.', gate: c => XG.el(c) || XG.lock('tcs')(c) },
+    doTcCustom: { kind: 'button', name: 'Save', where: 'Custom term dialog', what: 'Saves the custom term. The code must be unique.', gate: XG.el },
+    'mf:code': { kind: 'field', name: 'T&C Code', where: 'Custom term dialog', what: 'A unique code for the term.' },
+    'mf:desc': { kind: 'field', name: 'Description', where: 'Dialog', what: 'Text of the term or document description.' },
+    rmTc: { kind: 'button', name: 'Remove term', nameFromLabel: true, where: 'Step 4', what: 'Removes a term after confirmation.', gate: c => XG.el(c) || XG.lock('tcs')(c) },
+    /* step 5 */
+    'm-addVendor': { kind: 'button', name: '+ Add vendor', nameFromLabel: true, where: 'Step 5 · Vendors tab', what: 'Searches the vendor master, pre-filtered by the tender’s specialisation.', why: 'Missing email and pending prequalification are flagged here, before anything is sent.', gate: c => XG.el(c) || XG.lock('vendors')(c), demo: ['happy', 'Vendors are picked by specialisation'] },
+    doAddVendors: { kind: 'button', name: 'Add', nameFromLabel: true, where: 'Vendor search', what: 'Adds the ticked vendors with status Added.', gate: XG.el },
+    removeVendor: { kind: 'button', name: 'Remove', nameFromLabel: true, where: 'Vendor row', what: 'Removes a vendor who has not been invited or published to.', gate: XG.el },
+    contactsOnly: { kind: 'field', name: 'Selected contacts only', where: 'Step 5', what: 'Sends mail only to the chosen contact persons of this vendor.' },
+    /* step 6 */
+    'stab:team': { kind: 'tab', name: 'Tender team', where: 'Step 6', what: 'Who manages, opens and evaluates.' },
+    'stab:tender': { kind: 'tab', name: 'Tender settings', where: 'Step 6', what: 'Invitation, recommendation and opening rules.' },
+    'stab:bid': { kind: 'tab', name: 'Bid settings', where: 'Step 6', what: 'What vendors must do to bid.' },
+    'stab:notif': { kind: 'tab', name: 'Notifications', where: 'Step 6', what: 'Who is copied and when reminders go out.' },
+    'team:manager': { kind: 'field', name: 'Tender manager', where: 'Step 6 · team', what: 'Managers can edit, invite, publish, revise and see notifications.', gate: XG.lock('settings') },
+    'team:open': { kind: 'field', name: 'Bid opening role', where: 'Step 6 · team', what: 'Makes this person a designated opening officer for a stage.', why: 'With officers set, nobody else can open that stage.', gate: XG.lock('settings'), leads: ['Only officers see Generate code / Click to Open', 'No officer for a stage → any team member can open it'] },
+    'team:eval': { kind: 'field', name: 'Bid evaluation role', where: 'Step 6 · team', what: 'Lets this person accept or reject bids of a stage.', gate: XG.lock('settings'), leads: ['No evaluator for a stage → nobody can accept or reject'] },
+    'team:add': { kind: 'field', name: 'Add user', where: 'Step 6 · team', what: 'Adds a colleague to the tender team.' },
+    addTeam: { kind: 'button', name: 'Add to team', where: 'Step 6 · team', what: 'Adds the selected colleague.', gate: c => XG.el(c) || XG.lock('settings')(c) },
+    rmTeam: { kind: 'button', name: 'Remove member', nameFromLabel: true, where: 'Step 6 · team', what: 'Removes a colleague; opening records are kept.', gate: c => XG.el(c) || XG.lock('settings')(c) },
+    'fs:inviteFirst': { kind: 'field', name: 'Publish only after invitation', where: 'Step 6 · Tender settings', what: 'Vendors must accept an invitation before the tender can be published to them.', gate: XG.lock('settings'), leads: ['Primary button becomes “Invite vendors”', 'Publish dialog: “Invitation not accepted yet”'], demo: ['nda', 'This tender invites before it publishes'] },
+    'fs:recoMandatory': { kind: 'field', name: 'Recommendation mandatory for PO', where: 'Step 6 · Tender settings', what: 'Issue PO is blocked until a vendor is recommended.', gate: XG.lock('settings') },
+    'fs:openMode': { kind: 'field', name: 'Bid Open Mode', where: 'Step 6 · Tender settings', what: 'Single stage opens technical and commercial together; two-stage opens them one after the other.', gate: XG.lock('settings') },
+    'fs:sequence': { kind: 'field', name: 'Bid Open Sequence', where: 'Step 6 · Tender settings', what: 'Which stage must be opened first in a two-stage tender.', gate: XG.lock('settings') },
+    'fs:techRule': { kind: 'field', name: 'Technical Bid Open Rule', where: 'Step 6 · Tender settings', what: 'Open By Any: one officer is enough. Open By All: every officer must open.', gate: XG.lock('settings') },
+    'fs:commRule': { kind: 'field', name: 'Commercial Bid Open Rule', where: 'Step 6 · Tender settings', what: 'Same rule for the commercial stage.', gate: XG.lock('settings') },
+    'fs:otp': { kind: 'field', name: 'Verification code to open bids', where: 'Step 6 · Tender settings', what: 'On: officers need a one-time code. Off: “Click to Open”.', gate: XG.lock('settings') },
+    'fs:otpMins': { kind: 'field', name: 'Code validity (minutes)', where: 'Step 6 · Tender settings', what: 'How long a verification code stays valid.', gate: XG.lock('settings') },
+    'fs:acceptMandatory': { kind: 'field', name: 'Acceptance mandatory to submit', where: 'Step 6 · Bid settings', what: 'Vendors must click Accept before they can submit.', gate: XG.lock('settings') },
+    'fs:ndaAuto': { kind: 'field', name: 'NDA on invitation acceptance', where: 'Step 6 · Bid settings', what: 'Accepting an invitation automatically requests a signed NDA.', gate: XG.lock('settings'), leads: ['Vendor status NDA Requested → NDA Submitted', 'Publishing to that vendor waits for the NDA'] },
+    'fs:reminderDays': { kind: 'field', name: 'Reminder days', where: 'Step 6 · Notifications', what: 'Automatic reminder this many days before the submission date.', gate: XG.lock('settings') },
+    'fs:idl': { kind: 'field', name: 'Internal distribution list', where: 'Step 6 · Notifications', what: 'Colleagues copied on tender emails.', gate: XG.lock('settings') },
+    /* generic dialog + list + navigation */
+    'mf:subject': { kind: 'field', name: 'Mail subject', where: 'Mail dialogs', what: 'Subject of the email. Mandatory.' },
+    'mf:body': { kind: 'field', name: 'Mail message', where: 'Mail dialogs', what: 'Email text; {VendorName} is replaced per vendor. Mandatory.' },
+    'mf:remarks': { kind: 'field', name: 'Remarks', where: 'Dialog', what: 'Your comments. Mandatory when rejecting.' },
+    mSel: { kind: 'field', name: 'Select', where: 'Dialog list', what: 'Ticks a row. Rows that are not eligible are greyed out and say why in the last column.' },
+    mToggle: { kind: 'field', name: 'List filter', nameFromLabel: true, where: 'Dialog', what: 'Narrows the list, for example to invited or recommended vendors only.' },
+    mAtt: { kind: 'field', name: 'Attachment mandatory', where: 'Publish dialog', what: 'This vendor must attach at least one document to submit. Always on for technical tenders.' },
+    mClose: { kind: 'button', name: 'Close', nameFromLabel: true, where: 'Dialog', what: 'Closes the dialog without saving.' },
+    confirmYes: { kind: 'button', name: 'Confirm', nameFromLabel: true, where: 'Confirmation', what: 'Carries out what the dialog describes. Read the consequence text above it first.', gate: XG.el },
+    'menu:more': { kind: 'button', name: 'More ▾', where: 'Tender header', what: 'All actions that are not the next step, grouped, with the reason written under anything unavailable. Destructive actions come last, in red.' },
+    'menu:vmore': { kind: 'button', name: 'More ▾', where: 'Vendor bid', what: 'Export, import and download actions.' },
+    'tab:overview': { kind: 'tab', name: 'Overview', where: 'Tender', what: 'Key facts, dates, settings and what happens next.' },
+    'tab:vendors': { kind: 'tab', name: 'Vendors', where: 'Tender', what: 'Each vendor’s status, NDA, invitation, bid and last reminder. Select rows for bulk actions.' },
+    'tab:evaluation': { kind: 'tab', name: 'Evaluation', where: 'Tender', what: 'Open the sealed bids, then accept or reject each vendor per stage.', gate: XG.def('open') },
+    'tab:comparison': { kind: 'tab', name: 'Comparison', where: 'Tender', what: 'Rates side by side, L1/H1, recommendation, notices.', gate: XG.def('compare') },
+    'tab:pos': { kind: 'tab', name: 'Purchase orders', where: 'Tender', what: 'POs issued from this tender.' },
+    'tab:activity': { kind: 'tab', name: 'Activity', where: 'Tender', what: 'Every action and email on this tender.', gate: c => (c.t ? G.activity(c.t) : '') },
+    openTender: { kind: 'button', name: 'Open tender', where: 'Tender list', what: 'Opens the tender workspace.' },
+    list: { kind: 'button', name: 'Tenders', nameFromLabel: true, where: 'Navigation', what: 'Back to the tender list.' },
+    filter: { kind: 'button', name: 'Filter', nameFromLabel: true, where: 'List', what: 'Shows only tenders (or log entries) in this group.' },
+    clearFilter: { kind: 'button', name: 'Clear filters', nameFromLabel: true, where: 'List', what: 'Shows everything again.' },
+    search: { kind: 'field', name: 'Search', where: 'Tender list', what: 'Finds tenders by number or description.' },
+    sel: { kind: 'field', name: 'Select vendor', where: 'Vendors tab', what: 'Selecting rows reveals bulk actions for those vendors.' },
+    selAll: { kind: 'field', name: 'Select all', where: 'Vendors tab', what: 'Selects or clears every vendor.' },
+    clearSel: { kind: 'button', name: 'Clear selection', nameFromLabel: true, where: 'Vendors tab · bulk bar', what: 'Deselects all vendors.' },
+    dl: { kind: 'button', name: 'Download', where: 'Vendor uploads', what: 'Downloads the document.' },
+    dlPrev: { kind: 'button', name: 'Get previous', where: 'Vendor uploads', what: 'Downloads the earlier version, if any.' },
+    nav: { kind: 'button', name: 'Operations Panel', where: 'Top bar', what: 'Wrench’s main navigation.' },
+    soon: { kind: 'button', name: 'Not in this prototype', nameFromLabel: true, where: 'Top bar', what: 'Part of Wrench, outside this prototype.' },
+    /* vendor side */
+    vOpen: { kind: 'button', name: 'Open tender', where: 'My tenders', what: 'Opens the tender from the vendor’s point of view.', who: ['vendor'] },
+    vlist: { kind: 'button', name: 'My tenders', nameFromLabel: true, where: 'Navigation', what: 'Back to the vendor’s tender list.', who: ['vendor'] },
+    'vtab:info': { kind: 'tab', name: 'Tender information', where: 'Vendor bid', what: 'What the buyer asks for: dates, scope, attachments.', who: ['vendor'] },
+    'vtab:prices': { kind: 'tab', name: 'Price schedule', where: 'Vendor bid', what: 'One rate per item; totals update live.', who: ['vendor'], gate: XG.el },
+    'vtab:terms': { kind: 'tab', name: 'Terms & Conditions', where: 'Vendor bid', what: 'Accept, reject, or propose a deviation for each term.', who: ['vendor'], gate: XG.el },
+    'vtab:docs': { kind: 'tab', name: 'Documents', where: 'Vendor bid', what: 'Documents the buyer asked for, and your uploads.', who: ['vendor'] },
+    'm-vaccept': { kind: 'button', name: 'Accept', nameFromLabel: true, where: 'Vendor bid header', what: 'Accepts the invitation or the tender.', why: 'Tells the buyer you intend to bid. May trigger an NDA request.', who: ['vendor'], gate: c => XG.el(c) || XG.vaccept(c), leads: ['Status → Invitation Accepted, or NDA Requested', 'When acceptance is mandatory, Submit unlocks'], demo: ['nda', 'He accepts'], node: 'vaccept' },
+    vDoAccept: { kind: 'button', name: 'Yes, accept', where: 'Accept dialog', what: 'Confirms the acceptance.', who: ['vendor'], gate: XG.el },
+    'm-vreject': { kind: 'button', name: 'Reject', where: 'Vendor bid header', what: 'Declines the tender. Remarks are mandatory.', who: ['vendor'], gate: XG.el, leads: ['Status → Rejected; the bid becomes read-only', 'The buyer sees your remarks'], demo: ['nda', 'She rejects the invitation'] },
+    vDoReject: { kind: 'button', name: 'Yes, reject', where: 'Reject dialog', what: 'Confirms the rejection.', who: ['vendor'], gate: XG.el },
+    'm-vupload:nda': { kind: 'button', name: 'Upload signed NDA', nameFromLabel: true, where: 'Vendor bid header · Documents', what: 'Returns the signed non-disclosure agreement.', why: 'The buyer cannot publish the tender to you before it arrives.', who: ['vendor'], gate: XG.el, leads: ['Status → NDA Submitted', 'The buyer can now publish to you'], demo: ['nda', 'He uploads the signed NDA'], node: 'vnda' },
+    'm-vupload:doc': { kind: 'button', name: 'Upload', nameFromLabel: true, where: 'Documents tab', what: 'Uploads a requested document, or replaces it with a new version.', who: ['vendor'], gate: XG.el, leads: ['Earlier versions are kept', 'Mandatory documents unblock Submit'], demo: ['vendor', 'He uploads the mandatory document'] },
+    vDoUpload: { kind: 'button', name: 'Upload', where: 'Upload dialog', what: 'Saves the document to your bid.', who: ['vendor'], gate: XG.el },
+    vPrev: { kind: 'button', name: 'Previous version', nameFromLabel: true, where: 'Documents tab', what: 'Downloads the version you uploaded before.', who: ['vendor'], gate: XG.el },
+    vDownload: { kind: 'button', name: 'Download attachments', nameFromLabel: true, where: 'Tender information', what: 'Downloads the buyer’s documents (a ZIP when several).', who: ['vendor'], gate: XG.el },
+    rate: { kind: 'field', name: 'Unit rate', where: 'Price schedule', what: 'Your price per unit for item {item}.', why: 'Rate-only items have no quantity and no amount.', who: ['vendor'], gate: XG.vedit, leads: ['Amount and bid total update as you type', 'Missing rates show as “Incomplete pricing” — or block Submit when the buyer requires all rates', 'Sealed until the opening date'] },
+    'change:vCurrency': { kind: 'field', name: 'Bid currency', where: 'Price schedule', what: 'The currency of your rates.', who: ['vendor'], gate: XG.vedit, leads: ['A PO to you is issued in this currency'] },
+    'tc:response': { kind: 'field', name: 'Response', where: 'Terms & Conditions', what: 'Accept or reject this term.', who: ['vendor'], gate: XG.vedit },
+    'tc:deviation': { kind: 'field', name: 'Deviation', where: 'Terms & Conditions', what: 'Tick to propose a change to this term.', who: ['vendor'], gate: XG.vedit },
+    'tc:note': { kind: 'field', name: 'Deviation note', where: 'Terms & Conditions', what: 'Describe the change you propose.', who: ['vendor'], gate: XG.vedit },
+    vSave: { kind: 'button', name: 'Save draft', where: 'Vendor bid footer', what: 'Saves your work. The buyer never sees a draft.', who: ['vendor'], gate: XG.el, demo: ['vendor', 'Save draft'] },
+    'm-vsubmit': { kind: 'button', name: 'Submit bid', nameFromLabel: true, where: 'Vendor bid footer', what: 'Opens the submit checklist. After a resubmission request it reads “Resubmit bid”.', who: ['vendor'], gate: c => XG.el(c) || (c.t && c.r ? vGate(c.t, c.r).submit : ''), when: 'Until the earlier of the submission and opening dates — or the resubmission due date.', needs: [['Tender published to you', (t, r) => !!r && isPublishedTo(r)], { text: 'Tender accepted', ok: (t, r) => !!r && !!r.acceptedAt, if: t => t.settings.acceptMandatory }, { text: 'Every item has a rate', ok: (t, r) => !(vChecklist(t, r).find(x => x.key === 'rates') || { block: false }).block, if: (t, r) => t.type !== 'T' && !!r && isPublishedTo(r) }, { text: 'Mandatory documents uploaded', ok: (t, r) => (vChecklist(t, r).find(x => x.key === 'docs') || { ok: true }).ok, if: (t, r) => !!r && isPublishedTo(r) }, ['Deadline not passed', (t, r) => !!r && !vGate(t, r).edit]], leads: ['Status → Submitted; acknowledgement email', 'Can be updated and submitted again until the deadline', 'Sealed for the buyer until opening'], demo: ['vendor', 'Now everything is complete'], node: 'vsubmit' },
+    vDoSubmit: { kind: 'button', name: 'Yes, submit', where: 'Submit dialog', what: 'Sends the bid. Disabled while a blocking item is open.', who: ['vendor'], gate: XG.el },
+    vFetch: { kind: 'button', name: 'Fetch details from previous revisions', nameFromLabel: true, where: 'Vendor bid (after a revision)', what: 'Copies your earlier rates into the new revision. New items stay blank.', who: ['vendor'], gate: XG.el, demo: ['revise', 'He fetches his rates from the previous revision'] },
+    vExport: { kind: 'button', name: 'Export to Excel', nameFromLabel: true, where: 'More ▾', what: 'Downloads the price schedule to fill in offline.', who: ['vendor'], gate: XG.el },
+    'vImport:ok': { kind: 'button', name: 'Import from Excel', nameFromLabel: true, where: 'More ▾', what: 'Fills empty rates from your spreadsheet.', who: ['vendor'], gate: XG.el },
+    'vImport:bad': { kind: 'button', name: 'Import file with errors', nameFromLabel: true, where: 'More ▾ (prototype)', what: 'Shows what happens when the file has errors: nothing is imported.', who: ['vendor'], gate: XG.el },
+    /* prototype tools */
+    'change:user': { kind: 'field', name: 'Acting as', where: 'Prototype bar', what: 'Prototype tool — switches the person you are. Wrench itself shows each person only their own view.' },
+    clock: { kind: 'button', name: '+1 h / +1 day', nameFromLabel: true, where: 'Prototype bar', what: 'Prototype tool — moves the simulated clock so date rules can be tested.' },
+    'jump:sub': { kind: 'button', name: '→ Submission date', where: 'Prototype bar', what: 'Prototype tool — jumps the clock to this tender’s submission deadline.', gate: XG.el },
+    'jump:open': { kind: 'button', name: '→ Opening date', where: 'Prototype bar', what: 'Prototype tool — jumps the clock to this tender’s bid opening date.', gate: XG.el },
+    'm-scenarios': { kind: 'button', name: 'Scenarios', where: 'Prototype bar', what: 'Guided demos: watch a flow, then try it yourself.' },
+    'm-guide': { kind: 'button', name: 'Layout rules', nameFromLabel: true, where: 'Prototype bar', what: 'The button-layout principles used in this prototype.' },
+    reset: { kind: 'button', name: 'Reset', nameFromLabel: true, where: 'Prototype bar', what: 'Restores the starting data. Comments are kept.' },
+    loadScenario: { kind: 'button', name: 'Load only', nameFromLabel: true, where: 'Scenarios', what: 'Resets the data for this scenario without a demo.' },
+    /* areas */
+    'area:tracker': { kind: 'info', name: 'Lifecycle tracker', where: 'Tender header', what: 'Where the tender stands: setup, invitations, published, submission closed, bids opened, evaluated, recommended, PO issued.' },
+    'area:gate': { kind: 'info', name: 'What is blocking the next step', where: 'Under the primary button', what: 'Explains a date or status block, with a countdown.' },
+    'area:vfooter': { kind: 'info', name: 'Bid checklist', where: 'Vendor bid footer', what: 'Rates entered, terms answered, mandatory documents — and whether Submit is possible.' },
+    'area:total': { kind: 'info', name: 'Bid total', where: 'Price schedule', what: 'Sum of rate × quantity. Rate-only items are not included.' },
+    'area:l1h1': { kind: 'info', name: 'L1 / H1', where: 'Comparison', what: 'Lowest and highest bid totals. Hidden while a rate-only item is part of the comparison.' },
+    'area:remaining': { kind: 'info', name: 'Ordered so far', where: 'Purchase orders tab', what: 'How much of each item is still to be ordered across all purchase orders.' },
+    'area:opening': { kind: 'info', name: 'Bid opening card', where: 'Evaluation tab', what: 'Who may open this stage, under which rule, and whether it has been opened.' },
+    'area:bulk': { kind: 'info', name: 'Bulk actions', where: 'Vendors tab', what: 'Actions for the selected vendors. Appears only when rows are selected.' },
+    'area:elig': { kind: 'info', name: 'Eligibility', where: 'Vendor lists', what: 'Why this vendor can or cannot be included right now.' }
+  };
+
+  /* 9.6 statuses */
+  const ST = [
+    ['Draft', 'Being prepared; step 1 saved. Only the buyer sees it.', 'Create tender → Next on step 1', ['Finish the form → Created', 'Can be removed']],
+    ['Created', 'Complete, not yet sent to anyone.', '“Create tender” on the last step', ['Invite vendors or Publish tender', 'Can be removed']],
+    ['Invites Sent', 'Invitations went out; the tender itself is not visible to vendors yet.', 'Invite vendors', ['Vendors accept (→ NDA) → Publish', 'Obsolete']],
+    ['Published', 'Tender: vendors can bid. Vendor row: this vendor can see and price the tender.', 'Publish tender', ['Vendors submit → Closed at the submission date', 'Revise · Send reminder']],
+    ['Closed', 'The submission date has passed; bids are locked and still sealed.', 'Automatically at the Bid Submission Date', ['Bid Evaluation at the opening date']],
+    ['Bid Evaluation', 'Bids may be opened and evaluated.', 'Automatically at the Bid Opening Date', ['Open → Accept/Reject → Compare → Recommend']],
+    ['Recommended', 'A vendor has been recommended for award.', 'Recommend vendors ▸ Save', ['Notify vendors · Issue PO', 'Removing all recommendations returns to Bid Evaluation']],
+    ['Part PO Issued', 'At least one PO exists; some quantities remain.', 'Issue PO with less than the full quantity', ['Issue PO for the rest → PO Issued']],
+    ['PO Issued', 'Every item is fully ordered. End of the tender.', 'Issue PO covering the remaining quantities', []],
+    ['Revised', 'A new revision is being prepared; vendors are locked out.', 'Revise tender', ['Edit → Publish revision → Republished']],
+    ['Republished', 'Tender: the new revision is out. Vendor row: must fetch or re-enter and resubmit.', 'Publish revision', ['As Published']],
+    ['Obsolete', 'Withdrawn. Everything is read-only.', 'Obsolete tender', []],
+    ['Added', 'Vendor row: on the tender, nothing sent yet. Revision-wise legend: the item is new in the later revision.', 'Add vendor', ['Invite or Publish']],
+    ['Invited', 'Invitation sent, waiting for the vendor.', 'Invite vendors', ['Vendor accepts or rejects']],
+    ['Invitation Accepted', 'The vendor intends to bid.', 'Vendor ▸ Accept', ['Publish to this vendor']],
+    ['NDA Requested', 'Waiting for the signed NDA.', 'Vendor accepted while “NDA on acceptance” is on', ['Vendor uploads the NDA']],
+    ['NDA Submitted', 'NDA received.', 'Vendor ▸ Upload signed NDA', ['Publish to this vendor']],
+    ['Submitted', 'A bid was received (sealed until opening).', 'Vendor ▸ Submit', ['Evaluation', 'May be updated until the deadline']],
+    ['Resubmission', 'Part of the bid is reopened for this vendor until a due date.', 'Request resubmission', ['Vendor resubmits → Submitted (that stage is re-evaluated)']],
+    ['LOI Issued', 'Selected; Letter of Intent sent. Final.', 'Bid selection notice', ['Issue PO']],
+    ['Bid Rejected', 'Told the bid was not selected. Final.', 'Bid rejection notice', []],
+    ['Rejected', 'Vendor row: the vendor declined. Evaluation: this stage’s bid was rejected with remarks.', 'Vendor ▸ Reject / evaluator ▸ Reject', []],
+    ['Approved', 'This stage’s bid was accepted by an evaluator. As a prequalification label: the vendor is approved to bid.', '✓ Accept', ['Comparison and recommendation']],
+    ['Not Evaluated', 'Opened, no decision yet.', 'Bid opened', ['Accept or Reject']],
+    ['Not Verified', 'Opened, no decision yet — or reset by a resubmission.', 'Bid opened / resubmission', ['Accept or Reject']],
+    ['Not Opened', 'This stage has not been opened yet.', '—', ['Verify / Click to Open']],
+    ['Opened', 'This stage has been opened (with the date).', 'Verify / Click to Open', ['Evaluation']],
+    ['Not Submitted', 'No bid received from this vendor yet.', 'Vendor activity', ['Vendor submits']],
+    ['Not started', 'The vendor has not started the bid.', 'Vendor activity', []],
+    ['Draft saved', 'The vendor saved a draft. The buyer never sees drafts.', 'Vendor ▸ Save draft', ['Vendor submits']],
+    ['Incomplete', 'Some rates or documents are missing.', 'Vendor activity', []],
+    ['Completed', 'Everything required is in.', 'Vendor activity', []],
+    ['Qualified', 'Informational label.', '—', []],
+    ['Online', 'Informational label.', '—', []],
+    ['Pending', 'Prequalification is not approved yet. The vendor can be added but is flagged.', 'Vendor master', ['Prequalification approved']],
+    ['Recommended', 'This vendor is recommended for award.', 'Recommend vendors ▸ Save', ['Selection notice · Issue PO']],
+    ['Mandatory', 'This document must be uploaded before the vendor can submit.', 'Buyer ▸ Vendor submittals ▸ Mandatory', ['Blocks Submit until uploaded']],
+    ['Buyers only', 'Internal documents: never sent to vendors.', 'Bid Settings ▸ internal documents', []],
+    ['Accepted', 'The vendor accepted this term as written.', 'Vendor ▸ Terms & Conditions', []],
+    ['No response', 'The vendor did not answer this term. It is sent as a blank response.', 'Vendor ▸ Terms & Conditions', []],
+    ['Deviations', 'The vendor rejected or proposed a change to at least one term. Check the Terms comparison below.', 'Vendor ▸ Terms & Conditions', ['Review the deviation notes']],
+    ['Lowest', 'Legend: cells in this colour are the lowest rate for the item.', '—', []],
+    ['Highest', 'Legend: cells in this colour are the highest rate for the item.', '—', []],
+    ['Modified', 'Legend (revision-wise view): the vendor changed this rate between the two revisions.', '—', []],
+    ['Deleted', 'Legend (revision-wise view): the item was removed in the later revision.', '—', []],
+    ['Not saved', 'A new tender that has no reference number yet. It is saved as a Draft when step 1 is valid.', 'Create tender', ['Next on step 1 → Draft']]
+  ];
+  ST.forEach(([text, what, from, leads]) => { C['pill:' + text] = { kind: 'status', name: text, where: 'Status', what, from, leads }; });
+  C['pill:Recommended'].what = 'Tender: a vendor has been recommended for award. Vendor row: this vendor is the recommended one.';
+
+  XP.CAT = C;
+  XP.TENDER_CHAIN = ['Draft', 'Created', 'Invites Sent', 'Published', 'Closed', 'Bid Evaluation', 'Recommended', 'Part PO Issued', 'PO Issued'];
+  XP.TENDER_SIDE = ['Revised', 'Republished', 'Obsolete'];
+  XP.VENDOR_CHAIN = ['Added', 'Invited', 'Invitation Accepted', 'NDA Requested', 'NDA Submitted', 'Published', 'Submitted', 'LOI Issued', 'Bid Rejected'];
+  XP.VENDOR_SIDE = ['Resubmission', 'Republished', 'Rejected'];
+
+  /* 9.8 glossary */
+  XP.GLOSS = [
+    ['BOQ', 'Bill of quantities: the project’s list of items with units and quantities. Tender items are picked from it, and an item can be in only one live tender.'],
+    ['L1 / H1', 'Lowest and highest bid totals among the vendors being compared. Shown only when every compared item has a quantity.'],
+    ['Two-stage', 'The technical bid is opened and evaluated before the commercial bid can be opened.'],
+    ['Single stage', 'Technical and commercial bids can be opened in any order.'],
+    ['Open By Any / Open By All', 'Any: one designated officer opening the stage is enough. All: every designated officer must open it before it counts as opened.'],
+    ['Verification code (OTP)', 'A one-time code sent to a designated opening officer. It proves who opened a sealed bid. It can be switched off in Bid Settings (then “Click to Open”).'],
+    ['Rate-only item', 'An item priced per unit with no quantity, for example dewatering per day. It has no amount, is left out of totals and L1/H1, and is not ordered on a PO.'],
+    ['Rate and Quantity item', 'An item with both a quantity and a rate, so an amount can be calculated.'],
+    ['Submittal', 'A document the buyer requires from vendors. A mandatory submittal blocks the vendor’s Submit until it is uploaded.'],
+    ['NDA', 'Non-disclosure agreement. When set, accepting an invitation requests a signed NDA, and the tender cannot be published to that vendor until it arrives.'],
+    ['LOI', 'Letter of Intent — the bid selection notice. After it is sent the vendor’s status cannot change.'],
+    ['Resubmission', 'The buyer reopens part of one vendor’s bid (technical, commercial or both) until a due date, without revising the tender.'],
+    ['Revision', 'A new version of a published tender. Openings and evaluations are cleared and vendors must bid again after it is republished.'],
+    ['Republish', 'Publishing a revision. Vendors can fetch their earlier rates into the new revision.'],
+    ['Obsolete vs Remove', 'Remove deletes a tender nobody outside has seen (Draft, Created). Obsolete withdraws a tender vendors have seen; the record stays read-only.'],
+    ['Internal distribution list', 'Colleagues copied on tender emails and reminders.'],
+    ['Deviation', 'A vendor’s proposed change to a term, with a note explaining it.'],
+    ['Prequalification', 'Whether a vendor is approved to bid. Pending vendors can be added but are flagged.'],
+    ['Sealed bid', 'A submitted bid nobody on the buyer side can read until a designated officer opens it on or after the Bid Opening Date.']
+  ];
+
+  /* 9.7 map */
+  const manager = t => (t.team.find(m => m.manager) || {}).user || 'priya';
+  const officer = (t, s) => (officers(t, s)[0] || {}).user || (t.team.find(m => m.manager) || {}).user || 'priya';
+  const evaluator = (t, s) => (evaluators(t, s)[0] || {}).user || officer(t, s);
+  const lead = () => Object.keys(USERS).find(k => (USERS[k].perms || []).includes('po') && !(USERS[k].perms || []).includes('create')) || Object.keys(USERS).find(k => (USERS[k].perms || []).includes('po')) || 'vikram';
+  const submitted = t => t.vendors.filter(r => ['Submitted', 'Resubmission', 'LOI Issued', 'Bid Rejected'].includes(r.status));
+  const stageLane = (s, who) => ({ id: 'lane' + s, title: `${STAGE[s]} officer`, actor: t => officer(t, s), na: t => t.type === (s === 'T' ? 'C' : 'T'),
+    nodes: [
+      { id: 'open' + s, key: t => (t.settings.otp ? 'otpGen' : 'clickOpen'), label: `Open ${STAGE[s].toLowerCase()} bid`, actor: t => officer(t, s), done: t => opened(t, s), gate: t => G.open(t, s), note: t => (t.settings.otp ? 'code required' : 'Click to Open'), route: t => ({ view: 'tender', id: t.id, tab: 'evaluation' }), sel: `[data-a="otpGen"][data-s="${s}"], [data-a="clickOpen"][data-s="${s}"], [data-a="openNoOfficer"][data-s="${s}"]`, vars: { s } },
+      { id: 'eval' + s, key: () => 'accept', label: 'Accept / reject bids', arrow: '→', actor: t => evaluator(t, s), done: t => submitted(t).length > 0 && submitted(t).every(r => t.evals[s][r.code]), gate: t => G.evaluate(t, s), route: t => ({ view: 'tender', id: t.id, tab: 'evaluation' }), sel: `[data-a="accept"][data-s="${s}"]`, vars: { s } },
+      { id: 'resub' + s, key: () => 'm-resub', label: 'Request resubmission', arrow: '⤵', actor: t => evaluator(t, s), done: t => t.vendors.some(r => r.resub && (r.resub.scope === s || r.resub.scope === 'B')), gate: t => G.resubmit(t), route: t => ({ view: 'tender', id: t.id, tab: 'evaluation' }), sel: `[data-a="m-resub"][data-s="${s}"]`, vars: { s } }
+    ], who });
+  XP.MAP = [
+    { id: 'laneM', title: 'Tender Manager', actor: manager, nodes: [
+      { id: 'create', key: () => 'create', label: 'Create tender', done: () => true, gate: () => '', route: () => ({ view: 'list', id: null }), sel: '[data-a="create"]' },
+      { id: 'invite', key: () => 'm-invite', label: 'Invite vendors', arrow: '→', done: t => t.vendors.some(r => r.invitedAt), na: t => !t.settings.inviteFirst && !t.vendors.some(r => r.invitedAt) && t.pubEver, gate: t => G.invite(t), note: t => { const n = t.vendors.filter(r => r.invitedAt).length; return n ? `${n} of ${t.vendors.length} invited` : ''; }, route: t => ({ view: 'tender', id: t.id, tab: 'overview' }), sel: '#main [data-a="m-invite"]', menu: true },
+      { id: 'publish', key: () => 'm-publish', label: 'Publish tender', arrow: '→', done: t => t.pubEver && t.status !== 'Revised', gate: t => G.publish(t) || (t.vendors.some(r => !pubElig(t, r)) ? '' : 'No vendor is eligible yet'), route: t => ({ view: 'tender', id: t.id, tab: 'overview' }), sel: '#main [data-a="m-publish"]', menu: true },
+      { id: 'remind', key: () => 'm-remind', label: 'Send reminder', arrow: '→', done: t => t.vendors.some(r => r.lastReminder), gate: t => G.remind(t), route: t => ({ view: 'tender', id: t.id, tab: 'overview' }), sel: '#main [data-a="m-remind"]', menu: true },
+      { id: 'revise', key: () => 'revise', label: 'Revise tender', arrow: '⤵', done: t => t.rev > 0 && t.status !== 'Revised', gate: t => G.revise(t), route: t => ({ view: 'tender', id: t.id, tab: 'overview' }), sel: '#main [data-a="revise"]', menu: true },
+      { id: 'obsolete', key: () => 'obsolete', label: 'Obsolete tender', done: t => t.status === 'Obsolete', gate: t => G.obsolete(t), route: t => ({ view: 'tender', id: t.id, tab: 'overview' }), sel: '#main [data-a="obsolete"]', menu: true }
+    ] },
+    { id: 'laneV', title: 'Vendors', vendors: true, nodes: [
+      { id: 'vaccept', key: () => 'm-vaccept', label: 'Accept', done: (t, r) => !!r.acceptedAt, na: (t, r) => !r.invitedAt && !t.settings.acceptMandatory, gate: (t, r) => (r.status === 'Rejected' ? 'Vendor rejected the tender' : !r.invitedAt && !isPublishedTo(r) ? 'Waiting for an invitation or publication' : db.now >= t.sub ? 'Invitation can no longer be accepted after the submission date' : ''), route: t => ({ view: 'vtender', id: t.id, vtab: 'info' }), sel: '[data-a="m-vaccept"]' },
+      { id: 'vnda', key: () => 'm-vupload:nda', label: 'Upload signed NDA', arrow: '→', done: (t, r) => !!r.ndaSub, na: (t, r) => !r.ndaReq && !t.settings.ndaAuto, gate: (t, r) => (r.ndaReq ? '' : 'After accepting the invitation'), route: t => ({ view: 'vtender', id: t.id, vtab: 'info' }), sel: '[data-a="m-vupload"][data-purpose="NDA Submission"]' },
+      { id: 'vprice', key: () => 'rate', label: 'Price & upload', arrow: '→', done: (t, r) => { const b = t.bids[r.code]; return !!b && (Object.keys(b.cur.rates).length > 0 || b.cur.docs.length > 0); }, gate: (t, r) => vGate(t, r).edit, route: t => ({ view: 'vtender', id: t.id, vtab: 'prices' }), sel: '[data-rate]' },
+      { id: 'vsubmit', key: () => 'm-vsubmit', label: 'Submit bid', arrow: '→', done: (t, r) => { const b = t.bids[r.code]; return !!b && !!b.cur.submittedAt && b.cur.rev === t.rev; }, gate: (t, r) => { const g = vGate(t, r); return g.submit || (isPublishedTo(r) ? ((vChecklist(t, r).find(x => x.block) || {}).fail || '') : ''); }, note: t => `until ${fdt(t.sub)}`, route: t => ({ view: 'vtender', id: t.id, vtab: 'prices' }), sel: '#vf [data-a="m-vsubmit"], [data-a="m-vsubmit"]' },
+      { id: 'vresub', key: () => 'm-vsubmit', label: 'Resubmit', arrow: '⤵', done: () => false, na: (t, r) => !r.resub, gate: (t, r) => vGate(t, r).submit, route: t => ({ view: 'vtender', id: t.id, vtab: 'prices' }), sel: '[data-a="m-vsubmit"]' }
+    ] },
+    stageLane('T'), stageLane('C'),
+    { id: 'laneL', title: 'Procurement Lead', actor: lead, nodes: [
+      { id: 'compare', key: () => 'cmpMode:vendor', label: 'Compare bids', done: t => commOpened(t) && ['Recommended', ...DONE].includes(t.status), gate: t => G.compare(t), route: t => ({ view: 'tender', id: t.id, tab: 'comparison' }), sel: '[data-a="cmpMode"][data-k="vendor"]' },
+      { id: 'reco', key: () => 'm-reco', label: 'Recommend', arrow: '→', done: t => t.reco.vendors.length > 0, gate: t => G.recommend(t), route: t => ({ view: 'tender', id: t.id, tab: 'comparison' }), sel: '#main [data-a="m-reco"]', menu: true },
+      { id: 'notify', key: () => 'm-notify:sel', label: 'Notify vendors', arrow: '→', done: t => t.vendors.some(r => r.status === 'LOI Issued'), gate: t => G.notify(t), route: t => ({ view: 'tender', id: t.id, tab: 'comparison' }), sel: '[data-a="menu"][data-id^="notify"]' },
+      { id: 'po', key: () => 'm-po', label: 'Issue PO', arrow: '→', done: t => t.status === 'PO Issued', gate: t => G.po(t), note: t => (t.pos.length && t.status !== 'PO Issued' ? `✓ ${t.pos.length} issued` : t.settings.recoMandatory ? 'Recommendation is mandatory' : ''), route: t => ({ view: 'tender', id: t.id, tab: 'comparison' }), sel: '#main [data-a="m-po"]', menu: true }
+    ] }
+  ];
+  // map node ids → catalogue node refs used by entries
+  XP.NODE_ALIAS = { openT: 'openT', evalT: 'evalT', resub: 'resubT' };
+};
+
+/* ---------- XP: card, map, glossary, export, boot ---------- */
+Object.assign(XP, {
+  kindLabel(e) { return { button: 'Button', tab: 'Tab', field: 'Field', status: 'Status', info: 'Screen area' }[e.kind] || e.kind; },
+  glossLinks(html) {
+    // turn glossary terms into buttons (only in already-escaped text)
+    const terms = [['L1/H1', 'L1 / H1'], ['L1', 'L1 / H1'], ['LOI', 'LOI'], ['NDA', 'NDA'], ['BOQ', 'BOQ'], ['Two-Stage', 'Two-stage'], ['two-stage', 'Two-stage'], ['rate-only', 'Rate-only item'], ['Rate-only', 'Rate-only item'], ['verification code', 'Verification code (OTP)'], ['Open By All', 'Open By Any / Open By All'], ['Open By Any', 'Open By Any / Open By All']];
+    let out = html; const used = new Set();
+    terms.forEach(([w, key]) => { if (used.has(key)) return; const re = new RegExp(`(^|[^\\w>-])(${w.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')})(?![\\w<])`); if (re.test(out)) { out = out.replace(re, (m, a, b) => `${a}<button type="button" class="xp-term" data-xp="gloss" data-term="${esc(key)}">${b}</button>`); used.add(key); } });
+    return out;
+  },
+  nodeFor(key) { for (const lane of XP.MAP) for (const n of lane.nodes) { try { if (n.key({ settings: { otp: true } }) === key || n.key({ settings: { otp: false } }) === key) return n; } catch (e) { /* ignore */ } } return null; },
+  renderCard(quiet) {
+    const box = $('#xp-card'), card = XP.card;
+    if (!card) { box.hidden = true; box.innerHTML = ''; return; }
+    const e = XP.CAT[card.key]; if (!e) { XP.close(); return; }
+    const node = card.node;
+    const el = card.el && card.el.isConnected ? card.el : null;
+    let c;
+    if (node) c = Object.assign({ el: null, item: null }, node.ctx);
+    else c = XP.ctx(el, card.vars);
+    const who = node ? node.ctx.user : db.user;
+    const firstName = USERS[who] ? USERS[who].name.split(' ')[0] : '';
+    // right now
+    let nowHtml = '';
+    if (e.kind !== 'status' && e.kind !== 'info') {
+      let reason = '';
+      if (node) reason = node.state.st === 'lock' ? node.state.note : node.state.st === 'na' ? 'Not used on this tender' : '';
+      else reason = XP.gate(e, c);
+      const head = `Right now${c.t ? ` · ${esc(c.t.id || 'new tender')}` : ''} · as ${esc(firstName)}`;
+      let body;
+      if (e.kind === 'field' && !reason && el && (el.disabled || el.readOnly)) reason = el.dataset.reason || el.title || 'Fixed on this screen';
+      if (e.kind === 'field') body = reason ? `<div class="xp-now lock"><span>🔒</span><span>Read-only — ${esc(reason)}</span></div>` : `<div class="xp-now ok"><span>✓</span><span>Editable</span></div>`;
+      else if (e.kind === 'tab') body = reason ? `<div class="xp-now lock"><span>🔒</span><span>Opens, but: ${esc(reason)}</span></div>` : `<div class="xp-now ok"><span>✓</span><span>Available</span></div>`;
+      else if (node && node.state.st === 'done') body = `<div class="xp-now ok"><span>✓</span><span>Done${node.state.note ? `<small>${esc(node.state.note)}</small>` : ''}</span></div>`;
+      else if (node && node.state.st === 'na') body = `<div class="xp-now na"><span>–</span><span>Not used on this tender</span></div>`;
+      else body = reason ? `<div class="xp-now lock"><span>🔒</span><span>Blocked — ${esc(reason)}${e.when ? `<small>Becomes available when: ${esc(e.when)}</small>` : ''}</span></div>` : `<div class="xp-now ok"><span>✓</span><span>Available${e.okNote ? `<small>${esc(e.okNote)}</small>` : ''}</span></div>`;
+      nowHtml = `<h5>${head}</h5>${body}`;
+    }
+    const needs = c.t ? XP.needs(e, c) : [];
+    const whatH = e.kind === 'field' ? 'What it is for' : e.kind === 'status' ? 'What it means' : e.kind === 'info' ? 'What it shows' : 'What it does';
+    const leadsH = e.kind === 'field' ? 'Where this value is used' : e.kind === 'status' ? 'What comes next' : 'Leads to';
+    const chips = XP.whoChips(e, c);
+    let chain = '';
+    if (e.kind === 'status') {
+      const tx = e.name; const inT = XP.TENDER_CHAIN.includes(tx) || XP.TENDER_SIDE.includes(tx); const inV = XP.VENDOR_CHAIN.includes(tx) || XP.VENDOR_SIDE.includes(tx);
+      const row = (list, side) => `<div class="xp-chain">${list.map((s, i) => `${i ? '<em>›</em>' : ''}<span class="${s === tx ? 'cur' : ''}">${esc(s)}</span>`).join('')}${side.length ? `<span class="xp-side">also: ${side.map(s => `<span class="${s === tx ? 'cur' : ''}">${esc(s)}</span>`).join(' ')}</span>` : ''}</div>`;
+      if (inT || inV) chain = `<h5>Where it sits</h5>${inT ? row(XP.TENDER_CHAIN, XP.TENDER_SIDE) : ''}${inV ? row(XP.VENDOR_CHAIN, XP.VENDOR_SIDE) : ''}`;
+    }
+    const demoOk = XP.demoIndex(e) >= 0;
+    const mapNode = XP.nodeFor(card.key);
+    const gateNow = node ? '' : XP.gate(e, c);
+    const canDo = !node && el && ['button', 'tab', 'field'].includes(e.kind);
+    const t = XP.fill;
+    box.innerHTML = `<div class="xp-h"><div class="xp-k">${esc(XP.kindLabel(e))} · ${esc(t(e.where, c))}</div><div class="xp-t"><span id="xp-title">${esc(XP.titleOf(e, c))}</span><button type="button" class="xp-x" data-xp="close" aria-label="Close explanation">✕</button></div></div>
+      <div class="xp-b">
+        <h5>${whatH}</h5><p>${XP.glossLinks(esc(t(e.what, c)))}</p>
+        ${e.why ? `<h5>Why it exists</h5><p>${XP.glossLinks(esc(t(e.why, c)))}</p>` : ''}
+        ${e.from ? `<h5>How it got here</h5><p>${esc(e.from)}</p>` : ''}
+        ${nowHtml}
+        ${needs.length ? `<h5>Depends on</h5><ul class="xp-dep">${needs.map(n => `<li class="${n.ok ? 'y' : 'n'}"><i aria-hidden="true">${n.ok ? '✓' : '!'}</i><span>${esc(n.text)}<span class="xp-sr">${n.ok ? ' — done' : ' — not yet'}</span></span></li>`).join('')}</ul>` : ''}
+        ${chain}
+        ${e.leads && e.leads.length ? `<h5>${leadsH}</h5><ul class="xp-lead">${e.leads.map(x => `<li>${XP.glossLinks(esc(t(x, c)))}</li>`).join('')}</ul>` : ''}
+        ${chips.length ? `<h5>Who can use it</h5><div class="xp-who">${chips.map(x => `<span class="${x.mine ? 'y' : ''}">${esc(x.label)}${x.mine ? ' · you' : ''}</span>`).join('')}</div>` : ''}
+        ${e.assume ? `<div class="xp-assume"><b>Assumption — please confirm:</b> ${esc(e.assume)}</div>` : ''}
+      </div>
+      <div class="xp-ft">${canDo ? `<button type="button" class="xp-b1 p" data-xp="doit"${e.kind === 'button' && gateNow ? ` disabled title="${esc(gateNow)}"` : ''}>${e.kind === 'field' ? 'Go to field' : 'Do it'}</button>` : ''}${node ? '<button type="button" class="xp-b1 p" data-xp="goto">Go to the control</button>' : ''}${demoOk ? '<button type="button" class="xp-b1" data-xp="demo">▶ Show me in a demo</button>' : ''}${mapNode && !XP.mapOpen ? '<button type="button" class="xp-b1" data-xp="map">🗺 Map</button>' : ''}<span class="sp"></span>${!node ? '<button type="button" class="xp-b1 pin" data-xp="comment">💬 Comment</button>' : ''}</div>`;
+    box.hidden = false;
+    box.setAttribute('aria-labelledby', 'xp-title');
+    XP.place();
+    void quiet;
+  },
+  position() {
+    if (XP.rafPending) return;
+    XP.rafPending = true;
+    requestAnimationFrame(() => { XP.rafPending = false; XP.place(); });
+  },
+  place() {
+    const box = $('#xp-card'), ring = $('#xp-ring');
+    if (!XP.card || box.hidden) { if (ring) ring.hidden = true; return; }
+    const anchor = XP.card.anchor && XP.card.anchor.isConnected ? XP.card.anchor : XP.card.el && XP.card.el.isConnected ? XP.card.el : null;
+    const W = window.innerWidth, H = window.innerHeight;
+    box.style.maxHeight = (H - 32) + 'px';
+    if (W < 900) { box.classList.add('sheet'); box.style.left = ''; box.style.top = ''; } else box.classList.remove('sheet');
+    const bw = box.offsetWidth || 400, bh = box.offsetHeight || 300;
+    if (anchor) {
+      const b = anchor.getBoundingClientRect();
+      if (!XP.card.anchor) { ring.hidden = false; Object.assign(ring.style, { left: b.left - 5 + 'px', top: b.top - 5 + 'px', width: b.width + 10 + 'px', height: b.height + 10 + 'px' }); } else ring.hidden = true;
+      if (W >= 900) {
+        let x, y; const g = 14;
+        if (b.right + g + bw < W - 8) { x = b.right + g; y = b.top; }
+        else if (b.left - g - bw > 8) { x = b.left - g - bw; y = b.top; }
+        else if (b.bottom + g + bh < H - 8) { x = b.left; y = b.bottom + g; }
+        else { x = b.left; y = b.top - g - bh; }
+        box.style.left = Math.max(8, Math.min(x, W - bw - 8)) + 'px';
+        box.style.top = Math.max(8, Math.min(y, H - bh - 8)) + 'px';
+      }
+    } else {
+      ring.hidden = true;
+      if (W >= 900) { box.style.left = Math.max(8, (W - bw) / 2) + 'px'; box.style.top = Math.max(8, (H - bh) / 2) + 'px'; }
+    }
+  },
+
+  /* ---------- map ---------- */
+  mapT() { const id = XP.mapTender || db.ui.id; return id ? T(id) : null; },
+  vendorUser(code) { return Object.keys(USERS).find(k => USERS[k].vendor === code) || null; },
+  nodeState(node, t, r, lane) {
+    try {
+      if (lane.na && lane.na(t)) return { st: 'na', note: t.type === 'C' ? 'Commercial-only tender' : 'Technical-only tender' };
+      if (node.done(t, r)) return { st: 'done', note: node.note ? node.note(t, r) : '' };
+      if (node.na && node.na(t, r)) return { st: 'na', note: '' };
+      const actor = r ? XP.vendorUser(r.code) : (node.actor || lane.actor)(t);
+      const reason = XP.as(actor, () => node.gate(t, r));
+      return reason ? { st: 'lock', note: reason } : { st: 'now', note: node.note ? node.note(t, r) : '' };
+    } catch (e) { return { st: 'na', note: '' }; }
+  },
+  openMap() {
+    if (window.TOUR && TOUR.run && TOUR.run.mode === 'watch') return;
+    XP.mapOpen = true; XP.mapTender = db.ui.id || XP.mapTender;
+    if (!XP.on) XP.toggle(true);
+    XP.renderMap();
+    setTimeout(() => { const b = $('#xp-map [data-xp="closeMap"]'); if (b) b.focus({ preventScroll: true }); }, 0);
+  },
+  mapModel(t) {
+    const lanes = [];
+    XP.MAP.forEach(lane => {
+      if (lane.vendors) {
+        const rows = t.vendors.map(r => ({ r, user: XP.vendorUser(r.code) }));
+        const withUser = rows.filter(x => x.user), noUser = rows.filter(x => !x.user);
+        const collapse = withUser.length > 3 && !XP.vendorsOpen;
+        (collapse ? withUser.slice(0, 3) : withUser).forEach(({ r, user }) => lanes.push({ lane, title: V(r.code).name, sub: USERS[user].name, actor: user, r, nodes: lane.nodes.map(n => ({ n, state: XP.nodeState(n, t, r, lane) })) }));
+        lanes.push({ lane, extra: true, collapse, more: withUser.length - 3, noUser });
+      } else {
+        const actor = lane.actor(t);
+        lanes.push({ lane, title: lane.title, sub: USERS[actor] ? USERS[actor].name : '', actor, nodes: lane.nodes.map(n => ({ n, state: XP.nodeState(n, t, null, lane) })) });
+      }
+    });
+    return lanes;
+  },
+  renderMap() {
+    const box = $('#xp-map');
+    if (!XP.mapOpen) { box.hidden = true; box.innerHTML = ''; return; }
+    const t = XP.mapT();
+    box.hidden = false;
+    if (!t) {
+      box.innerHTML = `<div class="xp-mh"><div><h3>How a tender moves</h3><p>Open a tender to see its map.</p></div><button type="button" class="xp-b1" data-xp="closeMap">✕ Close map</button></div><ul class="xp-tlist">${db.tenders.map(x => `<li><button type="button" class="xp-lnk" data-xp="mapTender" data-id="${esc(x.id)}">${esc(x.id)} · ${esc(x.desc)}</button> ${pill(x.status)}</li>`).join('')}</ul>`;
+      return;
+    }
+    const lanes = XP.mapModel(t);
+    const users = [['all', 'Everyone'], ...Object.entries(USERS).filter(([k, u]) => u.side === 'buyer' || t.vendors.some(r => r.code === u.vendor)).map(([k, u]) => [k, u.name])];
+    const icon = { done: '✓', now: '●', lock: '🔒', na: '–' };
+    const va = XP.viewAs;
+    box.innerHTML = `<div class="xp-mh"><div><h3>How this tender moves — ${esc(t.id)} ${esc(t.desc)}</h3><p>Every box is a real action. Colours are live for this tender at ${esc(fdt(db.now))}. Click a box to see its explanation.</p></div><button type="button" class="xp-b1" data-xp="closeMap">✕ Close map</button></div>
+      <div class="xp-legend"><span class="done">✓ Done</span><span class="now">● Available now</span><span class="lock">🔒 Blocked — reason shown</span><span class="na">– Not used on this tender</span><span class="sp"></span><label>View as <select id="xp-viewas" aria-label="View the map as">${users.map(([k, n]) => `<option value="${k}"${va === k ? ' selected' : ''}>${esc(n)}</option>`).join('')}</select></label></div>
+      <div class="xp-lanes">${lanes.map(L => {
+        if (L.extra) return `${L.collapse ? `<div class="xp-lane"><div class="xp-p"></div><div class="xp-n"><button type="button" class="xp-lnk" data-xp="expand">+ ${L.more} more vendors</button></div></div>` : ''}${L.noUser.length ? `<div class="xp-lane"><div class="xp-p"><b>Other vendors</b></div><div class="xp-n">${L.noUser.map(x => `<span class="xp-chip">${esc(V(x.r.code).name)} — no portal user</span>`).join('')}</div></div>` : ''}`;
+        const dim = va !== 'all' && va !== L.actor;
+        return `<div class="xp-lane${dim ? ' dim' : ''}"><div class="xp-p"><b>${esc(L.title)}</b>${esc(L.sub)}</div><div class="xp-n">${L.nodes.map(({ n, state }, i) => `${i && n.arrow ? `<span class="xp-arr" aria-hidden="true">${n.arrow}</span>` : ''}<button type="button" class="xp-node ${state.st}${!dim && va !== 'all' && state.st === 'now' ? ' mine' : ''}" data-xp="node" data-node="${n.id}"${L.r ? ` data-code="${L.r.code}"` : ''} aria-label="${esc(n.label)}: ${ { done: 'done', now: 'available now', lock: 'blocked', na: 'not used' }[state.st]}${state.note ? ', ' + esc(state.note) : ''}"><span>${icon[state.st]} ${esc(n.label)}</span>${state.note ? `<small>${esc(state.note)}</small>` : ''}</button>`).join('')}</div></div>`;
+      }).join('')}</div>`;
+    const sel = $('#xp-viewas');
+    if (sel) sel.addEventListener('change', ev => { XP.viewAs = ev.target.value; XP.renderMap(); });
+    if (XP.card && XP.card.node) { const a = $(`#xp-map [data-node="${XP.card.node.id}"]${XP.card.node.code ? `[data-code="${XP.card.node.code}"]` : ''}`); XP.card.anchor = a; XP.position(); }
+  },
+  nodeCard(id, code, btn) {
+    const t = XP.mapT(); if (!t) return;
+    let node = null, lane = null;
+    XP.MAP.forEach(L => L.nodes.forEach(n => { if (n.id === id) { node = n; lane = L; } }));
+    if (!node) return;
+    const r = code ? t.vendors.find(x => x.code === code) : null;
+    const state = XP.nodeState(node, t, r, lane);
+    const user = r ? XP.vendorUser(r.code) : (node.actor || lane.actor)(t);
+    const key = node.key(t);
+    XP.card = { key: XP.entryKey(key), rawKey: key, el: null, vars: node.vars || {}, anchor: btn, node: { id, code, n: node, lane, state, ctx: { t, r, s: (node.vars || {}).s || stages(t)[0], code, user } } };
+    XP.renderCard();
+  },
+  goControl() {
+    const card = XP.card; if (!card || !card.node) return;
+    const { n, ctx } = card.node; const t = ctx.t;
+    XP.closeMap(true); XP.close();
+    modals = []; db.ui.menu = null;
+    if (ctx.user && db.user !== ctx.user) { db.user = ctx.user; toast(`Now acting as ${USERS[ctx.user].name}`, 'info', 3000); }
+    Object.assign(db.ui, n.route(t));
+    render();
+    const find = () => $$(n.sel).find(x => { const b = x.getBoundingClientRect(); return b.width || b.height; }) || null;
+    let el = find();
+    if (!el && n.menu && db.ui.view === 'tender') { db.ui.menu = 'more-' + t.id; render(); el = find(); }
+    if (!el) { toast('That control is not on screen right now — the reason is on the map', 'info'); return; }
+    try { el.scrollIntoView({ block: 'center' }); } catch (e) { /* ignore */ }
+    XP.open(el, card.vars);
+  },
+
+  /* ---------- glossary ---------- */
+  openGloss(term) {
+    XP.glossOpen = true; XP.glossTerm = term;
+    const g = $('#xp-gloss'); g.hidden = false;
+    g.innerHTML = `<div class="xp-gh"><h3>Glossary</h3><button type="button" class="xp-x" data-xp="closeGloss" aria-label="Close glossary">✕</button></div><input id="xp-gq" class="xp-gq" placeholder="Search terms" aria-label="Search glossary"><dl id="xp-gl">${XP.GLOSS.map(([k, v]) => `<div class="xp-gi${k === term ? ' hit' : ''}" data-k="${esc(k.toLowerCase())}"><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
+    const q = $('#xp-gq');
+    q.addEventListener('input', () => { const v = q.value.trim().toLowerCase(); $$('#xp-gl .xp-gi').forEach(x => { x.hidden = !!v && !(x.dataset.k.includes(v) || x.textContent.toLowerCase().includes(v)); }); });
+    const hit = $('#xp-gl .xp-gi.hit'); if (hit) hit.scrollIntoView({ block: 'nearest' });
+  },
+
+  /* ---------- export ---------- */
+  exportMd() {
+    const L = [];
+    const plain = s => String(s || '').replace(/\{stage\}/g, '<stage>').replace(/\{vendor\}/g, '<vendor>').replace(/\{item\}/g, '<item>');
+    const d = new Date();
+    L.push('# E-Tendering prototype — UI reference', '', `Generated from the Explain-mode catalogue (build of ${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}). One section per button, tab, field, screen area and status. “Available when” and “Blocked reasons” come from the prototype’s own rules; live values depend on the tender, the person and the clock.`, '');
+    const groups = [['button', 'Buttons'], ['tab', 'Tabs'], ['field', 'Fields'], ['info', 'Screen areas'], ['status', 'Statuses']];
+    groups.forEach(([kind, title]) => {
+      if (kind === 'status') return;
+      L.push(`## ${title}`, '');
+      Object.entries(XP.CAT).filter(([, e]) => e.kind === kind).forEach(([k, e]) => {
+        L.push(`### ${plain(e.name)}  ·  ${kind}  ·  \`${k}\``);
+        L.push(`- **Where:** ${plain(e.where)}`);
+        L.push(`- **What:** ${plain(e.what)}`);
+        if (e.why) L.push(`- **Why:** ${plain(e.why)}`);
+        if (e.who && e.who.length) L.push(`- **Who:** ${e.who.join(', ')}`);
+        if (e.when) L.push(`- **Available when:** ${plain(e.when)}`);
+        if (e.needs && e.needs.length) L.push(`- **Depends on:** ${e.needs.map(n => plain(Array.isArray(n) ? n[0] : n.text + ' (when applicable)')).join(' · ')}`);
+        if (e.leads && e.leads.length) L.push(`- **${kind === 'field' ? 'Used for' : 'Leads to'}:** ${e.leads.map(plain).join(' · ')}`);
+        if (e.demo) { const i = XP.demoIndex(e); const sc = SCENARIOS.find(s => s.id === e.demo[0]); L.push(`- **Demo:** ${sc ? sc.title : e.demo[0]}${i >= 0 ? `, step ${i + 1}` : ''}`); }
+        if (e.assume) L.push(`- **Assumption (please confirm):** ${e.assume}`);
+        L.push('');
+      });
+    });
+    L.push('## Statuses', '', '| Status | What it means | How it got here | What comes next |', '|---|---|---|---|');
+    Object.entries(XP.CAT).filter(([, e]) => e.kind === 'status').forEach(([, e]) => L.push(`| ${e.name} | ${e.what} | ${e.from || '—'} | ${(e.leads || []).join('; ') || '—'} |`));
+    L.push('', `Tender chain: ${XP.TENDER_CHAIN.join(' › ')} (also: ${XP.TENDER_SIDE.join(', ')})`, `Vendor chain: ${XP.VENDOR_CHAIN.join(' › ')} (also: ${XP.VENDOR_SIDE.join(', ')})`, '');
+    L.push('## Dependency map', '');
+    XP.MAP.forEach(lane => L.push(`- **${lane.title}:** ${lane.nodes.map(n => (n.arrow === '⤵' ? `(side) ${n.label}` : n.label)).join(' → ')}`));
+    L.push('', '## Glossary', '');
+    XP.GLOSS.forEach(([k, v]) => L.push(`- **${k}** — ${v}`));
+    return L.join('\n') + '\n';
+  },
+
+  /* ---------- boot ---------- */
+  boot() {
+    XP.load();
+    XP.buildCatalogue();
+    document.body.insertAdjacentHTML('beforeend', `<div id="xp-hover" hidden></div><div id="xp-hover-lbl" hidden></div><div id="xp-ring" hidden></div>
+      <div id="xp-banner" data-xp-ui role="status" hidden></div>
+      <div id="xp-card" data-xp-ui role="dialog" aria-modal="false" hidden></div>
+      <div id="xp-map" data-xp-ui role="dialog" aria-label="Dependency map" hidden></div>
+      <aside id="xp-gloss" data-xp-ui aria-label="Glossary" hidden></aside>`);
+    document.addEventListener('click', XP.onClick, true);
+    document.addEventListener('mousemove', XP.onMove, true);
+    document.addEventListener('keydown', XP.onKey, true);
+    window.addEventListener('scroll', () => XP.position(), { capture: true, passive: true });
+    window.addEventListener('resize', () => XP.position());
+    XP.ready = true;
+    window.__xp = XP;
+    render();
+  }
+});
+XP.boot();
 </script>
 </body>
 </html>
